@@ -1,0 +1,9 @@
+# Ignore artifacts:
+.angular
+.husky
+.idea
+.vscode
+node_modules
+build
+coverage
+e2e
