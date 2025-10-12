@@ -36,7 +36,7 @@
             },
             "root": "",
             "sourceRoot": "src",
-            "prefix": "app",
+            "prefix": "sa",
             "architect": {
                 "build": {
                     "builder": "@angular/build:application",

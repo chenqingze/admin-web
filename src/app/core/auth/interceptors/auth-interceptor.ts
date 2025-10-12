@@ -2,7 +2,6 @@ import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthStore } from '../stores/auth-store';
 import { BehaviorSubject, catchError, filter, switchMap, take, throwError } from 'rxjs';
-import { AuthApi } from '../services/auth-api';
 
 /**
  * 认证相关 (token, 401)
@@ -13,7 +12,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     let refreshTokenInProgress = false;
     const refreshTokenSubject = new BehaviorSubject<string | null>(null);
     const authStore = inject(AuthStore);
-    const authApi = inject(AuthApi);
     const token = authStore.accessToken();
 
     const headers: Record<string, string> = {};
@@ -45,12 +43,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
                         );
                     } else {
                         // 否则直接请求刷新access_token
-                        return authApi.refreshAccessToken().pipe(
+                        return authStore.refreshAccessToken().pipe(
                             switchMap((newToken) => {
                                 refreshTokenInProgress = false;
                                 if (!newToken) {
-                                    // 刷新失败 -> 重置(触发跳转登录页)
-                                    authStore.reset();
+                                    // 刷新失败 -> 直接登出
+                                    authStore.logout();
                                     return throwError(() => err);
                                 }
                                 refreshTokenSubject.next(newToken);
@@ -63,8 +61,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
                         );
                     }
                 } else {
-                    // 直接重置(触发跳转登录页)
-                    authStore.reset();
+                    // 直接登出
+                    authStore.logout();
                 }
             }
             return throwError(() => err);

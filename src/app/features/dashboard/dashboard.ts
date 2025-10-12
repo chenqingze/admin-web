@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
     selector: 'sa-dashboard-page',
     imports: [],
-    templateUrl: './dashboard-page.html',
-    styleUrl: './dashboard-page.scss',
+    templateUrl: './dashboard.html',
+    styleUrl: './dashboard.scss',
 })
-export class DashboardPage {}
+export class Dashboard {}
