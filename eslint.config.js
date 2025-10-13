@@ -36,6 +36,9 @@ module.exports = tseslint.config(
     {
         files: ['**/*.html'],
         extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
-        rules: {},
+        rules: {
+            '@angular-eslint/template/no-duplicate-attributes': 'error',
+            '@angular-eslint/template/button-has-type': 'error',
+        },
     },
 );

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { LoginRequest } from '../models/login-request';
 import { catchError, map, of, tap } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
+import { ACCESS_TOKEN_TYPE } from '../../../app.config';
 
 @Injectable({
     providedIn: 'root',
@@ -15,11 +16,11 @@ export class AuthStore {
     private router = inject(Router);
     private authApi = inject(AuthApi);
     private permissionStore = inject(PermissionStore);
-
+    private _accessTokenType = inject(ACCESS_TOKEN_TYPE);
     private readonly LOCAL_STORAGE_ACCESS_TOKEN_KEY: string = 'access_token';
 
     private _state = signal<AuthState>({
-        accessTokenType: 'SESSION', // todo:使用environment读取类型
+        accessTokenType: this._accessTokenType,
         accessToken: localStorage.getItem(this.LOCAL_STORAGE_ACCESS_TOKEN_KEY),
         currentUser: null,
     });

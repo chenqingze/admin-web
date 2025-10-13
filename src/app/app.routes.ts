@@ -1,9 +1,11 @@
 import { Routes } from '@angular/router';
 import { guestGuard } from './core/auth/guards/guest-guard';
+import { authGuard } from './core/auth/guards/auth-guard';
 
 export const routes: Routes = [
     {
         path: '',
+        canActivate: [authGuard],
         loadComponent: () => import('./core/layout/layout').then((m) => m.Layout),
         children: [
             { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -17,16 +19,16 @@ export const routes: Routes = [
     // auth
     {
         path: 'login',
-        loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
         canActivate: [guestGuard],
+        loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
     },
 
     // demo
     {
         path: 'address',
+        canActivate: [guestGuard],
         loadComponent: () =>
             import('./features/demo/address-form/address-form.component').then((m) => m.AddressFormComponent),
-        canActivate: [guestGuard],
     },
     {
         path: 'dashboard',

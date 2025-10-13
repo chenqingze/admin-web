@@ -9,15 +9,16 @@
                             {{ card.title }}
                             <button
                                 matIconButton
+                                type="button"
                                 class="more-button"
-                                [matMenuTriggerFor]="menu"
                                 aria-label="Toggle menu"
+                                [matMenuTriggerFor]="menu"
                             >
                                 <mat-icon>more_vert</mat-icon>
                             </button>
                             <mat-menu #menu="matMenu" xPosition="before">
-                                <button mat-menu-item>Expand</button>
-                                <button mat-menu-item>Remove</button>
+                                <button mat-menu-item type="button">Expand</button>
+                                <button mat-menu-item type="button">Remove</button>
                             </mat-menu>
                         </mat-card-title>
                     </mat-card-header>

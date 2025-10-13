@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+
+/*material & tailwindcss fixes*/
+.mdc-notched-outline__notch {
+    border-style: none;
+}
+
+.mdc-icon-button {
+    line-height: normal;
+}
