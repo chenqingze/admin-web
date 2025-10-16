@@ -1,0 +1,12 @@
+<aside>
+    <mat-toolbar class="justify-around">
+        <span>😊</span>
+        <span class="hide-header-text" [class.hide-header-text]="isCollapsed()">Shop Admin</span>
+        <mat-slide-toggle hideIcon [checked]="canCollapse()" (change)="onCanCollapseValueChange($event)" />
+    </mat-toolbar>
+    <mat-nav-list>
+        @for (item of menuItems(); track item) {
+            <sa-side-menu-item [item]="item" />
+        }
+    </mat-nav-list>
+</aside>

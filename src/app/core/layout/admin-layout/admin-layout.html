@@ -1,0 +1,20 @@
+<mat-sidenav-container class="h-screen" autosize autoFocus>
+    <mat-sidenav
+        #sidenav
+        opened
+        mode="side"
+        (mouseenter)="onMouseEnter()"
+        (mouseleave)="onMouseLeave()"
+        class="rounded-none border-r !border-gray-200"
+        [style.width.px]="width()"
+    >
+        <sa-sidebar />
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <sa-header (toggleMenuBtn)="sidenav.toggle()" />
+        <main class="p-4">
+            <router-outlet />
+        </main>
+    </mat-sidenav-content>
+</mat-sidenav-container>

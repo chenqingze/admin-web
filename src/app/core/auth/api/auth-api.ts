@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { LoginRequest } from '../models/login-request';
 import { AuthUser } from '../models/auth-user';
 import { map, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root',
@@ -21,8 +21,8 @@ export class AuthApi {
      * 登录
      * @param req
      */
-    login(req: LoginRequest): Observable<AuthUser> {
-        return this.http.post<AuthUser>('/login', req).pipe(map((res) => res));
+    login(req: LoginRequest): Observable<HttpResponse<AuthUser>> {
+        return this.http.post<AuthUser>('/login', req, { observe: 'response' }).pipe(map((res) => res));
     }
 
     /**

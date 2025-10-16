@@ -1,5 +1,5 @@
 import { firstValueFrom } from 'rxjs';
-import { AuthStore } from './stores/auth-store';
+import { AuthStore } from './store/auth-store';
 import { inject, provideAppInitializer } from '@angular/core';
 
 export const provideAuthInitializer = provideAppInitializer(() => {

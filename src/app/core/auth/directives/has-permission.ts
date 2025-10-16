@@ -1,5 +1,5 @@
 import { Directive, effect, inject, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
-import { PermissionStore } from '../stores/permission-store';
+import { AuthStore } from '../store/auth-store';
 
 @Directive({
     selector: '[appHasPermission]',
@@ -9,7 +9,7 @@ export class HasPermission implements OnInit {
 
     private templateRef = inject(TemplateRef);
     private viewContainer = inject(ViewContainerRef);
-    private permissionStore = inject(PermissionStore);
+    private authStore = inject(AuthStore);
 
     ngOnInit() {
         effect(() => {
@@ -17,8 +17,8 @@ export class HasPermission implements OnInit {
             if (!perms) return;
 
             const allowed = Array.isArray(perms)
-                ? perms.some((p) => this.permissionStore.hasPermissionSignal(p)())
-                : this.permissionStore.hasPermissionSignal(perms)();
+                ? perms.some((p) => this.authStore.hasPermissionSignal(p)())
+                : this.authStore.hasPermissionSignal(perms)();
 
             this.viewContainer.clear();
 

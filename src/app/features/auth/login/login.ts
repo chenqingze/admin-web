@@ -3,14 +3,14 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoginRequest } from '../../../core/auth/models/login-request';
-import { AuthStore } from '../../../core/auth/stores/auth-store';
+import { AuthStore } from '../../../core/auth/store/auth-store';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
     selector: 'sa-login-page',
@@ -31,6 +31,7 @@ export class Login {
     private fb = inject(FormBuilder);
     private authStore = inject(AuthStore);
     private snackBar = inject(MatSnackBar);
+    private router = inject(Router);
     hidePassword = signal(true);
     clickEvent(event: MouseEvent) {
         this.hidePassword.set(!this.hidePassword());
@@ -50,11 +51,17 @@ export class Login {
             .login(this.loginForm.value as LoginRequest)
             .pipe(finalize(() => this.loginForm.enable()))
             .subscribe({
+                next: () => {
+                    const redirect = this.authStore.getRedirectUrl() || '';
+                    this.authStore.setRedirectUrl(null);
+                    console.log('tiaozhuanle ma ', redirect);
+                    this.router.navigateByUrl(redirect);
+                },
                 error: () => {
                     this.snackBar.open('用户名或密码错误!', '', {
                         duration: 3000,
-                        horizontalPosition: 'end',
-                        verticalPosition: 'bottom',
+                        horizontalPosition: 'center',
+                        verticalPosition: 'top',
                     });
                 },
             });

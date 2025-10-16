@@ -1,6 +1,6 @@
-import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthStore } from '../stores/auth-store';
+import { AuthStore } from '../store/auth-store';
 import { BehaviorSubject, catchError, filter, switchMap, take, throwError } from 'rxjs';
 
 /**
@@ -9,62 +9,63 @@ import { BehaviorSubject, catchError, filter, switchMap, take, throwError } from
  * @param next
  */
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-    let refreshTokenInProgress = false;
-    const refreshTokenSubject = new BehaviorSubject<string | null>(null);
     const authStore = inject(AuthStore);
     const token = authStore.accessToken();
 
-    const headers: Record<string, string> = {};
-    if (token) {
-        if (authStore.accessTokenType === 'JWT') {
-            headers['Authorization'] = `Bearer ${token}`;
-        } else if (authStore.accessTokenType === 'SESSION') {
-            headers['X-AUTH-TOKEN'] = token;
+    const isJWT = authStore.accessTokenType === 'JWT';
+    const headers: Record<string, string> = token
+        ? isJWT
+            ? { Authorization: `Bearer ${token}` }
+            : { 'X-AUTH-TOKEN': token }
+        : {};
+
+    let refreshTokenInProgress = false;
+    const refreshTokenSubject = new BehaviorSubject<string | null>(null);
+    function handle401Error(
+        req: HttpRequest<unknown>,
+        next: HttpHandlerFn,
+        originalError: HttpErrorResponse,
+        authStore: AuthStore,
+    ) {
+        if (refreshTokenInProgress) {
+            // 等待刷新完成后再重试请求
+            return refreshTokenSubject.pipe(
+                filter((token) => token != null),
+                take(1),
+                switchMap((token) => next(req.clone({ setHeaders: { Authorization: `Bearer ${token}` } }))),
+            );
         }
+        // 刷新access_token
+        refreshTokenInProgress = true;
+        return authStore.refreshAccessToken().pipe(
+            switchMap((newToken) => {
+                if (!newToken) {
+                    // 刷新失败 -> 直接登出
+                    authStore.logout();
+                    return throwError(() => originalError);
+                }
+
+                refreshTokenSubject.next(newToken);
+                // 重试原请求
+                return next(req.clone({ setHeaders: { Authorization: `Bearer ${newToken}` } }));
+            }),
+            catchError((err) => {
+                refreshTokenInProgress = false;
+                // 刷新失败 -> 直接登出
+                authStore.logout();
+                return throwError(() => err);
+            }),
+        );
     }
 
     return next(req.clone({ setHeaders: headers })).pipe(
         catchError((err: HttpErrorResponse) => {
-            // 如果是返回 401(Unauthorized)
-            if (err.status === 401) {
-                // 如果是JWT并且token存在，尝试刷新 token,否则直接跳转到login页面
-                if (token && authStore.accessTokenType === 'JWT') {
-                    if (refreshTokenInProgress) {
-                        // 如果正在刷新access_token,则等待刷新完成后再重试
-                        return refreshTokenSubject.pipe(
-                            filter((t) => t != null),
-                            take(1),
-                            switchMap((newToken) => {
-                                const retryReq = req.clone({
-                                    setHeaders: { Authorization: newToken! },
-                                });
-                                return next(retryReq);
-                            }),
-                        );
-                    } else {
-                        // 否则直接请求刷新access_token
-                        return authStore.refreshAccessToken().pipe(
-                            switchMap((newToken) => {
-                                refreshTokenInProgress = false;
-                                if (!newToken) {
-                                    // 刷新失败 -> 直接登出
-                                    authStore.logout();
-                                    return throwError(() => err);
-                                }
-                                refreshTokenSubject.next(newToken);
-                                // 重试原请求
-                                const retryReq = req.clone({
-                                    setHeaders: { Authorization: `Bearer ${newToken}` },
-                                });
-                                return next(retryReq);
-                            }),
-                        );
-                    }
-                } else {
-                    // 直接登出
-                    authStore.logout();
-                }
+            // 仅处理 JWT 的 401 情况
+            if (err.status === 401 && token && isJWT) {
+                handle401Error(req, next, err, authStore);
             }
+            // SESSION认证方式返回401 或其他错误：登出 + 抛出错误
+            authStore.logout();
             return throwError(() => err);
         }),
     );

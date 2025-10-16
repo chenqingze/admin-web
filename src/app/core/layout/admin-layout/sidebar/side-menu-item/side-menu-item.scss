@@ -1,0 +1,12 @@
+:host {
+    transition: all 500ms ease-in-out;
+}
+
+.menu-item {
+    border-left: 5px solid rgb(0, 0, 0, 0);
+}
+
+.selected-menu-item {
+    background-color: rgb(0, 0, 0, 0.05);
+    border-left-color: var(--mat-sys-on-primary);
+}

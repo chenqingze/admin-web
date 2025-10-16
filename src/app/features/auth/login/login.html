@@ -1,13 +1,19 @@
 <div class="flex h-screen w-full items-center justify-center">
     <mat-card class="w-full max-w-[380px]">
         <mat-card-header class="mb-[24px]">
-            <mat-card-title>😊Shop Logo</mat-card-title>
+            <mat-card-title>😊欢迎来到 => Shop</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <form class="flex w-full flex-col" novalidate [formGroup]="loginForm">
+            <form class="flex w-full flex-col" [formGroup]="loginForm">
                 <mat-form-field>
                     <mat-label>用户名</mat-label>
-                    <input matInput formControlName="username" type="text" placeholder="请输入用户名" required />
+                    <input
+                        matInput
+                        formControlName="username"
+                        type="text"
+                        placeholder="请输入手机号/用户名/邮箱"
+                        required
+                    />
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>密码</mat-label>

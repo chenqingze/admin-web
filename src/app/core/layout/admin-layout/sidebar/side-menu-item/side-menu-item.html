@@ -1,0 +1,34 @@
+<a
+    mat-list-item
+    class="menu-item"
+    [style.--mat-list-list-item-leading-icon-start-space.px]="depth() * 16"
+    [routerLink]="item().path"
+    (click)="toggleNestedMenu()"
+    routerLinkActive="selected-menu-item"
+    #rla="routerLinkActive"
+    [activated]="rla.isActive"
+>
+    <mat-icon [fontSet]="rla.isActive ? 'material-icons' : 'material-icons-outlined'" matListItemIcon>
+        {{ item().icon }}
+    </mat-icon>
+
+    @if (!isCollapsed()) {
+        <span matListItemTitle>{{ item().label }}</span>
+    }
+
+    @if (item().children) {
+        <span matListItemMeta>
+            @if (nestedMenuOpened()) {
+                <mat-icon>expand_less</mat-icon>
+            } @else {
+                <mat-icon>expand_more</mat-icon>
+            }
+        </span>
+    }
+</a>
+
+@if (item().children && nestedMenuOpened()) {
+    @for (subItem of item().children; track subItem) {
+        <sa-side-menu-item [item]="subItem" [depth]="depth() + 1" />
+    }
+}

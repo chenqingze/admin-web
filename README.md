@@ -57,3 +57,7 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Todo List
+
+[ ] 增加动画,完善视觉效果:路由切换;页面进入/离开;@if、@for 动态渲染;提交按钮动效;请求等待动画
