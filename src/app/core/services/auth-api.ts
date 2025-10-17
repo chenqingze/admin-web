@@ -1,28 +1,28 @@
 import { inject, Injectable } from '@angular/core';
 import { LoginRequest } from '../models/login-request';
-import { AuthUser } from '../models/auth-user';
 import { map, Observable } from 'rxjs';
 import { HttpClient, HttpResponse } from '@angular/common/http';
+import { AuthInfo } from '../models/auth-info';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthApi {
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
     /**
-     * 获取认证用户信息
+     * 获取认证信息(用户信息、权限等)
      */
-    getAuthUser(): Observable<AuthUser> {
-        return this.http.get<AuthUser>('/api/me');
+    getAuthInfo(): Observable<AuthInfo> {
+        return this.http.get<AuthInfo>('/api/me');
     }
 
     /**
      * 登录
      * @param req
      */
-    login(req: LoginRequest): Observable<HttpResponse<AuthUser>> {
-        return this.http.post<AuthUser>('/login', req, { observe: 'response' }).pipe(map((res) => res));
+    login(req: LoginRequest): Observable<HttpResponse<AuthInfo>> {
+        return this.http.post<AuthInfo>('/login', req, { observe: 'response' }).pipe(map((res) => res));
     }
 
     /**
@@ -37,8 +37,8 @@ export class AuthApi {
      * 验证短信码
      * @param logRequest
      */
-    verifySMSVerificationCode(logRequest: LoginRequest): Observable<unknown> {
-        return this.http.post('/verify-sms-verification-code', logRequest);
+    verifySMSVerificationCode(logRequest: LoginRequest): Observable<AuthInfo> {
+        return this.http.post<AuthInfo>('/verify-sms-verification-code', logRequest);
     }
 
     /**
@@ -46,7 +46,7 @@ export class AuthApi {
      */
     refreshAccessToken() {
         // todo:前后端分离项目完全可以采用 前端只持有 access token + 后端 HttpOnly cookie 存 refresh token 的模式
-        return this.http.get<AuthUser>('/access-token/refresh', { observe: 'response', withCredentials: true });
+        return this.http.get<AuthInfo>('/access-token/refresh', { observe: 'response', withCredentials: true });
     }
 
     /**

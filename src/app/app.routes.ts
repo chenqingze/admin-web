@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { guestGuard } from './core/auth/guards/guest-guard';
+import { guestGuard } from './core/guards/guest-guard';
 
 export const routes: Routes = [
     // admin
@@ -12,6 +12,7 @@ export const routes: Routes = [
             {
                 path: 'dashboard',
                 loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
+                data: {},
             },
             // catalog
             {
@@ -30,11 +31,6 @@ export const routes: Routes = [
                 path: 'address',
                 loadComponent: () =>
                     import('./features/demo/address-form/address-form.component').then((m) => m.AddressFormComponent),
-            },
-            {
-                path: 'dashboard',
-                loadComponent: () =>
-                    import('./features/demo/dashboard/dashboard.component').then((m) => m.DashboardComponent),
             },
             {
                 path: 'drag-drag',
