@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { LoginRequest } from '../../models/login-request';
 import { AuthInfo } from '../../models/auth-info';
+import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 
 export interface AuthStrategy {
     /**
@@ -34,4 +35,10 @@ export interface AuthStrategy {
     logout(): Observable<void>;
 
     tokenHeaders(): Record<string, string>;
+
+    handle401Error(
+        req: HttpRequest<unknown>,
+        next: HttpHandlerFn,
+        error: HttpErrorResponse,
+    ): Observable<HttpEvent<unknown>>;
 }

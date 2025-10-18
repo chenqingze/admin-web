@@ -4,7 +4,7 @@ import { AuthStrategy } from './auth-strategy';
 import { catchError, EMPTY, Observable, of, tap, throwError } from 'rxjs';
 import { AuthInfo } from '../../models/auth-info';
 import { LoginRequest } from '../../models/login-request';
-import { HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest, HttpResponse } from '@angular/common/http';
 import { AuthStore } from '../auth-store';
 import { Router } from '@angular/router';
 
@@ -69,5 +69,14 @@ export class SessionAuth implements AuthStrategy {
     tokenHeaders(): Record<string, string> {
         const token = this.authStore.token();
         return token ? { 'X-AUTH-TOKEN': token } : {};
+    }
+
+    handle401Error(
+        req: HttpRequest<unknown>,
+        next: HttpHandlerFn,
+        error: HttpErrorResponse,
+    ): Observable<HttpEvent<unknown>> {
+        this.logout();
+        return throwError(() => error);
     }
 }

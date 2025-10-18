@@ -4,6 +4,7 @@ import { AuthStore } from './auth-store';
 import { LoginRequest } from '../models/login-request';
 import { EMPTY, iif, Observable } from 'rxjs';
 import { AuthInfo } from '../models/auth-info';
+import { HttpErrorResponse, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root',
@@ -17,6 +18,14 @@ export class AuthService {
     readonly isAuthenticated = this.authStore.isAuthenticated;
     readonly permissions = this.authStore.permissions;
     readonly expiresAt = this.authStore.expiresAt;
+
+    getRedirectUrl() {
+        return this.authStore.getRedirectUrl();
+    }
+
+    setRedirectUrl(redirectUrl: string | null) {
+        this.authStore.setRedirectUrl(redirectUrl);
+    }
 
     hasPermission(permission: string): boolean {
         return this.authStore.hasPermission(permission);
@@ -67,11 +76,7 @@ export class AuthService {
         return this.strategy.tokenHeaders();
     }
 
-    getRedirectUrl() {
-        return this.authStore.getRedirectUrl();
-    }
-
-    setRedirectUrl(redirectUrl: string | null) {
-        this.authStore.setRedirectUrl(redirectUrl);
+    handle401Error(req: HttpRequest<unknown>, next: HttpHandlerFn, error: HttpErrorResponse) {
+        return this.strategy.handle401Error(req, next, error);
     }
 }

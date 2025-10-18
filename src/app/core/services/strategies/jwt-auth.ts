@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { AuthStrategy } from './auth-strategy';
-import { catchError, EMPTY, map, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, filter, map, Observable, switchMap, take, throwError } from 'rxjs';
 import { AuthInfo } from '../../models/auth-info';
 import { LoginRequest } from '../../models/login-request';
-import { HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest, HttpResponse } from '@angular/common/http';
 import { AuthApi } from '../auth-api';
 import { AuthStore } from '../auth-store';
 import { Router } from '@angular/router';
@@ -15,6 +15,9 @@ export class JwtAuth implements AuthStrategy {
     private readonly router = inject(Router);
     private readonly authApi = inject(AuthApi);
     private readonly authStore = inject(AuthStore);
+
+    private refreshTokenInProgress = false;
+    private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
     init() {
         const accessToken = this.authStore.token();
@@ -70,5 +73,41 @@ export class JwtAuth implements AuthStrategy {
     tokenHeaders(): Record<string, string> {
         const token = this.authStore.token();
         return token ? { Authorization: `Bearer ${this.authStore.token()}` } : {};
+    }
+
+    handle401Error(
+        req: HttpRequest<unknown>,
+        next: HttpHandlerFn,
+        error: HttpErrorResponse,
+    ): Observable<HttpEvent<unknown>> {
+        // 已经在刷新中
+        if (this.refreshTokenInProgress) {
+            // 等待刷新完成后再重试请求
+            return this.refreshTokenSubject.pipe(
+                filter((token) => token != null),
+                take(1),
+                switchMap((token) => next(req.clone({ setHeaders: { Authorization: `Bearer ${token}` } }))),
+            );
+        }
+        // 首次刷新
+        this.refreshTokenInProgress = true;
+        return this.refreshToken().pipe(
+            switchMap((newToken) => {
+                if (newToken) {
+                    this.refreshTokenSubject.next(newToken);
+                    // 重试原请求
+                    return next(req.clone({ setHeaders: { Authorization: `Bearer ${newToken}` } }));
+                }
+                // 刷新失败 -> 登出并跳转登录
+                this.logout();
+                return throwError(() => error);
+            }),
+            catchError((err) => {
+                this.refreshTokenInProgress = false;
+                // 刷新失败 -> 登出并跳转登录
+                this.logout();
+                return throwError(() => err);
+            }),
+        );
     }
 }
