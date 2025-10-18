@@ -14,7 +14,7 @@ export class AuthApi {
      * 获取认证信息(用户信息、权限等)
      */
     getAuthInfo(): Observable<AuthInfo> {
-        return this.http.get<AuthInfo>('/api/me');
+        return this.http.get<AuthInfo>('/me');
     }
 
     /**

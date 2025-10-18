@@ -6,7 +6,7 @@ import { Header } from './header/header';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { LayoutStore } from '../store/layout-store';
+import { LayoutStore } from '../services/layout-store';
 
 @Component({
     selector: 'sa-admin-layout',
@@ -15,7 +15,7 @@ import { LayoutStore } from '../store/layout-store';
     styleUrl: './admin-layout.scss',
 })
 export class AdminLayout {
-    private layoutStore = inject(LayoutStore);
+    private readonly layoutStore = inject(LayoutStore);
 
     canCollapse = this.layoutStore.canCollapse;
     isCollapsed = this.layoutStore.isCollapsed;

@@ -19,19 +19,19 @@ export class JwtAuth implements AuthStrategy {
     private refreshTokenInProgress = false;
     private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
-    init() {
+    init(): Observable<string | null> {
         const accessToken = this.authStore.token();
-        if (!accessToken) return;
-        // 若 token 已过期，尝试刷新
         const expiresAt = this.authStore.expiresAt();
-        if (expiresAt && expiresAt > new Date().getTime()) {
-            this.refreshToken();
+        if (accessToken && expiresAt && expiresAt > new Date().getTime()) {
+            // 若 token 已过期，尝试刷新
+            return this.refreshToken();
         }
+
+        return EMPTY;
     }
 
     login(credentials: LoginRequest) {
         console.log(credentials);
-        throw new Error('Method not implemented.');
         return EMPTY;
     }
 

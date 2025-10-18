@@ -14,7 +14,7 @@ import { MatCardModule } from '@angular/material/card';
     imports: [MatInputModule, MatButtonModule, MatSelectModule, MatRadioModule, MatCardModule, ReactiveFormsModule],
 })
 export class AddressFormComponent {
-    private fb = inject(FormBuilder);
+    private readonly fb = inject(FormBuilder);
     addressForm = this.fb.group({
         company: null,
         firstName: [null, Validators.required],

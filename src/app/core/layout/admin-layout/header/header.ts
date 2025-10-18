@@ -10,5 +10,5 @@ import { MatButtonModule } from '@angular/material/button';
     styleUrl: './header.scss',
 })
 export class Header {
-    toggleMenuBtn = output();
+    readonly toggleMenuBtn = output();
 }

@@ -7,7 +7,7 @@ export interface AuthStrategy {
     /**
      * 初始化方法
      */
-    init(): void;
+    init(): Observable<unknown>;
 
     /**
      * 登录方法

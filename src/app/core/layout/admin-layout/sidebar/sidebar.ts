@@ -1,11 +1,13 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MenuItem } from '../../../models/menu-item';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { LayoutStore } from '../../store/layout-store';
+import { LayoutStore } from '../../services/layout-store';
 import { SideMenuItem } from './side-menu-item/side-menu-item';
+import { Route, Router } from '@angular/router';
+import { RouteExtraData } from '../../../models/RouteExtraData';
 
 @Component({
     selector: 'sa-sidebar',
@@ -14,42 +16,53 @@ import { SideMenuItem } from './side-menu-item/side-menu-item';
     styleUrl: './sidebar.scss',
 })
 export class Sidebar {
-    private layoutStore = inject(LayoutStore);
+    private readonly router = inject(Router);
+    private readonly layoutStore = inject(LayoutStore);
 
     canCollapse = this.layoutStore.canCollapse;
     isCollapsed = this.layoutStore.isCollapsed;
 
-    menuItems = signal<MenuItem[]>([
-        {
-            path: 'dashboard',
-            icon: 'dashboard',
-            label: '商品目录',
-            children: [
-                { path: 'product-list', icon: 'home', label: 'Videos' },
-                { path: 'collection', icon: 'home', label: 'Analytics' },
-                { path: 'brand', icon: 'home', label: 'Settings' },
-                { path: 'collection', icon: 'home', label: 'Analytics' },
-                { path: 'brand', icon: 'home', label: 'Settings' },
-                { path: 'collection', icon: 'home', label: 'Analytics' },
-            ],
-        },
-        { path: '/product-list', icon: 'video_library', label: 'Videos' },
-        { path: '/collection', icon: 'bar_chart', label: 'Analytics' },
-        { path: '/brand', icon: 'settings', label: 'Settings' },
-        { path: '/collection', icon: 'bar_chart', label: 'Analytics' },
-        { path: '/brand', icon: 'settings', label: 'Settings' },
-        { path: '/collection', icon: 'bar_chart', label: 'Analytics' },
-        { path: '/brand', icon: 'settings', label: 'Settings' },
-        { path: '/product-list', icon: 'video_library', label: 'Videos' },
-        { path: '/collection', icon: 'bar_chart', label: 'Analytics' },
-        { path: '/brand', icon: 'settings', label: 'Settings' },
-        { path: '/collection', icon: 'bar_chart', label: 'Analytics' },
-        { path: '/brand', icon: 'settings', label: 'Settings' },
-        { path: '/collection', icon: 'bar_chart', label: 'Analytics' },
-        { path: '/brand', icon: 'settings', label: 'Settings' },
-    ]);
+    menuItems = signal<MenuItem[]>([]);
+
+    constructor() {
+        const routes = this.router.config;
+        this.menuItems.set(this.buildMenu(routes));
+        effect(() => {
+            console.log(this.menuItems());
+        });
+    }
 
     onCanCollapseValueChange(event: MatSlideToggleChange) {
         this.layoutStore.setCanCollapse(event.checked);
+    }
+
+    private buildMenu(routes: Route[], parentPath = ''): MenuItem[] {
+        const items: MenuItem[] = [];
+        for (const r of routes) {
+            const data = r.data as RouteExtraData;
+            const {
+                label = r.title as string,
+                // perms = [], // todo: 通过permission 过滤 menuItem
+                icon = '',
+                showInMenu = false,
+                isLayout = false,
+                isVirtual = false,
+            } = data ?? {};
+            const path = parentPath + '/' + (r.path || '');
+            if (isLayout && r.children) {
+                items.push(...this.buildMenu(r.children, r.path));
+            } else if (showInMenu) {
+                const menuItem: MenuItem = {
+                    path: isVirtual ? null : path,
+                    icon,
+                    label,
+                };
+                if (r.children) {
+                    menuItem.children = this.buildMenu(r.children, path);
+                }
+                items.push(menuItem);
+            }
+        }
+        return items;
     }
 }

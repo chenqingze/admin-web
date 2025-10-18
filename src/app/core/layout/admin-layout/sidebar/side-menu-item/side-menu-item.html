@@ -1,8 +1,8 @@
 <a
     mat-list-item
     class="menu-item"
-    [style.--mat-list-list-item-leading-icon-start-space.px]="depth() * 16"
-    [routerLink]="item().path"
+    [style.--mat-list-list-item-leading-icon-start-space.px]="isCollapsed() ? 16 : depth() * 16"
+    [routerLink]="item().path ?? null"
     (click)="toggleNestedMenu()"
     routerLinkActive="selected-menu-item"
     #rla="routerLinkActive"

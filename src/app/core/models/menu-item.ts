@@ -1,6 +1,6 @@
 export interface MenuItem {
-    icon: string;
+    path?: string | null;
     label: string;
-    path?: string;
+    icon: string;
     children?: MenuItem[];
 }

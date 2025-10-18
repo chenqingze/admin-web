@@ -12,13 +12,13 @@ import { Router } from '@angular/router';
     providedIn: 'root',
 })
 export class SessionAuth implements AuthStrategy {
-    init(): void {
-        this.getAuthInfo();
-    }
-
     private readonly router = inject(Router);
     private readonly authApi = inject(AuthApi);
     private readonly authStore = inject(AuthStore);
+
+    init(): Observable<AuthInfo | null> {
+        return this.getAuthInfo();
+    }
 
     login(credentials: LoginRequest) {
         return this.authApi.login(credentials).pipe(

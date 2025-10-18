@@ -7,9 +7,9 @@ import { AuthStore } from '../services/auth-store';
 export class HasPermission implements OnInit {
     @Input('appHasPermission') requiredPerm!: string | string[];
 
-    private templateRef = inject(TemplateRef);
-    private viewContainer = inject(ViewContainerRef);
-    private authStore = inject(AuthStore);
+    private readonly templateRef = inject(TemplateRef);
+    private readonly viewContainer = inject(ViewContainerRef);
+    private readonly authStore = inject(AuthStore);
 
     ngOnInit() {
         effect(() => {

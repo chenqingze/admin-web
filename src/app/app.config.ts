@@ -5,7 +5,7 @@ import {
     provideBrowserGlobalErrorListeners,
     provideZonelessChangeDetection,
 } from '@angular/core';
-import { provideRouter, withComponentInputBinding, withDebugTracing, withViewTransitions } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAuthInitializer } from './core/init/auth-initializer';
@@ -61,7 +61,7 @@ export const appConfig: ApplicationConfig = {
             },
         },
         provideAuthInitializer,
-        provideRouter(routes, withComponentInputBinding(), withViewTransitions(), withDebugTracing()),
+        provideRouter(routes, withComponentInputBinding(), withViewTransitions() /*, withDebugTracing()*/),
         provideHttpClient(withInterceptors([endpointInterceptor, authInterceptor, httpErrorInterceptor])),
     ],
 };

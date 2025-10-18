@@ -28,10 +28,10 @@ import { AuthService } from '../../../core/services/auth-service';
     styleUrl: './login.scss',
 })
 export class Login {
-    private fb = inject(FormBuilder);
-    private authService = inject(AuthService);
-    private snackBar = inject(MatSnackBar);
-    private router = inject(Router);
+    private readonly fb = inject(FormBuilder);
+    private readonly authService = inject(AuthService);
+    private readonly snackBar = inject(MatSnackBar);
+    private readonly router = inject(Router);
     hidePassword = signal(true);
     clickEvent(event: MouseEvent) {
         this.hidePassword.set(!this.hidePassword());

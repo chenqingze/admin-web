@@ -34,7 +34,7 @@ export class AuthService {
     readonly hasPermissionSignal = this.authStore.hasPermissionSignal;
 
     init() {
-        this.strategy.init();
+        return this.strategy.init();
     }
 
     login(credentials: LoginRequest) {

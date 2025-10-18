@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 import { MenuItem } from '../../../../models/menu-item';
-import { LayoutStore } from '../../../store/layout-store';
+import { LayoutStore } from '../../../services/layout-store';
 
 @Component({
     selector: 'sa-side-menu-item',
@@ -14,17 +14,17 @@ import { LayoutStore } from '../../../store/layout-store';
     styleUrl: './side-menu-item.scss',
 })
 export class SideMenuItem {
-    private layoutStore = inject(LayoutStore);
+    private readonly layoutStore = inject(LayoutStore);
 
-    isCollapsed = this.layoutStore.isCollapsed;
+    protected isCollapsed = this.layoutStore.isCollapsed;
 
-    item = input.required<MenuItem>();
+    readonly item = input.required<MenuItem>();
 
-    depth = input<number>(1);
+    readonly depth = input<number>(1);
 
-    nestedMenuOpened = signal(false);
+    protected nestedMenuOpened = signal(false);
 
-    toggleNestedMenu = () => {
+    protected toggleNestedMenu = () => {
         this.nestedMenuOpened.set(!this.nestedMenuOpened());
     };
 }

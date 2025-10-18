@@ -3,10 +3,5 @@ import { AuthService } from '../services/auth-service';
 
 export const provideAuthInitializer = provideAppInitializer(() => {
     const authService = inject(AuthService);
-
-    if (!authService.token()) {
-        authService.logout();
-        return;
-    }
-    authService.init();
+    return authService.init();
 });
