@@ -7,7 +7,7 @@ import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/sl
 import { LayoutStore } from '../../services/layout-store';
 import { SideMenuItem } from './side-menu-item/side-menu-item';
 import { Route, Router } from '@angular/router';
-import { RouteExtraData } from '../../../models/RouteExtraData';
+import { RouteExtraData } from '../../../models/route-extra-data';
 
 @Component({
     selector: 'sa-sidebar',
