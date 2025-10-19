@@ -1,13 +1,13 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MenuItem } from '../../../models/menu-item';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { LayoutStore } from '../../services/layout-store';
-import { SideMenuItem } from './side-menu-item/side-menu-item';
 import { Route, Router } from '@angular/router';
-import { RouteExtraData } from '../../../models/route-extra-data';
+import { MenuItem } from '@core/layout/models/menu-item';
+import { RouteExtraData } from '@shared/models/route-extra-data';
+import { LayoutStore } from '@core/layout/services/layout-store';
+import { SideMenuItem } from '@core/layout/admin-layout/sidebar/side-menu-item/side-menu-item';
 
 @Component({
     selector: 'sa-sidebar',
@@ -27,9 +27,6 @@ export class Sidebar {
     constructor() {
         const routes = this.router.config;
         this.menuItems.set(this.buildMenu(routes));
-        effect(() => {
-            console.log(this.menuItems());
-        });
     }
 
     onCanCollapseValueChange(event: MatSlideToggleChange) {

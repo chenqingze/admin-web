@@ -4,8 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
-import { MenuItem } from '../../../../models/menu-item';
-import { LayoutStore } from '../../../services/layout-store';
+import { LayoutStore } from '@core/layout/services/layout-store';
+import { MenuItem } from '@core/layout/models/menu-item';
 
 @Component({
     selector: 'sa-side-menu-item',

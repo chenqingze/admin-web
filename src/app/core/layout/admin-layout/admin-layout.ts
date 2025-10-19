@@ -1,12 +1,12 @@
 import { Component, computed, inject } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
-import { Sidebar } from './sidebar/sidebar';
-import { Header } from './header/header';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { LayoutStore } from '../services/layout-store';
+import { LayoutStore } from '@core/layout/services/layout-store';
+import { Sidebar } from '@core/layout/admin-layout/sidebar/sidebar';
+import { Header } from '@core/layout/admin-layout/header/header';
 
 @Component({
     selector: 'sa-admin-layout',

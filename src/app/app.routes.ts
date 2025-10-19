@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { guestGuard } from './core/guards/guest-guard';
-import { authGuard } from './core/guards/auth-guard';
+import { authGuard } from '@core/auth/guards/auth-guard';
+import { guestGuard } from '@core/auth/guards/guest-guard';
 
 export const routes: Routes = [
     // admin
@@ -40,7 +40,9 @@ export const routes: Routes = [
                     {
                         path: 'products',
                         loadComponent: () =>
-                            import('./features/catalog/product/product-list/product-list').then((m) => m.ProductList),
+                            import('@features/catalog/product/pages/product-list-page/product-list-page').then(
+                                (m) => m.ProductListPage,
+                            ),
                         title: '商品管理',
                         data: {
                             perms: ['product:list'],
@@ -51,7 +53,9 @@ export const routes: Routes = [
                     {
                         path: 'collections',
                         loadComponent: () =>
-                            import('./features/catalog/collection/collection').then((m) => m.Collection),
+                            import('@features/catalog/collection/pages/collection-list-page/collection-list-page').then(
+                                (m) => m.CollectionListPage,
+                            ),
                         title: '商品分类',
                         data: {
                             icon: 'widgets',
@@ -61,7 +65,10 @@ export const routes: Routes = [
                     },
                     {
                         path: 'brands',
-                        loadComponent: () => import('./features/catalog/brand/brand').then((m) => m.Brand),
+                        loadComponent: () =>
+                            import('@features/catalog/brand/pages/brand-list-page/brand-list-page').then(
+                                (m) => m.BrandListPage,
+                            ),
                         title: '品牌管理',
                         data: {
                             perms: ['brand:list'],
@@ -283,7 +290,7 @@ export const routes: Routes = [
         children: [
             {
                 path: 'login',
-                loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
+                loadComponent: () => import('./core/auth/pages/login/login').then((m) => m.Login),
             },
         ],
     },

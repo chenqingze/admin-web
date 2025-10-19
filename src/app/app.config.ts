@@ -8,18 +8,18 @@ import {
 import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideAuthInitializer } from './core/init/auth-initializer';
 import { IMAGE_LOADER, ImageLoaderConfig } from '@angular/common';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { httpErrorInterceptor } from './core/interceptors/http-error-interceptor';
-import { authInterceptor } from './core/interceptors/auth-interceptor';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { environment } from '../environments/environment';
-import { endpointInterceptor } from './core/interceptors/endpoint-interceptor';
-import { TokenType } from './core/models/auth-state';
-import { AuthStrategy } from './core/services/strategies/auth-strategy';
-import { SessionAuth } from './core/services/strategies/session-auth';
-import { JwtAuth } from './core/services/strategies/jwt-auth';
+import { AuthStrategy } from '@core/auth/services/strategies/auth-strategy';
+import { JwtAuth } from '@core/auth/services/strategies/jwt-auth';
+import { SessionAuth } from '@core/auth/services/strategies/session-auth';
+import { provideAuthInitializer } from '@core/auth/auth-initializer';
+import { endpointInterceptor } from '@core/api/endpoint-interceptor';
+import { authInterceptor } from '@core/auth/interceptors/auth-interceptor';
+import { errorInterceptor } from '@core/api/error-interceptor';
+import { TokenType } from '@core/auth/models/auth-state';
+import { environment } from '@env/environment';
 
 // todo: 后期如果全局配置属性较多统一处理
 export const ENDPOINT = new InjectionToken<string>('api endpoint');
@@ -62,6 +62,6 @@ export const appConfig: ApplicationConfig = {
         },
         provideAuthInitializer,
         provideRouter(routes, withComponentInputBinding(), withViewTransitions() /*, withDebugTracing()*/),
-        provideHttpClient(withInterceptors([endpointInterceptor, authInterceptor, httpErrorInterceptor])),
+        provideHttpClient(withInterceptors([endpointInterceptor, authInterceptor, errorInterceptor])),
     ],
 };

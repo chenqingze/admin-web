@@ -1,8 +1,10 @@
 <aside>
-    <mat-toolbar class="justify-around">
+    <mat-toolbar class="justify-center gap-2 px-4">
         <span>😊</span>
-        <span class="hide-header-text" [class.hide-header-text]="isCollapsed()">Shop Admin</span>
-        <mat-slide-toggle hideIcon [checked]="canCollapse()" (change)="onCanCollapseValueChange($event)" />
+        <span class="hide-header-element flex gap-2" [class.hide-header-element]="isCollapsed()">
+            <span>Shop Admin</span>
+            <mat-slide-toggle hideIcon [checked]="canCollapse()" (change)="onCanCollapseValueChange($event)" />
+        </span>
     </mat-toolbar>
     <mat-nav-list>
         @for (item of menuItems(); track item) {

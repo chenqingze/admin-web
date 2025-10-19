@@ -1,4 +1,4 @@
-import { TokenType } from '../app/core/models/auth-state';
+import { TokenType } from '@core/auth/models/auth-state';
 
 export const environment = {
     production: false,
