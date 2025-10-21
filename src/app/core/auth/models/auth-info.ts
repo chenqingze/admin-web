@@ -1,4 +1,4 @@
-import { AuthUser } from '@core/auth/models/auth-user';
+import { AuthUser } from './auth-user';
 
 export interface AuthInfo {
     authUser: AuthUser;

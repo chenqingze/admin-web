@@ -4,9 +4,9 @@ import { RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { LayoutStore } from '@core/layout/services/layout-store';
-import { Sidebar } from '@core/layout/admin-layout/sidebar/sidebar';
-import { Header } from '@core/layout/admin-layout/header/header';
+import { Sidebar } from './sidebar/sidebar';
+import { LayoutStore } from '../services/layout-store';
+import { Header } from './header/header';
 
 @Component({
     selector: 'sa-admin-layout',

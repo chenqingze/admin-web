@@ -6,20 +6,20 @@ export const routes: Routes = [
     // admin
     {
         path: '',
+        canActivate: [authGuard],
+        loadComponent: () => import('./core/layout/admin-layout/admin-layout').then((m) => m.AdminLayout),
         data: {
             perms: ['dashboard'],
             icon: 'dashboard',
             showInMenu: true,
             isLayout: true,
         },
-        canActivate: [authGuard],
-        loadComponent: () => import('./core/layout/admin-layout/admin-layout').then((m) => m.AdminLayout),
         children: [
             { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
             {
                 path: 'dashboard',
-                loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
                 title: '仪表盘',
+                loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
                 data: {
                     perms: ['dashboard'],
                     icon: 'dashboard',
@@ -258,26 +258,56 @@ export const routes: Routes = [
             // demo
             {
                 path: 'address',
+                title: 'address',
                 loadComponent: () =>
                     import('./features/demo/address-form/address-form.component').then((m) => m.AddressFormComponent),
+                data: {
+                    perms: ['address'],
+                    icon: 'address',
+                    showInMenu: true,
+                },
             },
             {
                 path: 'drag-drag',
+                title: 'drag-drag',
                 loadComponent: () =>
                     import('./features/demo/drag-drag/drag-drag.component').then((m) => m.DragDragComponent),
+                data: {
+                    perms: ['drag-drag'],
+                    icon: 'drag-drag',
+                    showInMenu: true,
+                },
             },
             {
                 path: 'navigation',
+                title: 'navigation',
                 loadComponent: () =>
                     import('./features/demo/navigation/navigation.component').then((m) => m.NavigationComponent),
+                data: {
+                    perms: ['navigation'],
+                    icon: 'navigation',
+                    showInMenu: true,
+                },
             },
             {
                 path: 'table',
+                title: 'table',
                 loadComponent: () => import('./features/demo/table/table.component').then((m) => m.TableComponent),
+                data: {
+                    perms: ['table'],
+                    icon: 'table',
+                    showInMenu: true,
+                },
             },
             {
                 path: 'tree',
+                title: 'tree',
                 loadComponent: () => import('./features/demo/tree/tree.component').then((m) => m.TreeComponent),
+                data: {
+                    perms: ['tree'],
+                    icon: 'tree',
+                    showInMenu: true,
+                },
             },
         ],
     },

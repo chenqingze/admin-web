@@ -4,10 +4,10 @@ import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Route, Router } from '@angular/router';
-import { MenuItem } from '@core/layout/models/menu-item';
-import { RouteExtraData } from '@shared/models/route-extra-data';
-import { LayoutStore } from '@core/layout/services/layout-store';
-import { SideMenuItem } from '@core/layout/admin-layout/sidebar/side-menu-item/side-menu-item';
+import { SideMenuItem } from './side-menu-item/side-menu-item';
+import { LayoutStore } from '../../services/layout-store';
+import { RouteExtraData } from '../../../routing/models';
+import { MenuItem } from '../../models';
 
 @Component({
     selector: 'sa-sidebar',

@@ -19,10 +19,12 @@
             "@app/*": ["app/*"],
             "@assets/*": ["assets/*"],
             "@env/*": ["environments/*"],
-            "@styles/*": ["styles/*"],
             "@core/*": ["app/core/*"],
+            "@features/*": ["app/features/*"],
             "@shared/*": ["app/shared/*"],
-            "@features/*": ["app/features/*"]
+            "@styles/*": ["styles/*"],
+            "@models": ["app/core/models"],
+            "@models/*": ["app/core/models/*"]
         }
     },
     "angularCompilerOptions": {

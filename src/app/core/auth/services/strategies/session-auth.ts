@@ -2,11 +2,11 @@ import { inject, Injectable } from '@angular/core';
 import { catchError, EMPTY, Observable, of, tap, throwError } from 'rxjs';
 import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AuthStrategy } from '@core/auth/services/strategies/auth-strategy';
-import { AuthApi } from '@core/auth/services/auth-api';
-import { AuthStore } from '@core/auth/services/auth-store';
-import { AuthInfo } from '@core/auth/models/auth-info';
-import { LoginRequest } from '@core/auth/models/login-request';
+import { AuthStrategy } from './auth-strategy';
+import { AuthApi } from '../auth-api';
+import { AuthStore } from '../auth-store';
+import { AuthInfo } from '../../models/auth-info';
+import { LoginRequest } from '../../models/login-request';
 
 @Injectable({
     providedIn: 'root',

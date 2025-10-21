@@ -9,8 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
-import { LoginRequest } from '@core/auth/models/login-request';
-import { AuthFacade } from '@core/auth/services/auth-facade';
+import { AuthFacade } from '../../services/auth-facade';
+import { LoginRequest } from '../../models/login-request';
 
 @Component({
     selector: 'sa-login-page',

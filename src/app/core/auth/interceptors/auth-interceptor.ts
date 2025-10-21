@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
-import { AuthFacade } from '@core/auth/services/auth-facade';
+import { AuthFacade } from '../services/auth-facade';
 
 /**
  * 认证相关 (token, 401)

@@ -1,6 +1,6 @@
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
     <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
-        <button matIconButton disabled type="button">嘎嘎</button>
+        <button matIconButton disabled type="button"></button>
         <mat-icon class="type-icon" [attr.aria-label]="node.type + 'icon'">
             {{ node.type === 'file' ? 'description' : 'folder' }}
         </mat-icon>

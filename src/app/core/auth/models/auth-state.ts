@@ -1,6 +1,5 @@
-import { AuthUser } from '@core/auth/models/auth-user';
-
-export type TokenType = 'SESSION' | 'JWT' | 'OAUTH2';
+import { AuthUser } from './auth-user';
+import { TokenType } from './token-type';
 
 export interface AuthState {
     tokenType: TokenType;

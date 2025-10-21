@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
-import { LoginRequest } from '@core/auth/models/login-request';
-import { AuthInfo } from '@core/auth/models/auth-info';
+import { LoginRequest } from '../../models/login-request';
+import { AuthInfo } from '../../models/auth-info';
 
 export interface AuthStrategy {
     /**
