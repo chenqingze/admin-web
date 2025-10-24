@@ -14,15 +14,13 @@ import { MenuItem } from '../../../models/menu-item';
     styleUrl: './side-menu-item.scss',
 })
 export class SideMenuItem {
-    private readonly layoutStore = inject(LayoutStore);
-
-    protected isCollapsed = this.layoutStore.isCollapsed;
-
     readonly item = input.required<MenuItem>();
-
     readonly depth = input<number>(1);
 
-    protected nestedMenuOpened = signal(false);
+    private readonly layoutStore = inject(LayoutStore);
+    protected readonly isCollapsed = this.layoutStore.isCollapsed;
+
+    protected readonly nestedMenuOpened = signal(false);
 
     protected toggleNestedMenu = () => {
         this.nestedMenuOpened.set(!this.nestedMenuOpened());

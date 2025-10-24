@@ -19,10 +19,10 @@ export class Sidebar {
     private readonly router = inject(Router);
     private readonly layoutStore = inject(LayoutStore);
 
-    canCollapse = this.layoutStore.canCollapse;
-    isCollapsed = this.layoutStore.isCollapsed;
+    protected readonly canCollapse = this.layoutStore.canCollapse;
+    protected readonly isCollapsed = this.layoutStore.isCollapsed;
 
-    menuItems = signal<MenuItem[]>([]);
+    protected readonly menuItems = signal<MenuItem[]>([]);
 
     constructor() {
         const routes = this.router.config;

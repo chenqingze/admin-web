@@ -5,11 +5,11 @@ import { Injectable, signal } from '@angular/core';
 })
 export class LayoutStore {
     // sidebar是否可以折叠
-    private _canCollapse = signal(false);
+    private readonly _canCollapse = signal(false);
     readonly canCollapse = this._canCollapse.asReadonly();
 
     // sidebar折叠状态
-    private _isCollapsed = signal(false);
+    private readonly _isCollapsed = signal(false);
     readonly isCollapsed = this._isCollapsed.asReadonly();
 
     setCanCollapse(isCollapsed: boolean) {

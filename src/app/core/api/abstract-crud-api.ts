@@ -6,11 +6,11 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export abstract class AbstractCrudApi<T> {
-    // 使用 inject 函数注入 HttpClient
-    protected http = inject(HttpClient);
-
     // 抽象属性：要求子类必须实现并提供 API 的基础路径
     protected abstract readonly endpoint: string;
+
+    // 使用 inject 函数注入 HttpClient
+    protected readonly http = inject(HttpClient);
 
     // 获取所有记录
     getAll(params?: HttpParams): Observable<T[]> {

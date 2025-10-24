@@ -1,11 +1,11 @@
 <h2 mat-dialog-title>分组</h2>
 <mat-dialog-content>
-    <form class="flex w-full flex-col p-4" [formGroup]="collectionForm">
-        <mat-form-field>
+    <form [formGroup]="collectionForm" class="w-full">
+        <mat-form-field class="w-full">
             <mat-label>分组名称</mat-label>
             <input matInput placeholder="请输入分组名称" />
         </mat-form-field>
-        <!--  todo: image-->
+        <sa-upload-file-list />
     </form>
 </mat-dialog-content>
 <mat-dialog-actions>

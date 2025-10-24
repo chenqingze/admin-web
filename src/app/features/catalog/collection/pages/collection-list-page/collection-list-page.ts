@@ -2,7 +2,7 @@ import { AfterViewInit, Component, effect, inject, signal, ViewChild } from '@an
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { CollectionFacade } from '../../services/collection-facade';
+import { CollectionService } from '../../services/collection-service';
 import { Collection } from '../../models/collection';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -33,21 +33,22 @@ import { CollectionFormDialog } from './dialogs/collection-form-dialog/collectio
     styleUrl: './collection-list-page.scss',
 })
 export class CollectionListPage implements AfterViewInit {
-    private readonly collectionFacade = inject(CollectionFacade);
+    private readonly collectionFacade = inject(CollectionService);
     private readonly dialog = inject(MatDialog);
     private readonly snackBar = inject(MatSnackBar);
+
     @ViewChild(MatSort) protected sort!: MatSort;
 
     protected dataSource = new MatTableDataSource<Collection>();
     protected displayedColumns = ['select', 'name', 'imageUrl', 'actions'];
     protected selection = new SelectionModel<Collection>(true, []);
 
-    protected paginatorProps = signal<PaginatorProps>({
+    protected readonly paginatorProps = signal<PaginatorProps>({
         pageIndex: 0,
         pageSize: 5,
     });
 
-    protected totalElements = signal(0);
+    protected readonly totalElements = signal(0);
 
     constructor() {
         effect(() => {
@@ -79,8 +80,12 @@ export class CollectionListPage implements AfterViewInit {
         this.paginatorProps.update((props) => ({ ...props, pageIndex, pageSize }));
     }
 
-    protected onOpenDialog(id: string) {
-        const dialogRef = this.dialog.open(CollectionFormDialog, { data: id, width: '520px', height: '380px' });
+    protected openDialog(id?: string) {
+        const dialogRef = this.dialog.open(CollectionFormDialog, {
+            data: id,
+            width: '520px',
+            maxHeight: 'calc(100vw - 32px)',
+        });
 
         dialogRef.afterClosed().subscribe((result) => {
             console.log('The dialog was closed', result);

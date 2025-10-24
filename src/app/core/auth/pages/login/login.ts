@@ -32,11 +32,14 @@ export class Login {
     private readonly authFacade = inject(AuthFacade);
     private readonly snackBar = inject(MatSnackBar);
     private readonly router = inject(Router);
-    hidePassword = signal(true);
+
+    protected readonly hidePassword = signal(true);
+
     clickEvent(event: MouseEvent) {
         this.hidePassword.set(!this.hidePassword());
         event.stopPropagation();
     }
+
     loginForm = this.fb.group({
         username: ['', Validators.required],
         password: ['', Validators.required],

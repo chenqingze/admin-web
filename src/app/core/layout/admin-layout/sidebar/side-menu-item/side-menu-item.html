@@ -8,7 +8,7 @@
     #rla="routerLinkActive"
     [activated]="rla.isActive"
 >
-    <mat-icon [fontSet]="rla.isActive ? 'material-icons' : 'material-icons-outlined'" matListItemIcon>
+    <mat-icon matListItemIcon [class.!text-mat-primary]="rla.isActive" [class.filled-icon]="rla.isActive">
         {{ item().icon }}
     </mat-icon>
 

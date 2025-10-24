@@ -1,7 +1,11 @@
-<mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput placeholder="Ex. Mia" />
-</mat-form-field>
+<form class="flex gap-4">
+    <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput placeholder="Ex. Mia" />
+    </mat-form-field>
+    <button type="submit" matButton="filled">搜索</button>
+    <button type="button" matButton="filled" class="ms-auto" (click)="openDialog()">新增</button>
+</form>
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" aria-label="collections">
         <!-- Checkbox Column -->
@@ -44,7 +48,7 @@
         <ng-container matColumnDef="actions">
             <th *matHeaderCellDef mat-header-cell>操作</th>
             <td mat-cell *matCellDef="let element; index as i">
-                <button mat-icon-button type="button" (click)="onOpenDialog(element.id)">
+                <button mat-icon-button type="button" (click)="openDialog(element.id)">
                     <mat-icon>edite</mat-icon>
                 </button>
                 <button mat-icon-button type="button" (click)="onDeleteCollection(element.id)">

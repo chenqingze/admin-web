@@ -8,20 +8,20 @@ export class AuthStore {
     private readonly LOCAL_STORAGE_TOKEN_KEY: string = '_token';
     private readonly SESSION_STORAGE_REDIRECT_URL: string = 'redirect_url';
 
-    private _token = signal<string | null>(localStorage.getItem(this.LOCAL_STORAGE_TOKEN_KEY));
+    private readonly _token = signal<string | null>(localStorage.getItem(this.LOCAL_STORAGE_TOKEN_KEY));
     readonly token = this._token.asReadonly();
 
-    private _currentUser = signal<AuthUser | null>(null);
+    private readonly _currentUser = signal<AuthUser | null>(null);
     readonly currentUser = this._currentUser.asReadonly();
     readonly isAuthenticated = computed(() => !!this.currentUser());
 
-    private _permissions = signal<Set<string>>(new Set<string>());
+    private readonly _permissions = signal<Set<string>>(new Set<string>());
     readonly permissions = this._permissions.asReadonly();
 
-    private _expiresAt = signal<number | null>(null);
+    private readonly _expiresAt = signal<number | null>(null);
     readonly expiresAt = this._expiresAt.asReadonly();
 
-    _redirectUrl: string | null = null;
+    private _redirectUrl: string | null = null;
 
     setToken(token: string | null) {
         this._token.set(token);
