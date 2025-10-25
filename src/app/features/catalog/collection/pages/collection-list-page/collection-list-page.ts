@@ -33,7 +33,7 @@ import { CollectionFormDialog } from './dialogs/collection-form-dialog/collectio
     styleUrl: './collection-list-page.scss',
 })
 export class CollectionListPage implements AfterViewInit {
-    private readonly collectionFacade = inject(CollectionService);
+    private readonly collectionService = inject(CollectionService);
     private readonly dialog = inject(MatDialog);
     private readonly snackBar = inject(MatSnackBar);
 
@@ -53,12 +53,16 @@ export class CollectionListPage implements AfterViewInit {
     constructor() {
         effect(() => {
             const { pageIndex, pageSize } = this.paginatorProps();
-            this.collectionFacade.getPage({ page: pageIndex, size: pageSize }).subscribe((data) => {
+            this.collectionService.getPage({ page: pageIndex, size: pageSize }).subscribe((data) => {
                 const { page, content } = data;
                 this.dataSource.data = content;
                 this.totalElements.set(Number(page.totalElements));
             });
         });
+    }
+
+    ngAfterViewInit(): void {
+        this.dataSource.sort = this.sort;
     }
 
     protected isAllSelected() {
@@ -87,13 +91,18 @@ export class CollectionListPage implements AfterViewInit {
             maxHeight: 'calc(100vw - 32px)',
         });
 
-        dialogRef.afterClosed().subscribe((result) => {
-            console.log('The dialog was closed', result);
+        dialogRef.afterClosed().subscribe((formData) => {
+            console.log('The dialog was closed', formData);
+            if (formData) {
+                this.collectionService.create(formData).subscribe(() => {
+                    this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
+                });
+            }
         });
     }
 
     protected onDeleteCollection(id: string) {
-        this.collectionFacade.delete(id).subscribe({
+        this.collectionService.delete(id).subscribe({
             next: () => {
                 this.snackBar.open('删除成功', '关闭', {
                     duration: 3000,
@@ -107,9 +116,5 @@ export class CollectionListPage implements AfterViewInit {
                     panelClass: ['snack-error'],
                 }),
         });
-    }
-
-    ngAfterViewInit(): void {
-        this.dataSource.sort = this.sort;
     }
 }

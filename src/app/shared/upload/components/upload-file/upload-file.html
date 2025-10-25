@@ -1,14 +1,45 @@
-<div class="flex h-full w-full max-w-lg items-center justify-center rounded-sm border-1 border-solid p-4">
+<div class="group relative h-full w-full overflow-hidden rounded-sm border-1 border-solid">
     @if (file()) {
-        <div class="flex gap-2">
-            @if (file()?.path) {
-                <img [ngSrc]="file()!.path ?? '/image-not-found.jpeg'" width="80" height="80" alt="image" />
+        <div class="flex items-center justify-center">
+            @if (isImage()) {
+                <!-- 配置可传入 with 和 height -->
+                @if (file()?.path) {
+                    <img [ngSrc]="file()!.path!" width="92" height="92" alt="image" />
+                } @else {
+                    <mat-icon>image</mat-icon>
+                }
+            } @else {
+                <mat-icon>draft</mat-icon>
             }
-
-            <p>{{ file()?.name }} - {{ file()?.status }}</p>
-            <mat-progress-bar mode="determinate" [value]="file()?.percentage"></mat-progress-bar>
-            @if (file()?.status === 'UPLOADING') {
-                <button mat-button type="button" (click)="cancelUpload()">取消</button>
+        </div>
+        <div
+            class="upload-overlay bg-mat-on-surface/50 absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        >
+            @switch (file()?.status) {
+                @case ('UPLOADING') {
+                    <button matIconButton type="button" (click)="removeFile.emit(fileIndex())">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-progress-bar mode="determinate" [value]="file()?.percentage" class="!absolute bottom-0.5" />
+                }
+                @case ('SUCCESS') {
+                    @if (isImage()) {
+                        <button matIconButton type="button" (click)="removeFile.emit(fileIndex())">
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                    }
+                    <button matIconButton type="button" (click)="removeFile.emit(fileIndex())">
+                        <mat-icon>delete_forever</mat-icon>
+                    </button>
+                }
+                @case ('ERROR') {
+                    <button matIconButton type="button" (click)="removeFile.emit(fileIndex())">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <button matIconButton type="button" (click)="removeFile.emit(fileIndex())">
+                        <mat-icon>refresh</mat-icon>
+                    </button>
+                }
             }
         </div>
     }

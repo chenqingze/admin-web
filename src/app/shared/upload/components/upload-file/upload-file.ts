@@ -1,4 +1,4 @@
-import { Component, inject, input, model, output } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { UploadFileInfo } from '../../models';
@@ -14,17 +14,10 @@ import { FileService } from '../../services/file-service';
 })
 export class UploadFile {
     private readonly fileService = inject(FileService);
-    readonly file = model<UploadFileInfo>();
-    readonly fileIndex = model<number>();
-    readonly icon = input<string>('cloud_upload');
-    readonly remove = output<number>();
-
-    // 移除选中的文件
-    public removeFile(): void {
-        if (this.fileIndex()) {
-            this.remove.emit(this.fileIndex()!);
-        }
-    }
+    readonly file = input<UploadFileInfo | null>();
+    readonly fileIndex = input.required<number>();
+    readonly isImage = computed(() => this.fileService.isImage(this.file()?.file));
+    readonly removeFile = output<number>();
 
     cancelUpload(): void {
         this.fileService.cancelUpload(this.file()!);

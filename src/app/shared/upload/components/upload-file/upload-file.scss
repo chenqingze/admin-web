@@ -1,0 +1,9 @@
+@use '@angular/material' as mat;
+
+.upload-overlay {
+    @include mat.icon-overrides(
+        (
+            color: var(--mat-sys-surface),
+        )
+    );
+}

@@ -1,4 +1,4 @@
-export interface File {
+export interface FileInfo {
     id?: string;
     path?: string;
     url?: string;
@@ -9,5 +9,5 @@ export interface File {
     modifiedBy?: string;
     deletedAt?: string;
 }
-export type Image = File;
-export type Video = File;
+export type Image = FileInfo;
+export type Video = FileInfo;
