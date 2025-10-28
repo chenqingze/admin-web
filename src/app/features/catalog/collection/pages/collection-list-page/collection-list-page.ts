@@ -14,6 +14,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { CollectionFormDialog } from './dialogs/collection-form-dialog/collection-form-dialog';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
     selector: 'sa-collection-list-page',
@@ -28,6 +29,7 @@ import { CollectionFormDialog } from './dialogs/collection-form-dialog/collectio
         MatButtonModule,
         MatIconModule,
         MatSnackBarModule,
+        NgOptimizedImage,
     ],
     templateUrl: './collection-list-page.html',
     styleUrl: './collection-list-page.scss',

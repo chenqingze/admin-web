@@ -58,8 +58,6 @@ export class CollectionFormDialog {
 
     @HostListener('document:keydown.enter', [])
     protected onSave() {
-        console.log('this.imageList()', this.imageList());
-
         if (this.collectionForm.valid) {
             const request = this.id()
                 ? this.collectionService.update(this.id()!, this.collectionForm.value as Collection)
