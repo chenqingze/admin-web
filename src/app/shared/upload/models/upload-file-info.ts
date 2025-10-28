@@ -17,9 +17,9 @@ export interface UploadFileInfo {
     name?: string;
     path?: string | null;
     hash?: string | null;
-    type?: string | null;
+    type?: 'IMAGE' | string | null;
     batchId?: string | null;
-    percentage: number; // 进度百分比 (0 - 100)
+    percentage?: number; // 进度百分比 (0 - 100)
     status: UploadFileStatus; // 上传状态
     message?: string; // 错误或成功消息
     sub?: Subscription;

@@ -5,11 +5,11 @@
             <mat-label>分组名称</mat-label>
             <input matInput formControlName="name" placeholder="请输入分组名称" />
         </mat-form-field>
-        <sa-upload-file-list [maxFiles]="1" />
+        <sa-upload [(fileList)]="imageList" [maxFiles]="1" />
     </form>
 </mat-dialog-content>
 <mat-dialog-actions>
     <button type="button" matButton="tonal" mat-dialog-close>取消</button>
     <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
-    <button type="button" matButton="filled" (click)="onSave()">确定</button>
+    <button type="button" matButton="filled" [mat-dialog-close]="true" (click)="onSave()">确定</button>
 </mat-dialog-actions>

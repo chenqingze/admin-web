@@ -40,7 +40,7 @@ export class CollectionListPage implements AfterViewInit {
     @ViewChild(MatSort) protected sort!: MatSort;
 
     protected dataSource = new MatTableDataSource<Collection>();
-    protected displayedColumns = ['select', 'name', 'imageUrl', 'actions'];
+    protected displayedColumns = ['select', 'name', 'imagePath', 'actions'];
     protected selection = new SelectionModel<Collection>(true, []);
 
     protected readonly paginatorProps = signal<PaginatorProps>({
@@ -91,12 +91,10 @@ export class CollectionListPage implements AfterViewInit {
             maxHeight: 'calc(100vw - 32px)',
         });
 
-        dialogRef.afterClosed().subscribe((formData) => {
-            console.log('The dialog was closed', formData);
-            if (formData) {
-                this.collectionService.create(formData).subscribe(() => {
-                    this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
-                });
+        dialogRef.afterClosed().subscribe((data) => {
+            console.log('The dialog was closed', data);
+            if (data) {
+                this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
             }
         });
     }

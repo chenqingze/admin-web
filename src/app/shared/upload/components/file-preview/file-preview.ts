@@ -4,19 +4,19 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { UploadFileInfo } from '../../models';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
-import { FileService } from '../../services/file-service';
+import { UploadService } from '../../services/upload-service';
 
 @Component({
-    selector: 'sa-upload-file',
+    selector: 'sa-file-preview',
     imports: [CommonModule, MatProgressBarModule, MatButtonModule, MatIconModule, NgOptimizedImage],
-    templateUrl: './upload-file.html',
-    styleUrl: './upload-file.scss',
+    templateUrl: './file-preview.html',
+    styleUrl: './file-preview.scss',
 })
-export class UploadFile {
-    private readonly fileService = inject(FileService);
+export class FilePreview {
+    private readonly fileService = inject(UploadService);
     readonly file = input<UploadFileInfo | null>();
     readonly fileIndex = input.required<number>();
-    readonly isImage = computed(() => this.fileService.isImage(this.file()?.file));
+    readonly isImage = computed(() => this.fileService.isImage(this.file()));
     readonly removeFile = output<number>();
 
     cancelUpload(): void {

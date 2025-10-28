@@ -11,8 +11,7 @@ export const httpProviders: Provider[] = [
     { provide: UPLOAD_URL, useValue: environment.uploadUrl },
     { provide: MEDIA_ACCESS_URL, useValue: environment.mediaUrl },
     ...provideImgixLoader(environment.mediaUrl),
-
-    /* {
+    /* same as provideImgixLoader() {
         provide: IMAGE_LOADER,
         useValue: (config: ImageLoaderConfig) => {
             const mediaUrl = inject(MEDIA_ACCESS_URL);

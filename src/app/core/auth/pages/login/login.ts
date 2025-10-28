@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -35,19 +35,20 @@ export class Login {
 
     protected readonly hidePassword = signal(true);
 
-    clickEvent(event: MouseEvent) {
+    protected clickEvent(event: MouseEvent) {
         this.hidePassword.set(!this.hidePassword());
         event.stopPropagation();
     }
 
-    loginForm = this.fb.group({
+    protected loginForm = this.fb.group({
         username: ['', Validators.required],
         password: ['', Validators.required],
         otp: [''],
         rememberMe: [false, Validators.required],
     });
 
-    onSubmit(): void {
+    @HostListener('document:keydown.enter', [])
+    protected onSubmit(): void {
         this.loginForm.disable();
         console.log(this.loginForm.value);
         this.authFacade

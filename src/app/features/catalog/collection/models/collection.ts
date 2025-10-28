@@ -3,13 +3,13 @@ import { CollectionType } from './collection-type';
 
 export interface Collection {
     id?: string;
-    name?: string;
+    name: string;
     description?: string;
     type?: CollectionType;
     position?: number;
     rules?: CollectionRule[];
-    imageId?: string;
-    imageUrl?: string;
+    imageId?: string | null;
+    imagePath?: string | null;
     productIds?: string[];
     createdAt?: string;
     createdBy?: string;

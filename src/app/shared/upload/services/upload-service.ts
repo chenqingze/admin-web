@@ -8,16 +8,16 @@ import { FileInfo } from '@core/api/models';
 @Injectable({
     providedIn: 'root',
 })
-export class FileService {
+export class UploadService {
     private readonly uploadEndpoint = inject(UPLOAD_URL);
     private readonly http = inject(HttpClient);
 
     /**
      * 辅助函数：判断文件是否为图片
-     * @param file 文件
+     * @param fileInfo 文件
      */
-    isImage(file?: File | null): boolean {
-        return file?.type?.startsWith('image/') ?? false;
+    isImage(fileInfo?: UploadFileInfo | null): boolean {
+        return fileInfo?.file?.type?.startsWith('image/') || fileInfo?.type === 'IMAGE';
     }
 
     /**
@@ -37,7 +37,7 @@ export class FileService {
     }
 
     saveFile(fileInfo: UploadFileInfo) {
-        return this.http.post<FileInfo>('/images', fileInfo);
+        return this.http.post<FileInfo>('/files', fileInfo);
     }
 
     uploadAndSave(file: File): Observable<UploadFileInfo> {

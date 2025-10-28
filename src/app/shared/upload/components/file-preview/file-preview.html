@@ -1,10 +1,10 @@
 <div class="group relative h-full w-full overflow-hidden rounded-sm border-1 border-solid">
     @if (file()) {
-        <div class="flex items-center justify-center">
+        <div class="flex h-24 w-20 items-center justify-center">
             @if (isImage()) {
                 <!-- 配置可传入 with 和 height -->
                 @if (file()?.path) {
-                    <img [ngSrc]="file()!.path!" width="92" height="92" alt="image" />
+                    <img [ngSrc]="file()!.path!" alt="image" fill />
                 } @else {
                     <mat-icon>image</mat-icon>
                 }
