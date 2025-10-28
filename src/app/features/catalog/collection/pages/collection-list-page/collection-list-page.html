@@ -42,9 +42,11 @@
         <ng-container matColumnDef="imagePath">
             <th *matHeaderCellDef mat-header-cell>图片</th>
             <td *matCellDef="let row" mat-cell>
-                @if (row.imagePath) {
-                    <img [ngSrc]="row.imagePath" width="30" height="30" alt="collection image" />
-                }
+                <div class="relative h-8 w-8">
+                    @if (row.imagePath) {
+                        <img [ngSrc]="row.imagePath" fill alt="collection image" />
+                    }
+                </div>
             </td>
         </ng-container>
 
