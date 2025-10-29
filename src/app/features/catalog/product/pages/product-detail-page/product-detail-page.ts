@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
     selector: 'sa-product-detail-page',
@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
     templateUrl: './product-detail-page.html',
     styleUrl: './product-detail-page.scss',
 })
-export class ProductDetailPage {}
+export class ProductDetailPage {
+    readonly id = input<string>();
+}

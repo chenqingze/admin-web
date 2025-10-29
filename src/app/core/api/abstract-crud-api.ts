@@ -1,6 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { FilterParams, Page, PageParams } from './models';
+import { buildHttpParams } from '../utils';
 
 @Injectable({
     providedIn: 'root',
@@ -12,9 +14,15 @@ export abstract class AbstractCrudApi<T> {
     // 使用 inject 函数注入 HttpClient
     protected readonly http = inject(HttpClient);
 
-    // 获取所有记录
+    // 查询所有记录
     getAll(params?: HttpParams): Observable<T[]> {
         return this.http.get<T[]>(this.endpoint, { params });
+    }
+
+    // 分页查询
+    getPage(pageParams?: PageParams, filterParams?: FilterParams): Observable<Page<T>> {
+        const params = buildHttpParams({ ...pageParams, ...filterParams });
+        return this.http.get<Page<T>>(this.endpoint, { params });
     }
 
     // 根据 ID 获取单个记录
@@ -33,14 +41,17 @@ export abstract class AbstractCrudApi<T> {
     // 更新记录
     update(id: number | string, item: Partial<T>): Observable<T> {
         // Partial<T> 表示传入的对象结构是 T 的部分属性（用于部分更新）
-        const url = `${this.endpoint}/${id}`;
-        return this.http.put<T>(url, item); // 或使用 patch<T>(url, item) 进行局部更新
+        return this.http.put<T>(`${this.endpoint}/${id}`, item); // 或使用 patch<T>(url, item) 进行局部更新
     }
 
-    // 删除记录
+    // 删除单一资源
     delete(id: number | string): Observable<void> {
-        const url = `${this.endpoint}/${id}`;
         // 假设删除成功返回空响应体
-        return this.http.delete<void>(url);
+        return this.http.delete<void>(`${this.endpoint}/${id}`);
+    }
+
+    // 根据id批量删除
+    deleteByIds(ids: string[] | number[]): Observable<void> {
+        return this.http.delete<void>(`${this.endpoint}/${ids}`);
     }
 }

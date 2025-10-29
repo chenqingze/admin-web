@@ -62,3 +62,4 @@ For more information on using the Angular CLI, including detailed command refere
 
 [ ] 增加动画,完善视觉效果:路由切换;页面进入/离开;@if、@for 动态渲染;提交按钮动效;请求等待动画
 [ ] Material Color Utilities (MCUs) 定制主题颜色,并同步到tailwindcss
+[ ] 尝试:全局统一定义菜单信息并通过ResolveFn<菜单信息来>附加到route.data属性

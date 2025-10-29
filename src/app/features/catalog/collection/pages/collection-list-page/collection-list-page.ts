@@ -44,7 +44,9 @@ export class CollectionListPage implements AfterViewInit {
     protected dataSource = new MatTableDataSource<Collection>();
     protected displayedColumns = ['select', 'name', 'imagePath', 'actions'];
     protected selection = new SelectionModel<Collection>(true, []);
-
+    get selectedIds(): string[] {
+        return this.selection.selected.map((item) => item.id!);
+    }
     protected readonly paginatorProps = signal<PaginatorProps>({
         pageIndex: 0,
         pageSize: 5,
@@ -89,7 +91,8 @@ export class CollectionListPage implements AfterViewInit {
     protected openDialog(id?: string) {
         const dialogRef = this.dialog.open(CollectionFormDialog, {
             data: id,
-            width: '520px',
+            width: '560px',
+            maxWidth: '720px',
             maxHeight: 'calc(100vw - 32px)',
         });
 
@@ -101,7 +104,7 @@ export class CollectionListPage implements AfterViewInit {
         });
     }
 
-    protected onDeleteCollection(id: string) {
+    protected delete(id: string) {
         this.collectionService.delete(id).subscribe({
             next: () => {
                 this.snackBar.open('删除成功', '关闭', {
@@ -109,6 +112,7 @@ export class CollectionListPage implements AfterViewInit {
                     horizontalPosition: 'center',
                     verticalPosition: 'top',
                 });
+                this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
             },
             error: () =>
                 this.snackBar.open('删除失败，请稍后再试', '关闭', {
@@ -116,5 +120,9 @@ export class CollectionListPage implements AfterViewInit {
                     panelClass: ['snack-error'],
                 }),
         });
+    }
+
+    protected deleteSelected() {
+        this.collectionService.deleteByIds(this.selectedIds);
     }
 }

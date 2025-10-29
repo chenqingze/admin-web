@@ -1,11 +1,13 @@
-<form class="flex gap-4">
+<div class="flex items-baseline gap-2">
     <mat-form-field>
-        <mat-label>Filter</mat-label>
-        <input matInput placeholder="Ex. Mia" />
+        <mat-label>条件</mat-label>
+        <input matInput placeholder="" />
     </mat-form-field>
-    <button type="submit" matButton="filled">搜索</button>
-    <button type="button" matButton="filled" class="ms-auto" (click)="openDialog()">新增</button>
-</form>
+    <button type="button" matButton="filled">搜索</button>
+    <span class="flex-auto"></span>
+    <button type="button" matButton="tonal" (click)="deleteSelected()">批量删除</button>
+    <button type="button" matButton="filled" (click)="openDialog()">新增</button>
+</div>
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" aria-label="collections">
         <!-- Checkbox Column -->
@@ -57,7 +59,7 @@
                 <button mat-icon-button type="button" (click)="openDialog(element.id)">
                     <mat-icon>edite</mat-icon>
                 </button>
-                <button mat-icon-button type="button" (click)="onDeleteCollection(element.id)">
+                <button mat-icon-button type="button" (click)="delete(element.id)">
                     <mat-icon>delete</mat-icon>
                 </button>
             </td>

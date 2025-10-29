@@ -18,7 +18,19 @@ export const appConfig: ApplicationConfig = {
         ...httpProviders,
         authProvider,
         provideAuthInitializer,
-        provideRouter(routes, withComponentInputBinding(), withViewTransitions() /*, withDebugTracing()*/),
+        provideRouter(
+            routes,
+            withComponentInputBinding(),
+            withViewTransitions(),
+            /*withNavigationErrorHandler((error) => {
+                const router = inject(Router);
+                if (error?.message) {
+                    console.error('Navigation error occurred:', error.message);
+                }
+                router.navigate(['/error']);
+            }),*/
+            /*, withDebugTracing()*/
+        ),
         provideHttpClient(withInterceptors([baseUrlInterceptor, authInterceptor, errorInterceptor])),
     ],
 };

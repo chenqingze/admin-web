@@ -51,6 +51,45 @@ export const routes: Routes = [
                         },
                     },
                     {
+                        path: 'products/add',
+                        loadComponent: () =>
+                            import('@features/catalog/product/pages/product-add-page/product-add-page').then(
+                                (m) => m.ProductAddPage,
+                            ),
+                        title: '新增商品',
+                        data: {
+                            perms: ['product:view'],
+                            icon: 'inventory_2',
+                            showInMenu: false,
+                        },
+                    },
+                    {
+                        path: 'products/:id',
+                        loadComponent: () =>
+                            import('@features/catalog/product/pages/product-detail-page/product-detail-page').then(
+                                (m) => m.ProductDetailPage,
+                            ),
+                        title: '商品详情',
+                        data: {
+                            perms: ['product:view'],
+                            icon: 'inventory_2',
+                            showInMenu: false,
+                        },
+                    },
+                    {
+                        path: 'products/:id/edit',
+                        loadComponent: () =>
+                            import('@features/catalog/product/pages/product-edit-page/product-edit-page').then(
+                                (m) => m.ProductEditPage,
+                            ),
+                        title: '编辑商品',
+                        data: {
+                            perms: ['product:view'],
+                            icon: 'inventory_2',
+                            showInMenu: false,
+                        },
+                    },
+                    {
                         path: 'collections',
                         loadComponent: () =>
                             import('@features/catalog/collection/pages/collection-list-page/collection-list-page').then(
