@@ -18,11 +18,7 @@
 
     @if (item().children) {
         <span matListItemMeta>
-            @if (nestedMenuOpened()) {
-                <mat-icon>expand_less</mat-icon>
-            } @else {
-                <mat-icon>expand_more</mat-icon>
-            }
+            <mat-icon [style.transform]="nestedMenuOpened() ? 'rotate(90deg)' : ''">keyboard_arrow_right</mat-icon>
         </span>
     }
 </a>

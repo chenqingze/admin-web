@@ -1,9 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpEventType, HttpProgressEvent } from '@angular/common/http';
-import { UPLOAD_URL } from '@core/api/http-providers';
-import { UploadFileInfo, UploadFileResponse } from '../models';
 import { catchError, map, Observable, of, switchMap } from 'rxjs';
-import { FileInfo } from '@core/api/models';
+import { FileInfo, UPLOAD_URL } from '@api';
+import { UploadFileInfo, UploadFileResponse } from '../models';
 
 @Injectable({
     providedIn: 'root',

@@ -1,13 +1,10 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { provideAuthInitializer } from '@core/init/auth-initializer';
-import { baseUrlInterceptor } from '@core/api/interceptors/base-url-interceptor';
-import { authInterceptor } from '@core/auth/interceptors/auth-interceptor';
-import { errorInterceptor } from '@core/api/interceptors/error-interceptor';
-import { authProvider } from '@core/auth/auth-provider';
-import { uiProviders } from '@core/ui/ui-providers';
-import { httpProviders } from '@core/api/http-providers';
+import { uiProviders } from '@ui';
+import { baseUrlInterceptor, errorInterceptor, httpProviders } from '@api';
+import { authInterceptor, authProvider } from '@auth';
+import { provideAuthInitializer } from '@core/init';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {

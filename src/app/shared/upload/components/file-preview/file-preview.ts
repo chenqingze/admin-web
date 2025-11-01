@@ -17,7 +17,12 @@ export class FilePreview {
     readonly file = input<UploadFileInfo | null>();
     readonly fileIndex = input.required<number>();
     readonly isImage = computed(() => this.fileService.isImage(this.file()));
-    readonly removeFile = output<number>();
+    readonly remove = output<number>();
+
+    removeFile(event: MouseEvent) {
+        event.stopPropagation();
+        this.remove.emit(this.fileIndex());
+    }
 
     cancelUpload(): void {
         this.fileService.cancelUpload(this.file()!);

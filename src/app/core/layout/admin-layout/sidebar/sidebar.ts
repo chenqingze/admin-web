@@ -2,16 +2,17 @@ import { Component, inject, signal } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
-import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Route, Router } from '@angular/router';
-import { SideMenuItem } from './side-menu-item/side-menu-item';
-import { LayoutStore } from '../../services/layout-store';
-import { RouteExtraData } from '../../../routing/models';
 import { MenuItem } from '../../models';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { LayoutStore } from '../../services';
+import { RouteExtraData } from '../../../routing';
+import { SideMenuItem } from './side-menu-item';
 
 @Component({
     selector: 'sa-sidebar',
-    imports: [CommonModule, MatListModule, MatToolbarModule, MatSlideToggleModule, SideMenuItem],
+    imports: [CommonModule, MatListModule, MatToolbarModule, MatButtonModule, SideMenuItem, MatIconModule],
     templateUrl: './sidebar.html',
     styleUrl: './sidebar.scss',
 })
@@ -29,10 +30,11 @@ export class Sidebar {
         this.menuItems.set(this.buildMenu(routes));
     }
 
-    onCanCollapseValueChange(event: MatSlideToggleChange) {
-        this.layoutStore.setCanCollapse(event.checked);
+    toggleCanCollapse() {
+        this.layoutStore.toggleCanCollapse();
     }
 
+    // todo:目前是前端从路由动态生成菜单并根据权限过滤菜单,后面完善支持后端管理菜单
     private buildMenu(routes: Route[], parentPath = ''): MenuItem[] {
         const items: MenuItem[] = [];
         for (const r of routes) {

@@ -12,19 +12,28 @@
         "isolatedModules": true,
         "experimentalDecorators": true,
         "importHelpers": true,
+        "forceConsistentCasingInFileNames": true,
         "target": "ES2022",
         "module": "preserve",
         "baseUrl": "./src",
         "paths": {
             "@app/*": ["app/*"],
+            "@api": ["app/core/api"],
+            "@api/*": ["app/core/api/*"],
             "@assets/*": ["assets/*"],
-            "@env/*": ["environments/*"],
+            "@auth": ["app/core/auth"],
+            "@auth/*": ["app/core/auth/*"],
             "@core/*": ["app/core/*"],
+            "@env/*": ["environments/*"],
             "@features/*": ["app/features/*"],
-            "@shared/*": ["app/shared/*"],
-            "@styles/*": ["styles/*"],
             "@models": ["app/core/models"],
-            "@models/*": ["app/core/models/*"]
+            "@models/*": ["app/core/models/*"],
+            "@shared/*": ["app/shared/*"],
+            "@ui": ["app/core/ui"],
+            "@ui/*": ["app/core/ui/*"],
+            "@utils": ["app/core/utils"],
+            "@utils/*": ["app/core/utils/*"],
+            "@styles/*": ["styles/*"]
         }
     },
     "angularCompilerOptions": {

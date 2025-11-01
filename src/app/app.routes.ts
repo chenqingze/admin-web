@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from '@core/auth/guards/auth-guard';
-import { guestGuard } from '@core/auth/guards/guest-guard';
+import { authGuard, guestGuard } from '@auth';
 
 export const routes: Routes = [
     // admin
@@ -9,7 +8,7 @@ export const routes: Routes = [
         canActivate: [authGuard],
         loadComponent: () => import('./core/layout/admin-layout/admin-layout').then((m) => m.AdminLayout),
         data: {
-            perms: ['dashboard'],
+            perm: 'dashboard',
             icon: 'dashboard',
             showInMenu: true,
             isLayout: true,
@@ -21,7 +20,7 @@ export const routes: Routes = [
                 title: '仪表盘',
                 loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
                 data: {
-                    perms: ['dashboard'],
+                    perm: 'dashboard',
                     icon: 'dashboard',
                     showInMenu: true,
                 },
@@ -31,7 +30,7 @@ export const routes: Routes = [
                 path: 'catalog',
                 title: '商品目录',
                 data: {
-                    perms: ['catalog'],
+                    perm: 'catalog',
                     icon: 'category',
                     showInMenu: true,
                     isVirtual: true,
@@ -45,7 +44,7 @@ export const routes: Routes = [
                             ),
                         title: '商品管理',
                         data: {
-                            perms: ['product:list'],
+                            perm: 'product:list',
                             icon: 'inventory_2',
                             showInMenu: true,
                         },
@@ -58,7 +57,7 @@ export const routes: Routes = [
                             ),
                         title: '新增商品',
                         data: {
-                            perms: ['product:view'],
+                            perm: 'product:view',
                             icon: 'inventory_2',
                             showInMenu: false,
                         },
@@ -71,7 +70,7 @@ export const routes: Routes = [
                             ),
                         title: '商品详情',
                         data: {
-                            perms: ['product:view'],
+                            perm: 'product:view',
                             icon: 'inventory_2',
                             showInMenu: false,
                         },
@@ -84,7 +83,7 @@ export const routes: Routes = [
                             ),
                         title: '编辑商品',
                         data: {
-                            perms: ['product:view'],
+                            perm: 'product:view',
                             icon: 'inventory_2',
                             showInMenu: false,
                         },
@@ -99,7 +98,7 @@ export const routes: Routes = [
                         data: {
                             icon: 'widgets',
                             showInMenu: true,
-                            perms: ['collection:list'],
+                            perm: 'collection:list',
                         },
                     },
                     {
@@ -110,7 +109,7 @@ export const routes: Routes = [
                             ),
                         title: '品牌管理',
                         data: {
-                            perms: ['brand:list'],
+                            perm: 'brand:list',
                             icon: 'branding_watermark',
                             showInMenu: true,
                         },
@@ -122,7 +121,7 @@ export const routes: Routes = [
             //     path: 'orders',
             //     title: '订单管理',
             //     data: {
-            //         perms: ['order'],
+            //         perm: 'order',
             //         icon: 'receipt_long',
             //         showInMenu: true,
             //     },
@@ -131,7 +130,7 @@ export const routes: Routes = [
             //             path: '',
             //             title: '订单列表',
             //             data: {
-            //                 perms: ['order:list'],
+            //                 perm: 'order:list',
             //                 icon: 'list_alt',
             //                 showInMenu: true,
             //             },
@@ -140,7 +139,7 @@ export const routes: Routes = [
             //             path: 'refunds',
             //             title: '退款管理',
             //             data: {
-            //                 perms: ['refunds:list'],
+            //                 perm: 'refunds:list',
             //                 icon: 'receipt_long',
             //                 showInMenu: true,
             //             },
@@ -149,7 +148,7 @@ export const routes: Routes = [
             //             path: 'delivery',
             //             title: '配送管理',
             //             data: {
-            //                 perms: ['delivery:list'],
+            //                 perm: 'delivery:list',
             //                 icon: 'delivery_long',
             //                 showInMenu: true,
             //             },
@@ -161,7 +160,7 @@ export const routes: Routes = [
             //     path: 'customer',
             //     title: '客户/会员管理',
             //     data: {
-            //         perms: ['customer:list'],
+            //         perm: 'customer:list',
             //         icon: 'people',
             //         showInMenu: true,
             //     },
@@ -171,7 +170,7 @@ export const routes: Routes = [
             //     path: 'inventory',
             //     title: '库存管理',
             //     data: {
-            //         perms: ['inventory:list'],
+            //         perm: 'inventory:list',
             //         icon: 'inventory',
             //         showInMenu: true,
             //     },
@@ -181,7 +180,7 @@ export const routes: Routes = [
             //     path: 'payment',
             //     title: '支付管理',
             //     data: {
-            //         perms: ['payment:list'],
+            //         perm: 'payment:list',
             //         icon: 'payment',
             //         showInMenu: true,
             //     },
@@ -191,7 +190,7 @@ export const routes: Routes = [
             //     path: 'promotions',
             //     title: '促销管理',
             //     data: {
-            //         perms: ['promotion'],
+            //         perm: 'promotion',
             //         icon: 'campaign',
             //         showInMenu: true,
             //     },
@@ -200,7 +199,7 @@ export const routes: Routes = [
             //             path: 'coupon',
             //             title: '优惠券',
             //             data: {
-            //                 perms: ['coupon:list'],
+            //                 perm: 'coupon:list',
             //                 icon: 'card_giftcard',
             //                 showInMenu: true,
             //             },
@@ -209,7 +208,7 @@ export const routes: Routes = [
             //             path: 'discount',
             //             title: '满减/折扣活动',
             //             data: {
-            //                 perms: ['discount:list'],
+            //                 perm: 'discount:list',
             //                 icon: 'discount',
             //                 showInMenu: true,
             //             },
@@ -221,7 +220,7 @@ export const routes: Routes = [
             //     path: 'reports',
             //     title: '满减/折扣活动',
             //     data: {
-            //         perms: ['report:list'],
+            //         perm: 'report:list',
             //         icon: 'bar_chart',
             //         showInMenu: true,
             //     },
@@ -230,7 +229,7 @@ export const routes: Routes = [
             //             path: 'discount',
             //             title: '销售报表',
             //             data: {
-            //                 perms: ['report:sales'],
+            //                 perm: 'report:sales',
             //                 icon: 'attach_money',
             //                 showInMenu: true,
             //             },
@@ -239,7 +238,7 @@ export const routes: Routes = [
             //             path: 'inventory',
             //             title: '库存报表',
             //             data: {
-            //                 perms: ['report:inventory'],
+            //                 perm: 'report:inventory',
             //                 icon: 'assessment',
             //                 showInMenu: true,
             //             },
@@ -248,7 +247,7 @@ export const routes: Routes = [
             //             path: 'c-analysis',
             //             title: '用户分析',
             //             data: {
-            //                 perms: ['report:customer_analysis'],
+            //                 perm: 'report:customer_analysis',
             //                 icon: 'insights',
             //                 showInMenu: true,
             //             },
@@ -260,7 +259,7 @@ export const routes: Routes = [
             //     path: 'settings',
             //     title: '系统设置',
             //     data: {
-            //         perms: ['settings'],
+            //         perm: 'settings',
             //         icon: 'settings',
             //         showInMenu: true,
             //     },
@@ -269,7 +268,7 @@ export const routes: Routes = [
             //             path: 'permissions',
             //             title: '权限配置',
             //             data: {
-            //                 perms: ['permission:list'],
+            //                 perm: 'permission:list',
             //                 icon: 'security',
             //                 showInMenu: true,
             //             },
@@ -278,7 +277,7 @@ export const routes: Routes = [
             //             path: 'roles',
             //             title: '角色管理',
             //             data: {
-            //                 perms: ['role:list'],
+            //                 perm: 'role:list',
             //                 icon: 'permission',
             //                 showInMenu: true,
             //             },
@@ -287,7 +286,7 @@ export const routes: Routes = [
             //             path: 'params',
             //             title: '系统参数',
             //             data: {
-            //                 perms: ['param:list'],
+            //                 perm: 'param:list',
             //                 icon: 'tune',
             //                 showInMenu: true,
             //             },
@@ -301,7 +300,7 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./features/demo/address-form/address-form.component').then((m) => m.AddressFormComponent),
                 data: {
-                    perms: ['address'],
+                    perm: 'address',
                     icon: 'address',
                     showInMenu: true,
                 },
@@ -312,7 +311,7 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./features/demo/drag-drag/drag-drag.component').then((m) => m.DragDragComponent),
                 data: {
-                    perms: ['drag-drag'],
+                    perm: 'drag-drag',
                     icon: 'drag-drag',
                     showInMenu: true,
                 },
@@ -323,7 +322,7 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./features/demo/navigation/navigation.component').then((m) => m.NavigationComponent),
                 data: {
-                    perms: ['navigation'],
+                    perm: 'navigation',
                     icon: 'navigation',
                     showInMenu: true,
                 },
@@ -333,7 +332,7 @@ export const routes: Routes = [
                 title: 'table',
                 loadComponent: () => import('./features/demo/table/table.component').then((m) => m.TableComponent),
                 data: {
-                    perms: ['table'],
+                    perm: 'table',
                     icon: 'table',
                     showInMenu: true,
                 },
@@ -343,7 +342,7 @@ export const routes: Routes = [
                 title: 'tree',
                 loadComponent: () => import('./features/demo/tree/tree.component').then((m) => m.TreeComponent),
                 data: {
-                    perms: ['tree'],
+                    perm: 'tree',
                     icon: 'tree',
                     showInMenu: true,
                 },

@@ -1,11 +1,15 @@
 <aside>
-    <mat-toolbar class="justify-center gap-2 px-4">
+    <div class="flex items-center justify-center gap-2 px-4">
         <span>😊</span>
-        <span class="hide-header-element flex gap-2" [class.hide-header-element]="isCollapsed()">
+        <span class="hide-header-element flex items-center gap-2" [class.hide-header-element]="isCollapsed()">
             <span>Shop Admin</span>
-            <mat-slide-toggle hideIcon [checked]="canCollapse()" (change)="onCanCollapseValueChange($event)" />
+            <button matIconButton type="button" (click)="toggleCanCollapse()">
+                <mat-icon [style.transform]="canCollapse() ? 'rotate(90deg)' : 'rotate(-90deg)'">
+                    expand_circle_down
+                </mat-icon>
+            </button>
         </span>
-    </mat-toolbar>
+    </div>
     <mat-nav-list>
         @for (item of menuItems(); track item) {
             <sa-side-menu-item [item]="item" />

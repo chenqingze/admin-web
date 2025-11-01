@@ -3,22 +3,24 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { CollectionService } from '../../services/collection-service';
-import { Collection } from '../../models/collection';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { PaginatorProps } from '@core/ui/models';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { CollectionFormDialog } from './dialogs/collection-form-dialog/collection-form-dialog';
 import { NgOptimizedImage } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { Collection } from '@models';
+import { PaginatorProps } from '@ui';
 
 @Component({
     selector: 'sa-collection-list-page',
     imports: [
+        MatCardModule,
         MatFormFieldModule,
         MatInputModule,
         MatIconModule,

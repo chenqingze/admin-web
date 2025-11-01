@@ -1,8 +1,6 @@
 import { inject, InjectionToken, Provider } from '@angular/core';
 import { environment } from '@env/environment';
-import { JwtAuth } from './services/strategies/jwt-auth';
-import { SessionAuth } from './services/strategies/session-auth';
-import { AuthStrategy } from './services/strategies/auth-strategy';
+import { AuthStrategy, JwtAuth, SessionAuth } from '../services';
 
 export const AUTH_STRATEGY = new InjectionToken<AuthStrategy>('auth strategy');
 

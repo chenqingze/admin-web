@@ -1,5 +1,5 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { AuthUser } from '../models/auth-user';
+import { AuthUser } from '../models';
 
 @Injectable({
     providedIn: 'root',
@@ -50,6 +50,9 @@ export class AuthStore {
     }
 
     setRedirectUrl(url: string | null) {
+        if (url?.startsWith('/auth')) {
+            return;
+        }
         this._redirectUrl = url;
         if (url) {
             sessionStorage.setItem(this.SESSION_STORAGE_REDIRECT_URL, url);
@@ -67,7 +70,7 @@ export class AuthStore {
     }
 
     hasPermission(permission: string): boolean {
-        return this.permissions().has(permission);
+        return this.permissions().has('ROLE_SUPER_ADMIN') || this.permissions().has(permission);
     }
 
     readonly hasPermissionSignal = (permission: string) => computed(() => this.hasPermission(permission));

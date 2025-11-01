@@ -5,8 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { Sidebar } from './sidebar/sidebar';
-import { LayoutStore } from '../services/layout-store';
 import { Header } from './header/header';
+import { LayoutStore } from '../services';
 
 @Component({
     selector: 'sa-admin-layout',

@@ -4,10 +4,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Collection } from '@models';
+import { Upload, UploadFileInfo } from '@shared/upload';
 import { CollectionService } from '../../../../services/collection-service';
-import { Upload } from '@shared/upload/upload';
-import { UploadFileInfo } from '@shared/upload/models';
-import { Collection } from '../../../../models/collection';
 
 @Component({
     selector: 'sa-collection-form-dialog',

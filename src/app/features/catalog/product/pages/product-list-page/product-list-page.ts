@@ -10,14 +10,16 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { SelectionModel } from '@angular/cdk/collections';
-import { PaginatorProps } from '@core/ui/models';
 import { ProductService } from '../../services/product-service';
-import { Product } from '../../models/product';
 import { RouterLink } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { Product } from '@models';
+import { PaginatorProps } from '@ui';
 
 @Component({
     selector: 'sa-product-list-page',
     imports: [
+        MatCardModule,
         MatFormFieldModule,
         MatInputModule,
         MatIconModule,

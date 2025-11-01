@@ -1,1 +1,69 @@
-<p>product-add-page works!</p>
+<form [formGroup]="productForm" class="flex flex-col gap-4">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>基本信息</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="flex gap-2 pt-4">
+                <div class="flex flex-8 flex-col gap-2">
+                    <div class="mb-4 rounded-xs border border-dashed">
+                        <sa-upload [multiple]="true" [maxFiles]="6" uploadType="drag-drop" />
+                    </div>
+
+                    <mat-form-field>
+                        <mat-label>标题</mat-label>
+                        <input matInput type="text" formControlName="name" placeholder="请输入商品标题" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>副标题</mat-label>
+                        <input matInput type="text" formControlName="caption" placeholder="请输入商品副标题" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>摘要</mat-label>
+                        <input matInput type="text" formControlName="summary" placeholder="请输入商品摘要" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>分类</mat-label>
+                        <input matInput type="text" formControlName="categoryId" placeholder="请选择商品分类" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>品牌</mat-label>
+                        <mat-select formControlName="brandId" placeholder="请选择品牌" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>销售分组</mat-label>
+                        <mat-select formControlName="collectionIds" placeholder="请选择销售分组" />
+                    </mat-form-field>
+                </div>
+                <div class="flex-4">
+                    <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+                    <ngx-editor
+                        [editor]="editor"
+                        formControlName="mobileDescription"
+                        placeholder="请输入商品详情描述"
+                        class=""
+                    ></ngx-editor>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>价格与库存</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div [formGroup]="variants!.at(0)">
+                <mat-form-field>
+                    <mat-label>市场价</mat-label>
+                    <input matInput formControlName="msrp" />
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <div class="flex w-full justify-center gap-2">
+        <button matButton="filled" type="button">保存</button>
+        <button matButton="tonal" type="button">取消</button>
+        <button matButton="outlined" type="button">重置</button>
+    </div>
+</form>

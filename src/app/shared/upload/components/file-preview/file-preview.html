@@ -1,4 +1,4 @@
-<div class="group relative h-full w-full overflow-hidden rounded-sm border-1 border-solid">
+<div class="group relative h-full w-full overflow-hidden rounded-xs border border-dashed">
     @if (file()) {
         <div class="flex h-24 w-24 items-center justify-center">
             @if (isImage()) {
@@ -17,26 +17,26 @@
         >
             @switch (file()?.status) {
                 @case ('UPLOADING') {
-                    <button matIconButton type="button" (click)="removeFile.emit(fileIndex())">
+                    <button matIconButton type="button" (click)="removeFile($event)">
                         <mat-icon>close</mat-icon>
                     </button>
                     <mat-progress-bar mode="determinate" [value]="file()?.percentage" class="!absolute bottom-0.5" />
                 }
                 @case ('SUCCESS') {
                     @if (isImage()) {
-                        <button matIconButton type="button" (click)="removeFile.emit(fileIndex())">
+                        <button matIconButton type="button" (click)="removeFile($event)">
                             <mat-icon>visibility</mat-icon>
                         </button>
                     }
-                    <button matIconButton type="button" (click)="removeFile.emit(fileIndex())">
+                    <button matIconButton type="button" (click)="removeFile($event)">
                         <mat-icon>delete_forever</mat-icon>
                     </button>
                 }
                 @case ('ERROR') {
-                    <button matIconButton type="button" (click)="removeFile.emit(fileIndex())">
+                    <button matIconButton type="button" (click)="removeFile($event)">
                         <mat-icon>close</mat-icon>
                     </button>
-                    <button matIconButton type="button" (click)="removeFile.emit(fileIndex())">
+                    <button matIconButton type="button" (click)="removeFile($event)">
                         <mat-icon>refresh</mat-icon>
                     </button>
                 }

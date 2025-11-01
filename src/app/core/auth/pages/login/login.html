@@ -6,7 +6,7 @@
         <mat-card-content>
             <form class="flex w-full flex-col" [formGroup]="loginForm">
                 <mat-form-field>
-                    <mat-label>用户名</mat-label>
+                    <mat-label>用户名*</mat-label>
                     <input
                         matInput
                         formControlName="username"
@@ -14,9 +14,10 @@
                         placeholder="请输入手机号/用户名/邮箱"
                         required
                     />
+                    <mat-icon matSuffix>face</mat-icon>
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>密码</mat-label>
+                    <mat-label>密码*</mat-label>
                     <input
                         matInput
                         formControlName="password"

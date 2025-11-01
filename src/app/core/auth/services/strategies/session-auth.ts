@@ -5,8 +5,7 @@ import { Router } from '@angular/router';
 import { AuthStrategy } from './auth-strategy';
 import { AuthApi } from '../auth-api';
 import { AuthStore } from '../auth-store';
-import { AuthInfo } from '../../models/auth-info';
-import { LoginRequest } from '../../models/login-request';
+import { AuthInfo, LoginRequest } from '../../models';
 
 @Injectable({
     providedIn: 'root',

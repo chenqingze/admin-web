@@ -1,4 +1,4 @@
-import { Component, inject, input, model } from '@angular/core';
+import { booleanAttribute, Component, inject, input, model } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -6,6 +6,7 @@ import { UploadFileInfo } from './models';
 import { UploadService } from './services/upload-service';
 import { FilePreview } from './components/file-preview/file-preview';
 import { FileSelect } from '../directives/file-select';
+import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
     selector: 'sa-upload',
@@ -17,9 +18,12 @@ export class Upload {
     private readonly snackBar = inject(MatSnackBar);
     private readonly fileService = inject(UploadService);
 
-    maxFiles = input<number | null>();
-    fileList = model<UploadFileInfo[]>([]);
-    valueKey = input<'id' | 'path' | string>('id');
+    readonly multiple = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+    readonly uploadType = input<'drag-drop' | 'list-card'>('list-card');
+    readonly listCardIcon = input<string>('add');
+    readonly listCardText = input('');
+    readonly maxFiles = input<number | null>();
+    readonly fileList = model<UploadFileInfo[]>([]);
 
     /**
      * 选择文件
@@ -28,12 +32,16 @@ export class Upload {
      */
     protected onSelected(files: FileList | null) {
         console.log('onSelected', files);
-        if (!files || (this.maxFiles() && files?.length > this.maxFiles()!)) {
-            this.snackBar.open(`最多只能选择 ${this.maxFiles()} 个文件`, '', {
-                duration: 3000,
-                horizontalPosition: 'center',
-                verticalPosition: 'top',
-            });
+        if (this.maxFiles() && this.fileList().length + (files?.length ?? 0) > this.maxFiles()!) {
+            this.snackBar.open(
+                `最多只能上传 ${this.maxFiles()} 个文件,您还可以继续上传 ${this.maxFiles()! - this.fileList().length} 个文件`,
+                '',
+                {
+                    duration: 5000,
+                    horizontalPosition: 'center',
+                    verticalPosition: 'top',
+                },
+            );
             return;
         }
 
@@ -58,13 +66,13 @@ export class Upload {
      * @param index 图片索引
      * @protected
      */
-    protected onRemoveFile(index: number) {
-        // console.log('onRemoveFile', index);
+    protected onRemove(index: number) {
+        console.log('onRemoveFile', index);
         this.fileList.update((fileList) => {
             // 取消上传
             this.fileService.cancelUpload(this.fileList()[index]);
             // 删除上传文件
-            fileList.splice(index);
+            fileList.splice(index, 1);
             return fileList;
         });
     }

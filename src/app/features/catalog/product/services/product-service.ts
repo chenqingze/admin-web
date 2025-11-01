@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AbstractCrudApi } from '@core/api/abstract-crud-api';
-import { Product } from '../models/product';
+import { AbstractCrudApi } from '@api';
+import { Product } from '@models';
 
 @Injectable({
     providedIn: 'root',

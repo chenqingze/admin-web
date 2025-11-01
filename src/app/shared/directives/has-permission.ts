@@ -1,23 +1,24 @@
 import { Directive, effect, inject, input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
-import { AuthStore } from '@core/auth/services/auth-store';
+import { AuthStore } from '@auth';
 
 @Directive({
     selector: '[appHasPermission]',
 })
 export class HasPermission implements OnInit {
-    readonly appHasPermission = input<string | string[]>([]);
+    readonly appHasPermission = input<string>();
     private readonly templateRef = inject(TemplateRef);
     private readonly viewContainer = inject(ViewContainerRef);
     private readonly authStore = inject(AuthStore);
 
     ngOnInit() {
         effect(() => {
-            const perms = this.appHasPermission();
-            if (!perms) return;
+            const perm = this.appHasPermission();
+            if (!perm) return;
 
-            const allowed = Array.isArray(perms)
+            /*const allowed = Array.isArray(perms)
                 ? perms.some((p) => this.authStore.hasPermissionSignal(p)())
-                : this.authStore.hasPermissionSignal(perms)();
+                : this.authStore.hasPermissionSignal(perms)();*/
+            const allowed = this.authStore.hasPermissionSignal(perm)();
 
             this.viewContainer.clear();
 

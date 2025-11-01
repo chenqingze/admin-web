@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { EMPTY, iif, Observable } from 'rxjs';
 import { HttpErrorResponse, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { AuthStore } from './auth-store';
-import { AUTH_STRATEGY } from '../auth-provider';
 import { AuthInfo, LoginRequest } from '../models';
+import { AUTH_STRATEGY } from '../providers';
 
 @Injectable({
     providedIn: 'root',

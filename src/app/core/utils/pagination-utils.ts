@@ -1,5 +1,5 @@
-import { Pageable } from '../api/models';
-import { PaginatorProps } from '../ui/models';
+import { Pageable } from '../api';
+import { PaginatorProps } from '../ui';
 
 /**
  * 后端分页数据转换

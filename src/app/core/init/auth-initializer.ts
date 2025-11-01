@@ -1,5 +1,5 @@
 import { inject, provideAppInitializer } from '@angular/core';
-import { AuthFacade } from '../auth/services/auth-facade';
+import { AuthFacade } from '@auth';
 
 export const provideAuthInitializer = provideAppInitializer(() => {
     const authFacade = inject(AuthFacade);
