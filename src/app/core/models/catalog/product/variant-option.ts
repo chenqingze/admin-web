@@ -1,10 +1,7 @@
-export interface VariantOption {
-    id?: string;
+import { BaseModel } from '../../base-model';
+
+export interface VariantOption extends BaseModel {
+    id: string | null;
     name: string;
     values: string[];
-    createdAt?: string;
-    createdBy?: string;
-    modifiedAt?: string;
-    modifiedBy?: string;
-    deletedAt?: string;
 }

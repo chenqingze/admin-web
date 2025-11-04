@@ -24,6 +24,10 @@
             "@auth": ["app/core/auth"],
             "@auth/*": ["app/core/auth/*"],
             "@core/*": ["app/core/*"],
+            "@components": ["app/shared/components"],
+            "@components/*": ["app/shared/components/*"],
+            "@directives": ["app/shared/directives"],
+            "@directives/*": ["app/shared/directives/*"],
             "@env/*": ["environments/*"],
             "@features/*": ["app/features/*"],
             "@models": ["app/core/models"],
@@ -33,7 +37,9 @@
             "@ui/*": ["app/core/ui/*"],
             "@utils": ["app/core/utils"],
             "@utils/*": ["app/core/utils/*"],
-            "@styles/*": ["styles/*"]
+            "@styles/*": ["styles/*"],
+            "@validators": ["app/shared/validators"],
+            "@validators/*": ["app/shared/validators/*"]
         }
     },
     "angularCompilerOptions": {

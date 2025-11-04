@@ -94,7 +94,7 @@ export const routes: Routes = [
                             import('@features/catalog/collection/pages/collection-list-page/collection-list-page').then(
                                 (m) => m.CollectionListPage,
                             ),
-                        title: '商品分类',
+                        title: '商品分组',
                         data: {
                             icon: 'widgets',
                             showInMenu: true,

@@ -2,6 +2,6 @@ export const WEIGHT_UNIT_TYPE_OPTIONS = ['GRAMS', 'KILOGRAMS', 'TONS', 'POUNDS']
 export type WeightUnitType = (typeof WEIGHT_UNIT_TYPE_OPTIONS)[number];
 
 export interface Weight {
-    weightValue?: number | null;
-    weightUnit?: WeightUnitType | null;
+    weightValue: number | null;
+    weightUnit: WeightUnitType | null;
 }

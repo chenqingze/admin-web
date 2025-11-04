@@ -3,10 +3,11 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Collection } from '@models';
 import { Upload, UploadFileInfo } from '@shared/upload';
 import { CollectionService } from '../../../../services/collection-service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
     selector: 'sa-collection-form-dialog',
@@ -15,7 +16,7 @@ import { CollectionService } from '../../../../services/collection-service';
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
-        FormsModule,
+        MatCheckboxModule,
         ReactiveFormsModule,
         Upload,
     ],
@@ -32,6 +33,7 @@ export class CollectionFormDialog {
     protected readonly collectionForm = new FormGroup({
         name: new FormControl('', [Validators.required]),
         imageId: new FormControl(),
+        visible: new FormControl(true),
     });
 
     constructor() {
@@ -42,15 +44,15 @@ export class CollectionFormDialog {
         });
         if (this.data) {
             this.collectionService.getById(this.data).subscribe((collection) => {
-                const { id, name, imageId, imagePath } = collection;
-                this.id.set(id);
+                const { id, name, imageId, imagePath, visible } = collection;
+                this.id.set(id!);
                 if (imageId && imagePath) {
                     this.imageList.update((items) => [
                         ...items,
                         { id: imageId, path: imagePath, type: 'IMAGE', status: 'SUCCESS' } as UploadFileInfo,
                     ]);
                 }
-                this.collectionForm.setValue({ name: name, imageId });
+                this.collectionForm.setValue({ name: name, imageId, visible });
             });
         }
     }

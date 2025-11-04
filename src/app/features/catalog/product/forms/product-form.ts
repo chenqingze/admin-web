@@ -1,17 +1,17 @@
-import { FormBuilder } from '@angular/forms';
-import { Product } from '@models';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Product, ProductStatus } from '@models';
 import { createVariantOptionFormGroup, VariantOptionFormGroup } from './variant-option-form';
 import { createVariantFormGroup, VariantFromGroup } from './variant-from';
 
 export function creatProductFormGroup(fb: FormBuilder, data?: Product) {
     const {
         id = null,
-        name = null,
+        name = '',
         caption = null,
         summary = null,
         desktopDescription = null,
         mobileDescription = null,
-        status = null,
+        status = 'DRAFT' as ProductStatus,
         images = [],
         imageIds = [],
         brandId = null,
@@ -20,7 +20,7 @@ export function creatProductFormGroup(fb: FormBuilder, data?: Product) {
     } = data || {};
     return fb.group({
         id: [id],
-        name: [name],
+        name: [name, Validators.required],
         caption: [caption],
         summary: [summary],
         desktopDescription: [desktopDescription],

@@ -1,29 +1,25 @@
 import { Dimension } from './dimension';
 import { Weight } from './weight';
+import { BaseModel } from '../../base-model';
 
-export interface Variant {
-    id?: string;
-    sku?: string;
-    barcode?: string;
-    msrp?: number | null;
-    price?: number | null;
-    rollbackPrice?: number | null;
-    cost?: number | null;
-    orderMinQty?: number;
-    orderMaxQty?: number;
-    availableQty?: number | null;
-    dimension?: Dimension;
-    weight?: Weight;
-    isPrimary?: boolean;
-    option1Value?: string | null;
-    option2Value?: string | null;
-    option3Value?: string | null;
-    mainImageId?: string;
-    mainImagePath?: string;
-    productId?: string;
-    createdAt?: string;
-    createdBy?: string;
-    modifiedAt?: string;
-    modifiedBy?: string;
-    deletedAt?: string;
+export interface Variant extends BaseModel {
+    id: string | null;
+    sku: string | null;
+    barcode: string | null;
+    msrp: number | null;
+    price: number | null;
+    rollbackPrice: number | null;
+    cost: number | null;
+    orderMinQty: number | null;
+    orderMaxQty: number | null;
+    availableQty: number | null;
+    dimension: Dimension | null;
+    weight: Weight | null;
+    isPrimary: boolean;
+    option1Value: string | null;
+    option2Value: string | null;
+    option3Value: string | null;
+    mainImageId: string | null;
+    mainImagePath: string | null;
+    productId: string | null;
 }

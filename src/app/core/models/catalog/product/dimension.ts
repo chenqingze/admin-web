@@ -2,8 +2,8 @@ export const DIMENSION_UNIT_TYPE_OPTIONS = ['CENTIMETERS', 'METERS', 'INCHES', '
 export type DimensionUnitType = (typeof DIMENSION_UNIT_TYPE_OPTIONS)[number];
 
 export interface Dimension {
-    length?: number | null;
-    height?: number | null;
-    width?: number | null;
-    dimensionUnit?: DimensionUnitType | null;
+    length: number | null;
+    height: number | null;
+    width: number | null;
+    dimensionUnit: DimensionUnitType | null;
 }

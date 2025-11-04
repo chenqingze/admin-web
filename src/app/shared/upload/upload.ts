@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UploadFileInfo } from './models';
-import { UploadService } from './services/upload-service';
-import { FilePreview } from './components/file-preview/file-preview';
-import { FileSelect } from '../directives/file-select';
 import { BooleanInput } from '@angular/cdk/coercion';
+import { FileSelect } from '../directives';
+import { UploadService } from './services';
+import { FilePreview } from './components';
 
 @Component({
     selector: 'sa-upload',
