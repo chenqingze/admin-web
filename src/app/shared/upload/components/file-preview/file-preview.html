@@ -1,6 +1,6 @@
-<div class="group relative h-full w-full overflow-hidden rounded-xs border border-dashed">
+<div class="group relative h-full w-full overflow-hidden rounded-xs border border-dashed hover:ring-2">
     @if (file()) {
-        <div class="flex h-24 w-24 items-center justify-center">
+        <div class="flex items-center justify-center">
             @if (isImage()) {
                 <!-- 配置可传入 with 和 height -->
                 @if (file()?.path) {

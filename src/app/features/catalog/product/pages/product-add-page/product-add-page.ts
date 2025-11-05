@@ -1,9 +1,9 @@
-import { Component, effect, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
@@ -15,7 +15,7 @@ import {
     VariantFromGroup,
     VariantOptionFormGroup,
 } from '../../forms';
-import { Upload } from '@shared/upload';
+import { Upload, UploadFileInfo } from '@shared/upload';
 import { DecimalPlaces } from '@directives';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -23,7 +23,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipEditedEvent, MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Variant, VariantOption } from '@models';
+import { Product, Variant, VariantOption } from '@models';
+import { MatDialog } from '@angular/material/dialog';
+import { ImageSelectorDialog } from '../../dialogs/image-selector-dialog/image-selector-dialog';
+import { Subject, takeUntil } from 'rxjs';
+import { ProductService } from '../../services/product-service';
 
 @Component({
     selector: 'sa-product-add-page',
@@ -45,11 +49,16 @@ import { Variant, VariantOption } from '@models';
         Upload,
         NgxEditorModule,
         DecimalPlaces,
+        NgOptimizedImage,
     ],
     templateUrl: './product-add-page.html',
     styleUrl: './product-add-page.scss',
 })
 export class ProductAddPage implements OnInit, OnDestroy {
+    private readonly dialog = inject(MatDialog);
+    private readonly cd = inject(ChangeDetectorRef);
+    private readonly productService = inject(ProductService);
+
     protected editor!: Editor;
     protected toolbar: Toolbar = [
         ['bold', 'italic'],
@@ -61,11 +70,9 @@ export class ProductAddPage implements OnInit, OnDestroy {
         ['align_left', 'align_center', 'align_right', 'align_justify'],
     ];
 
-    protected variantMode = signal<'single' | 'multiple'>('single');
+    protected readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
-    readonly separatorKeysCodes = [ENTER, COMMA] as const;
-
-    readonly displayedColumns = ['image', 'name', 'msrp', 'price', 'rollbackPrice', 'cost', 'availableQty'];
+    protected readonly displayedColumns = ['image', 'name', 'msrp', 'price', 'rollbackPrice', 'cost', 'availableQty'];
 
     private readonly fb = inject(FormBuilder);
 
@@ -79,19 +86,32 @@ export class ProductAddPage implements OnInit, OnDestroy {
         return this.productForm.get('variants') as FormArray<VariantFromGroup>;
     }
 
+    protected readonly variantMode = signal<'single' | 'multiple'>('single');
+
+    protected readonly imageList = signal<UploadFileInfo[]>([]);
+
+    private ngUnsubscribe$ = new Subject<void>();
+
     constructor() {
         effect(() => {
             if (this.variantMode() === 'single') {
-                this.variants.clear();
+                this.variantOptions.clear({ emitEvent: false });
+                this.variants.clear({ emitEvent: false });
                 this.variants.push(createVariantFormGroup(this.fb));
             } else if (this.variantMode() === 'multiple') {
-                this.variants.clear();
+                this.variantOptions.clear({ emitEvent: false });
+                this.variants.clear({ emitEvent: false });
             }
+        });
+        effect(() => {
+            const imageIds = this.imageList().map((image) => image.id!);
+            // console.log('this.imageList()', this.imageList());
+            this.productForm.controls.imageIds.setValue(imageIds);
         });
     }
     ngOnInit(): void {
         this.editor = new Editor();
-        this.variantOptions.valueChanges.subscribe((options) => {
+        this.variantOptions.valueChanges.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((options) => {
             const combinations = this.cartesianVariantOptions(options as VariantOption[]);
             this.variants.clear();
             combinations.forEach((combo) => {
@@ -100,12 +120,15 @@ export class ProductAddPage implements OnInit, OnDestroy {
                 this.variants.push(createVariantFormGroup(this.fb, { ...optionValues } as Partial<Variant>));
                 this.variants.controls = [...this.variants.controls];
             });
-            console.log(this.variants.value);
         });
     }
 
     ngOnDestroy(): void {
         this.editor.destroy();
+        // 在组件销毁时发出通知
+        this.ngUnsubscribe$.next();
+        // 完成 Subject
+        this.ngUnsubscribe$.complete();
     }
 
     protected addVariantOption() {
@@ -159,5 +182,30 @@ export class ProductAddPage implements OnInit, OnDestroy {
             },
             [[]],
         );
+    }
+
+    protected openImageSelectorDialog(variantCtrl: VariantFromGroup) {
+        const dialogRef = this.dialog.open(ImageSelectorDialog, {
+            data: [...this.imageList()],
+            width: '560px',
+            maxWidth: '720px',
+            maxHeight: 'calc(100vw - 32px)',
+        });
+        dialogRef.afterClosed().subscribe((image: UploadFileInfo) => {
+            if (!image) return;
+            variantCtrl?.patchValue({ mainImageId: image.id, mainImagePath: image.path });
+            this.cd.markForCheck();
+        });
+    }
+
+    protected save() {
+        console.log(this.productForm);
+        console.log(this.productForm.valid);
+        console.log(this.productForm.value);
+        if (this.productForm.valid) {
+            this.productService.create(this.productForm.value as Product).subscribe((res) => {
+                console.log(res);
+            });
+        }
     }
 }

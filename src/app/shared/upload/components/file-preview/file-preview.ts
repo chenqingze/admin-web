@@ -4,7 +4,7 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { UploadFileInfo } from '../../models';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
-import { UploadService } from '../../services/upload-service';
+import { UploadService } from '../../services';
 
 @Component({
     selector: 'sa-file-preview',

@@ -4,9 +4,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UploadFileInfo } from './models';
 import { BooleanInput } from '@angular/cdk/coercion';
-import { FileSelect } from '../directives';
 import { UploadService } from './services';
 import { FilePreview } from './components';
+import { FileSelect } from '@directives';
 
 @Component({
     selector: 'sa-upload',
@@ -18,6 +18,8 @@ export class Upload {
     private readonly snackBar = inject(MatSnackBar);
     private readonly fileService = inject(UploadService);
 
+    readonly imageWidth = input('6rem');
+    readonly imageHeight = input('6rem');
     readonly multiple = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
     readonly uploadType = input<'drag-drop' | 'list-card'>('list-card');
     readonly listCardIcon = input<string>('add');
@@ -31,7 +33,7 @@ export class Upload {
      * @protected
      */
     protected onSelected(files: FileList | null) {
-        console.log('onSelected', files);
+        // console.log('onSelected', files);
         if (this.maxFiles() && this.fileList().length + (files?.length ?? 0) > this.maxFiles()!) {
             this.snackBar.open(
                 `最多只能上传 ${this.maxFiles()} 个文件,您还可以继续上传 ${this.maxFiles()! - this.fileList().length} 个文件`,
