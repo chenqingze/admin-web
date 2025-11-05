@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>{{ data.title || '确认操作' }}</h2>
+<mat-dialog-content>
+    <p>{{ data.message }}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button type="button" mat-dialog-close>{{ data.cancelText || '取消' }}</button>
+    <button mat-button type="button" [mat-dialog-close]="true">{{ data.confirmText || '确定' }}</button>
+</mat-dialog-actions>

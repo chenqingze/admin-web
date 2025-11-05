@@ -152,11 +152,9 @@
                                             let optionValueIdx = $index
                                         ) {
                                             <mat-chip-row
-                                                (removed)="
-                                                    removeOptionValue(variantOptionIdx, optionValueIdx, optionValue)
-                                                "
+                                                (removed)="removeOptionValue(variantOptionIdx, optionValue)"
                                                 [editable]="true"
-                                                (edited)="editOptionValue(variantOptionIdx, optionValueIdx, $event)"
+                                                (edited)="editOptionValue(variantOptionIdx, $event)"
                                                 [aria-description]="'press enter to edit ' + optionValue"
                                             >
                                                 <button

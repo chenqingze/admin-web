@@ -15,6 +15,7 @@ import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { Product } from '@models';
 import { PaginatorProps } from '@ui';
+import { ConfirmDialogService } from '@shared/confirm-dialog';
 
 @Component({
     selector: 'sa-product-list-page',
@@ -38,6 +39,7 @@ import { PaginatorProps } from '@ui';
 })
 export class ProductListPage implements AfterViewInit {
     private readonly productService = inject(ProductService);
+    private readonly confirmDialogService = inject(ConfirmDialogService);
     private readonly snackBar = inject(MatSnackBar);
 
     @ViewChild(MatSort) protected sort!: MatSort;
@@ -90,24 +92,46 @@ export class ProductListPage implements AfterViewInit {
     }
 
     protected delete(id: string) {
-        this.productService.delete(id).subscribe({
-            next: () => {
-                this.snackBar.open('删除成功', '关闭', {
-                    duration: 3000,
-                    horizontalPosition: 'center',
-                    verticalPosition: 'top',
+        this.confirmDialogService.confirm('确定要删除该商品吗?').subscribe((confirmed) => {
+            if (confirmed) {
+                this.productService.delete(id).subscribe({
+                    next: () => {
+                        this.snackBar.open('删除成功', '关闭', {
+                            duration: 3000,
+                            horizontalPosition: 'center',
+                            verticalPosition: 'top',
+                        });
+                        this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
+                    },
+                    error: () =>
+                        this.snackBar.open('删除失败，请稍后再试', '关闭', {
+                            duration: 3000,
+                            panelClass: ['snack-error'],
+                        }),
                 });
-                this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
-            },
-            error: () =>
-                this.snackBar.open('删除失败，请稍后再试', '关闭', {
-                    duration: 3000,
-                    panelClass: ['snack-error'],
-                }),
+            }
         });
     }
 
     protected deleteSelected() {
-        this.productService.deleteByIds(this.selectedIds);
+        this.confirmDialogService.confirm('确定要批量删除选中的商品吗?').subscribe((confirmed) => {
+            if (confirmed) {
+                this.productService.deleteByIds(this.selectedIds).subscribe({
+                    next: () => {
+                        this.snackBar.open('删除成功', '关闭', {
+                            duration: 3000,
+                            horizontalPosition: 'center',
+                            verticalPosition: 'top',
+                        });
+                        this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
+                    },
+                    error: () =>
+                        this.snackBar.open('删除失败，请稍后再试', '关闭', {
+                            duration: 3000,
+                            panelClass: ['snack-error'],
+                        }),
+                });
+            }
+        });
     }
 }

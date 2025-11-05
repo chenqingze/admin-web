@@ -28,6 +28,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ImageSelectorDialog } from '../../dialogs/image-selector-dialog/image-selector-dialog';
 import { Subject, takeUntil } from 'rxjs';
 import { ProductService } from '../../services/product-service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'sa-product-add-page',
@@ -58,7 +59,7 @@ export class ProductAddPage implements OnInit, OnDestroy {
     private readonly dialog = inject(MatDialog);
     private readonly cd = inject(ChangeDetectorRef);
     private readonly productService = inject(ProductService);
-
+    private readonly router = inject(Router);
     protected editor!: Editor;
     protected toolbar: Toolbar = [
         ['bold', 'italic'],
@@ -101,6 +102,7 @@ export class ProductAddPage implements OnInit, OnDestroy {
             } else if (this.variantMode() === 'multiple') {
                 this.variantOptions.clear({ emitEvent: false });
                 this.variants.clear({ emitEvent: false });
+                this.variantOptions.push(createVariantOptionFormGroup(this.fb));
             }
         });
         effect(() => {
@@ -109,6 +111,7 @@ export class ProductAddPage implements OnInit, OnDestroy {
             this.productForm.controls.imageIds.setValue(imageIds);
         });
     }
+
     ngOnInit(): void {
         this.editor = new Editor();
         this.variantOptions.valueChanges.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((options) => {
@@ -118,8 +121,8 @@ export class ProductAddPage implements OnInit, OnDestroy {
                 const [option1Value, option2Value, option3Value] = combo || {};
                 const optionValues = { option1Value, option2Value, option3Value };
                 this.variants.push(createVariantFormGroup(this.fb, { ...optionValues } as Partial<Variant>));
-                this.variants.controls = [...this.variants.controls];
             });
+            this.variants.controls = [...this.variants.controls];
         });
     }
 
@@ -140,23 +143,32 @@ export class ProductAddPage implements OnInit, OnDestroy {
 
         // Add option Value
         if (value) {
-            const valuesControl = this.variantOptions.controls[variantOptionIdx].controls.values;
-            const newValues = [...(valuesControl.value ?? []), event.value];
-            valuesControl.setValue(newValues);
+            const valuesControl = this.variantOptions.at(variantOptionIdx).get('values');
+            const newValues = [...(valuesControl?.value || []), event.value];
+            valuesControl?.patchValue(newValues);
         }
 
         // Clear the input value
         event.chipInput!.clear();
     }
 
-    protected removeOptionValue(variantOptionIdx: number, optionValueIdx: number, optionValue: string) {
-        console.log(variantOptionIdx, optionValue);
-        this.variantOptions.value[variantOptionIdx].values?.splice(optionValueIdx, 1);
+    protected removeOptionValue(variantOptionIdx: number, optionValue: string) {
+        const valuesControl = this.variantOptions.at(variantOptionIdx).get('values');
+        const newValues = [...(valuesControl?.value || [])];
+        const index = newValues.indexOf(optionValue);
+        newValues.splice(index, 1);
+        valuesControl?.patchValue(newValues);
     }
 
-    protected editOptionValue(variantOptionIdx: number, optionValueIdx: number, event: MatChipEditedEvent) {
-        console.log(variantOptionIdx, event);
-        this.variantOptions.value![variantOptionIdx].values![optionValueIdx] = event.value;
+    protected editOptionValue(variantOptionIdx: number, event: MatChipEditedEvent) {
+        const value = (event.value || '').trim();
+        if (value) {
+            const valuesControl = this.variantOptions.at(variantOptionIdx).get('values');
+            const newValues = [...(valuesControl?.value || [])];
+            const index = newValues.indexOf(value);
+            newValues.splice(index, 1, value);
+            valuesControl?.patchValue(newValues);
+        }
     }
 
     protected buildVariantName(variant: VariantFromGroup) {
@@ -203,8 +215,8 @@ export class ProductAddPage implements OnInit, OnDestroy {
         console.log(this.productForm.valid);
         console.log(this.productForm.value);
         if (this.productForm.valid) {
-            this.productService.create(this.productForm.value as Product).subscribe((res) => {
-                console.log(res);
+            this.productService.create(this.productForm.value as Product).subscribe(() => {
+                this.router.navigate(['/catalog/products']);
             });
         }
     }
