@@ -1,6 +1,6 @@
 import { Variant } from './variant';
 import { VariantOption } from './variant-option';
-import { Image } from '@api';
+import { Media } from '@api';
 import { BaseModel } from '../../base-model';
 
 export const PRODUCT_STATUS_OPTIONS = ['DRAFT', 'PUBLISHED', 'UNPUBLISHED', 'ARCHIVED'] as const;
@@ -14,10 +14,10 @@ export interface Product extends BaseModel {
     desktopDescription: string | null;
     mobileDescription: string | null;
     status: ProductStatus;
-    images: Image[];
-    imageIds: string[];
+    mediaList: Media[];
+    mediaIds: string[];
     brandId: string | null;
-    categoryId?: string[];
+    categoryId?: string;
     collectionIds?: string[];
     variantOptions: VariantOption[];
     // defaultVariant: Variant;

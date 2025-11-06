@@ -50,7 +50,7 @@ export class Login {
     @HostListener('document:keydown.enter', [])
     protected onSubmit(): void {
         this.loginForm.disable();
-        console.log(this.loginForm.value);
+        // console.log(this.loginForm.value);
         this.authFacade
             .login(this.loginForm.value as LoginRequest)
             .pipe(finalize(() => this.loginForm.enable()))
@@ -58,7 +58,6 @@ export class Login {
                 next: () => {
                     const redirect = this.authFacade.getRedirectUrl() || '';
                     this.authFacade.setRedirectUrl(null);
-                    console.log('tiaozhuanle ma ', redirect);
                     this.router.navigateByUrl(redirect);
                 },
                 error: () => {

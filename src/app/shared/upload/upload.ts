@@ -18,8 +18,8 @@ export class Upload {
     private readonly snackBar = inject(MatSnackBar);
     private readonly fileService = inject(UploadService);
 
-    readonly imageWidth = input('6rem');
-    readonly imageHeight = input('6rem');
+    readonly previewWidth = input('6rem');
+    readonly previewHeight = input('6rem');
     readonly multiple = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
     readonly uploadType = input<'drag-drop' | 'list-card'>('list-card');
     readonly listCardIcon = input<string>('add');
@@ -69,7 +69,6 @@ export class Upload {
      * @protected
      */
     protected onRemove(index: number) {
-        console.log('onRemoveFile', index);
         this.fileList.update((fileList) => {
             // 取消上传
             this.fileService.cancelUpload(this.fileList()[index]);

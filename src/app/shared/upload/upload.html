@@ -5,7 +5,7 @@
                 [file]="file"
                 [fileIndex]="$index"
                 (remove)="onRemove($event)"
-                [style]="`width:${imageWidth()};height:${imageHeight()}`"
+                [style]="`width:${previewWidth()};height:${previewHeight()}`"
             />
         }
 
@@ -19,7 +19,7 @@
                 <ng-content>
                     <div
                         class="bg-mat-surface-container-low flex flex-col items-center justify-center rounded-xs border border-dashed"
-                        [style]="`width:${imageWidth()};height:${imageHeight()}`"
+                        [style]="`width:${previewWidth()};height:${previewHeight()}`"
                     >
                         <mat-icon>{{ listCardIcon() }}</mat-icon>
                         <p class="text-xs">{{ listCardText() }}</p>
@@ -40,7 +40,7 @@
                 [file]="file"
                 [fileIndex]="$index"
                 (remove)="onRemove($event)"
-                [style]="`width:${imageWidth()};height:${imageHeight()}`"
+                [style]="`width:${previewWidth()};height:${previewHeight()}`"
             />
         }
 

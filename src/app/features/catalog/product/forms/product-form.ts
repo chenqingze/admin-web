@@ -12,10 +12,12 @@ export function creatProductFormGroup(fb: FormBuilder, data?: Product) {
         desktopDescription = null,
         mobileDescription = null,
         status = 'DRAFT' as ProductStatus,
-        imageIds = [],
+        mediaIds = [],
         brandId = null,
         categoryId = null,
         collectionIds = [],
+        variantOptions = [],
+        variants = [],
     } = data || {};
     return fb.group({
         id: [id],
@@ -25,11 +27,15 @@ export function creatProductFormGroup(fb: FormBuilder, data?: Product) {
         desktopDescription: [desktopDescription],
         mobileDescription: [mobileDescription],
         status: [status],
-        imageIds: [imageIds],
+        mediaIds: [mediaIds],
         brandId: [brandId],
         categoryId: [categoryId],
         collectionIds: [collectionIds],
-        variantOptions: fb.array<VariantOptionFormGroup>([createVariantOptionFormGroup(fb)]),
-        variants: fb.array<VariantFromGroup>([createVariantFormGroup(fb)]),
+        variantOptions: fb.array<VariantOptionFormGroup>(
+            variantOptions.map((option) => createVariantOptionFormGroup(fb, option)),
+        ),
+        variants: fb.array<VariantFromGroup>(variants.map((variant) => createVariantFormGroup(fb, variant))),
     });
 }
+
+export type ProductFormGroup = ReturnType<typeof creatProductFormGroup>;

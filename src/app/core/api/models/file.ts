@@ -1,13 +1,17 @@
-export interface FileInfo {
+export const MEDIA_TYPE_OPTIONS = ['IMAGE', 'VIDEO'];
+export type MediaType = (typeof MEDIA_TYPE_OPTIONS)[number];
+
+export interface File {
     id?: string;
     path?: string;
-    url?: string;
     hash?: string;
+    type?: MediaType;
     createdAt?: string;
     createdBy?: string;
     modifiedAt?: string;
     modifiedBy?: string;
     deletedAt?: string;
 }
-export type Image = FileInfo;
-export type Video = FileInfo;
+export type FileInfo = File;
+export type Media = File;
+export type Image = File;

@@ -27,32 +27,31 @@ export class CollectionFormDialog {
     private readonly collectionService = inject(CollectionService);
     private readonly data = inject<string>(MAT_DIALOG_DATA);
     private readonly dialogRef = inject(MatDialogRef<CollectionFormDialog>);
-    protected readonly imageList = signal<UploadFileInfo[]>([]);
+    protected readonly mediaList = signal<UploadFileInfo[]>([]);
     private readonly id = signal<string | undefined>(undefined);
 
     protected readonly collectionForm = new FormGroup({
         name: new FormControl('', [Validators.required]),
-        imageId: new FormControl(),
+        mediaId: new FormControl(),
         visible: new FormControl(true),
     });
 
     constructor() {
         effect(() => {
-            const imageId = this.imageList()[0]?.id ?? null;
-            console.log('this.imageList()', this.imageList());
-            this.collectionForm.patchValue({ imageId });
+            const mediaId = this.mediaList()[0]?.id ?? null;
+            this.collectionForm.patchValue({ mediaId });
         });
         if (this.data) {
             this.collectionService.getById(this.data).subscribe((collection) => {
-                const { id, name, imageId, imagePath, visible } = collection;
+                const { id, name, mediaId, mediaPath, mediaType, visible } = collection;
                 this.id.set(id!);
-                if (imageId && imagePath) {
-                    this.imageList.update((items) => [
+                if (mediaId && mediaPath) {
+                    this.mediaList.update((items) => [
                         ...items,
-                        { id: imageId, path: imagePath, type: 'IMAGE', status: 'SUCCESS' } as UploadFileInfo,
+                        { id: mediaId, path: mediaPath, type: mediaType, status: 'SUCCESS' } as UploadFileInfo,
                     ]);
                 }
-                this.collectionForm.setValue({ name: name, imageId, visible });
+                this.collectionForm.setValue({ name: name, mediaId, visible });
             });
         }
     }
@@ -60,10 +59,10 @@ export class CollectionFormDialog {
     @HostListener('document:keydown.enter', [])
     protected save() {
         if (this.collectionForm.valid) {
-            const request = this.id()
+            const $request = this.id()
                 ? this.collectionService.update(this.id()!, this.collectionForm.value as Collection)
                 : this.collectionService.create(this.collectionForm.value as Collection);
-            request.subscribe(() => {
+            $request.subscribe(() => {
                 this.dialogRef.close(this.collectionForm.value);
             });
         }

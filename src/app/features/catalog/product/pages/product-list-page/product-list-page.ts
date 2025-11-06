@@ -45,7 +45,7 @@ export class ProductListPage implements AfterViewInit {
     @ViewChild(MatSort) protected sort!: MatSort;
 
     protected dataSource = new MatTableDataSource<Product>();
-    protected displayedColumns = ['select', 'mainImagePath', 'name', 'actions'];
+    protected displayedColumns = ['select', 'mainMediaPath', 'name', 'actions'];
     protected selection = new SelectionModel<Product>(true, []);
     get selectedIds(): string[] {
         return this.selection.selected.map((item) => item.id!);

@@ -12,14 +12,6 @@ export class UploadService {
     private readonly http = inject(HttpClient);
 
     /**
-     * 辅助函数：判断文件是否为图片
-     * @param fileInfo 文件
-     */
-    isImage(fileInfo?: UploadFileInfo | null): boolean {
-        return fileInfo?.file?.type?.startsWith('image/') || fileInfo?.type === 'IMAGE';
-    }
-
-    /**
      * 上传图片
      * @param file
      */
@@ -103,5 +95,13 @@ export class UploadService {
         uploadFile.sub?.unsubscribe();
         uploadFile.status = 'CANCELED';
         uploadFile.percentage = 0;
+    }
+
+    /**
+     * 辅助函数：判断文件是否为图片
+     * @param fileInfo 文件
+     */
+    isImage(fileInfo?: UploadFileInfo | null): boolean {
+        return fileInfo?.file?.type?.startsWith('image/') || fileInfo?.type === 'IMAGE';
     }
 }

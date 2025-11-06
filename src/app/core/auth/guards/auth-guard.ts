@@ -8,7 +8,7 @@ export const authGuard: CanActivateFn = (route, state) => {
 
     // 未认证
     if (!authFacade.isAuthenticated()) {
-        console.log('未认证');
+        // console.log('未认证');
         authFacade.setRedirectUrl(state.url);
         router.navigateByUrl('/auth/login');
         return false;
@@ -17,7 +17,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     // 未授权
     const requiredPermission = route.data['perm'];
     if (!authFacade.hasPermission(requiredPermission)) {
-        console.log('未授权');
+        // console.log('未授权');
         router.navigateByUrl('');
         return false;
     }

@@ -11,7 +11,7 @@
             <span class="flex-auto"></span>
             <div class="flex gap-2">
                 <button type="button" matButton="filled" (click)="deleteSelected()">批量删除</button>
-                <a matButton="filled" [routerLink]="['/catalog/products/add']">新增</a>
+                <a matButton="filled" [routerLink]="['/catalog/products/new']">新增</a>
             </div>
         </div>
     </mat-card-header>
@@ -19,14 +19,14 @@
         <table mat-table [dataSource]="dataSource" aria-label="collections">
             <!-- Checkbox Column -->
             <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef>
+                <th *matHeaderCellDef mat-header-cell>
                     <mat-checkbox
                         (change)="$event ? toggleAllRows() : null"
                         [checked]="selection.hasValue() && isAllSelected()"
                         [indeterminate]="selection.hasValue() && !isAllSelected()"
                     />
                 </th>
-                <td mat-cell *matCellDef="let row">
+                <td *matCellDef="let row" mat-cell>
                     <mat-checkbox
                         (click)="$event.stopPropagation()"
                         (change)="$event ? selection.toggle(row) : null"
@@ -41,13 +41,13 @@
                 <td *matCellDef="let row" mat-cell>{{ row.id }}</td>
             </ng-container>
 
-            <!-- imagePath  -->
-            <ng-container matColumnDef="mainImagePath">
+            <!-- mediaPath  -->
+            <ng-container matColumnDef="mainMediaPath">
                 <th *matHeaderCellDef mat-header-cell>图片</th>
                 <td *matCellDef="let row" mat-cell>
                     <div class="relative h-8 w-8">
-                        @if (row.mainImagePath) {
-                            <img [ngSrc]="row.mainImagePath" fill alt="product image" />
+                        @if (row.mainMediaPath) {
+                            <img [ngSrc]="row.mainMediaPath" fill alt="product image" />
                         }
                     </div>
                 </td>
@@ -62,8 +62,8 @@
             <!-- actions -->
             <ng-container matColumnDef="actions">
                 <th *matHeaderCellDef mat-header-cell>操作</th>
-                <td mat-cell *matCellDef="let element; index as i">
-                    <button mat-icon-button type="button" [routerLink]="['/catalog/products', element.id]">
+                <td *matCellDef="let element; index as i" mat-cell>
+                    <button mat-icon-button type="button" [routerLink]="['/catalog/products', element.id, 'edit']">
                         <mat-icon>edite</mat-icon>
                     </button>
                     <button mat-icon-button type="button" (click)="delete(element.id)">

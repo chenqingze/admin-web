@@ -48,13 +48,13 @@
                 <td *matCellDef="let row" mat-cell>{{ row.name }}</td>
             </ng-container>
 
-            <!-- imagePath  -->
-            <ng-container matColumnDef="imagePath">
+            <!-- mediaPath  -->
+            <ng-container matColumnDef="mediaPath">
                 <th *matHeaderCellDef mat-header-cell>图片</th>
                 <td *matCellDef="let row" mat-cell>
                     <div class="relative h-8 w-8">
-                        @if (row.imagePath) {
-                            <img [ngSrc]="row.imagePath" fill alt="collection image" />
+                        @if (row.mediaPath) {
+                            <img [ngSrc]="row.mediaPath" fill alt="collection image" />
                         }
                     </div>
                 </td>

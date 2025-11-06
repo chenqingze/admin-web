@@ -19,7 +19,7 @@ export interface Variant extends BaseModel {
     option1Value: string | null;
     option2Value: string | null;
     option3Value: string | null;
-    mainImageId: string | null;
-    mainImagePath: string | null;
+    mainMediaId: string | null;
+    mainMediaPath: string | null;
     productId: string | null;
 }

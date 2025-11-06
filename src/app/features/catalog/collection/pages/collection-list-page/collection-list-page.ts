@@ -44,7 +44,7 @@ export class CollectionListPage implements AfterViewInit {
     @ViewChild(MatSort) protected sort!: MatSort;
 
     protected dataSource = new MatTableDataSource<Collection>();
-    protected displayedColumns = ['select', 'name', 'imagePath', 'actions'];
+    protected displayedColumns = ['select', 'name', 'mediaPath', 'actions'];
     protected selection = new SelectionModel<Collection>(true, []);
     get selectedIds(): string[] {
         return this.selection.selected.map((item) => item.id!);
@@ -99,7 +99,7 @@ export class CollectionListPage implements AfterViewInit {
         });
 
         dialogRef.afterClosed().subscribe((data) => {
-            console.log('The dialog was closed', data);
+            // console.log('The dialog was closed', data);
             if (data) {
                 this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
             }

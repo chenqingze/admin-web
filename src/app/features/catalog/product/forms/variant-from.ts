@@ -20,8 +20,8 @@ export function createVariantFormGroup(fb: FormBuilder, data?: Variant | Partial
         option1Value = null,
         option2Value = null,
         option3Value = null,
-        mainImageId = null,
-        mainImagePath = null,
+        mainMediaId = null,
+        mainMediaPath = null,
     } = data || {};
     return fb.group({
         id: [id],
@@ -40,8 +40,8 @@ export function createVariantFormGroup(fb: FormBuilder, data?: Variant | Partial
         option1Value: [option1Value],
         option2Value: [option2Value],
         option3Value: [option3Value],
-        mainImageId: [mainImageId],
-        mainImagePath: [mainImagePath],
+        mainMediaId: [mainMediaId],
+        mainMediaPath: [mainMediaPath],
     });
 }
 export type VariantFromGroup = ReturnType<typeof createVariantFormGroup>;

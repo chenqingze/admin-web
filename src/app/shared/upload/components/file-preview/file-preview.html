@@ -4,7 +4,7 @@
             @if (isImage()) {
                 <!-- 配置可传入 with 和 height -->
                 @if (file()?.path) {
-                    <img [ngSrc]="file()!.path!" alt="image" fill />
+                    <img [ngSrc]="file()!.path!" alt="media" fill />
                 } @else {
                     <mat-icon>image</mat-icon>
                 }

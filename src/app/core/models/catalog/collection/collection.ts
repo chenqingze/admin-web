@@ -1,6 +1,7 @@
 import { CollectionRule } from './collection-rule';
 import { CollectionType } from './collection-type';
 import { BaseModel } from '../../base-model';
+import { MediaType } from '@api';
 
 export interface Collection extends BaseModel {
     id: string | null;
@@ -10,7 +11,8 @@ export interface Collection extends BaseModel {
     position?: number;
     type?: CollectionType;
     rules?: CollectionRule[];
-    imageId: string | null;
-    imagePath: string | null;
+    mediaId: string | null;
+    mediaPath: string | null;
+    mediaType: MediaType;
     productIds: string[];
 }

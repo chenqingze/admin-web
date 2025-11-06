@@ -26,7 +26,7 @@ export abstract class AbstractCrudApi<T> {
     }
 
     // 根据 ID 获取单个记录
-    getById(id: number | string): Observable<T> {
+    getById(id: string): Observable<T> {
         const url = `${this.endpoint}/${id}`;
         return this.http.get<T>(url);
     }
@@ -39,19 +39,19 @@ export abstract class AbstractCrudApi<T> {
     }
 
     // 更新记录
-    update(id: number | string, item: Partial<T>): Observable<T> {
+    update(id: string, item: Partial<T>): Observable<T> {
         // Partial<T> 表示传入的对象结构是 T 的部分属性（用于部分更新）
         return this.http.put<T>(`${this.endpoint}/${id}`, item); // 或使用 patch<T>(url, item) 进行局部更新
     }
 
     // 删除单一资源
-    delete(id: number | string): Observable<void> {
+    delete(id: string): Observable<void> {
         // 假设删除成功返回空响应体
         return this.http.delete<void>(`${this.endpoint}/${id}`);
     }
 
     // 根据id批量删除
-    deleteByIds(ids: string[] | number[]): Observable<void> {
+    deleteByIds(ids: string[]): Observable<void> {
         return this.http.delete<void>(`${this.endpoint}/${ids}`);
     }
 }

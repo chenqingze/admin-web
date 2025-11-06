@@ -5,23 +5,23 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { UploadFileInfo } from '@shared/upload';
 
 @Component({
-    selector: 'sa-image-selector-dialog',
+    selector: 'sa-media-selector-dialog',
     imports: [CommonModule, MatDialogModule, MatButtonModule, NgOptimizedImage],
-    templateUrl: './image-selector-dialog.html',
-    styleUrl: './image-selector-dialog.scss',
+    templateUrl: './media-selector-dialog.html',
+    styleUrl: './media-selector-dialog.scss',
 })
-export class ImageSelectorDialog {
+export class MediaSelectorDialog {
     private readonly data = inject<UploadFileInfo[]>(MAT_DIALOG_DATA);
-    private readonly dialogRef = inject(MatDialogRef<ImageSelectorDialog>);
-    protected readonly imageList = signal<UploadFileInfo[]>([]);
+    private readonly dialogRef = inject(MatDialogRef<MediaSelectorDialog>);
+    protected readonly mediaList = signal<UploadFileInfo[]>([]);
 
     constructor() {
         if (this.data) {
-            this.imageList.set(this.data);
+            this.mediaList.set(this.data);
         }
     }
 
-    protected selectImage(image: UploadFileInfo) {
-        this.dialogRef.close(image);
+    protected selectImage(media: UploadFileInfo) {
+        this.dialogRef.close(media);
     }
 }

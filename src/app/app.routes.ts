@@ -50,14 +50,27 @@ export const routes: Routes = [
                         },
                     },
                     {
-                        path: 'products/add',
+                        path: 'products/new',
                         loadComponent: () =>
-                            import('@features/catalog/product/pages/product-add-page/product-add-page').then(
-                                (m) => m.ProductAddPage,
+                            import('@features/catalog/product/pages/product-form-page/product-form-page').then(
+                                (m) => m.ProductFormPage,
                             ),
                         title: '新增商品',
                         data: {
-                            perm: 'product:view',
+                            perm: 'product:create',
+                            icon: 'inventory_2',
+                            showInMenu: false,
+                        },
+                    },
+                    {
+                        path: 'products/:id/edit',
+                        loadComponent: () =>
+                            import('@features/catalog/product/pages/product-form-page/product-form-page').then(
+                                (m) => m.ProductFormPage,
+                            ),
+                        title: '编辑商品',
+                        data: {
+                            perm: 'product:edit',
                             icon: 'inventory_2',
                             showInMenu: false,
                         },
@@ -75,19 +88,7 @@ export const routes: Routes = [
                             showInMenu: false,
                         },
                     },
-                    {
-                        path: 'products/:id/edit',
-                        loadComponent: () =>
-                            import('@features/catalog/product/pages/product-edit-page/product-edit-page').then(
-                                (m) => m.ProductEditPage,
-                            ),
-                        title: '编辑商品',
-                        data: {
-                            perm: 'product:view',
-                            icon: 'inventory_2',
-                            showInMenu: false,
-                        },
-                    },
+
                     {
                         path: 'collections',
                         loadComponent: () =>
