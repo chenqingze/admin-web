@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, effect, inject, signal, ViewChild } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatSortModule } from '@angular/material/sort';
 import { CollectionService } from '../../services/collection-service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,11 +11,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { CollectionFormDialog } from './dialogs/collection-form-dialog/collection-form-dialog';
+import { CollectionFormDialog } from './collection-form-dialog/collection-form-dialog';
 import { NgOptimizedImage } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { Collection } from '@models';
 import { PaginatorProps } from '@ui';
+import { ConfirmDialogService } from '@shared/confirm-dialog';
 
 @Component({
     selector: 'sa-collection-list-page',
@@ -36,12 +37,11 @@ import { PaginatorProps } from '@ui';
     templateUrl: './collection-list-page.html',
     styleUrl: './collection-list-page.scss',
 })
-export class CollectionListPage implements AfterViewInit {
+export class CollectionListPage {
     private readonly collectionService = inject(CollectionService);
+    private readonly confirmDialogService = inject(ConfirmDialogService);
     private readonly dialog = inject(MatDialog);
     private readonly snackBar = inject(MatSnackBar);
-
-    @ViewChild(MatSort) protected sort!: MatSort;
 
     protected dataSource = new MatTableDataSource<Collection>();
     protected displayedColumns = ['select', 'name', 'mediaPath', 'actions'];
@@ -65,10 +65,6 @@ export class CollectionListPage implements AfterViewInit {
                 this.totalElements.set(Number(page.totalElements));
             });
         });
-    }
-
-    ngAfterViewInit(): void {
-        this.dataSource.sort = this.sort;
     }
 
     protected isAllSelected() {
@@ -107,24 +103,46 @@ export class CollectionListPage implements AfterViewInit {
     }
 
     protected delete(id: string) {
-        this.collectionService.delete(id).subscribe({
-            next: () => {
-                this.snackBar.open('删除成功', '关闭', {
-                    duration: 3000,
-                    horizontalPosition: 'center',
-                    verticalPosition: 'top',
+        this.confirmDialogService.confirm('确定要删除该分组吗?').subscribe((confirmed) => {
+            if (confirmed) {
+                this.collectionService.delete(id).subscribe({
+                    next: () => {
+                        this.snackBar.open('删除成功', '关闭', {
+                            duration: 3000,
+                            horizontalPosition: 'center',
+                            verticalPosition: 'top',
+                        });
+                        this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
+                    },
+                    error: () =>
+                        this.snackBar.open('删除失败，请稍后再试', '关闭', {
+                            duration: 3000,
+                            panelClass: ['snack-error'],
+                        }),
                 });
-                this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
-            },
-            error: () =>
-                this.snackBar.open('删除失败，请稍后再试', '关闭', {
-                    duration: 3000,
-                    panelClass: ['snack-error'],
-                }),
+            }
         });
     }
 
     protected deleteSelected() {
-        this.collectionService.deleteByIds(this.selectedIds);
+        this.confirmDialogService.confirm('确定要批量删除选中的分组吗?').subscribe((confirmed) => {
+            if (confirmed) {
+                this.collectionService.deleteByIds(this.selectedIds).subscribe({
+                    next: () => {
+                        this.snackBar.open('删除成功', '关闭', {
+                            duration: 3000,
+                            horizontalPosition: 'center',
+                            verticalPosition: 'top',
+                        });
+                        this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
+                    },
+                    error: () =>
+                        this.snackBar.open('删除失败，请稍后再试', '关闭', {
+                            duration: 3000,
+                            panelClass: ['snack-error'],
+                        }),
+                });
+            }
+        });
     }
 }

@@ -15,6 +15,7 @@
                 [disabled]="uploadType() !== 'list-card'"
                 [multiple]="multiple()"
                 (selected)="onSelected($event)"
+                class="hover:ring-2"
             >
                 <ng-content>
                     <div
@@ -33,7 +34,7 @@
         saFileSelect
         [multiple]="multiple()"
         (selected)="onSelected($event)"
-        class="flex h-full w-full flex-wrap items-center gap-2"
+        class="flex h-full w-full flex-wrap items-center gap-2 hover:ring-2"
     >
         @for (file of fileList(); track $index) {
             <sa-file-preview

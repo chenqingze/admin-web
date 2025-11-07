@@ -62,11 +62,11 @@
             <!-- actions -->
             <ng-container matColumnDef="actions">
                 <th *matHeaderCellDef mat-header-cell>操作</th>
-                <td *matCellDef="let element; index as i" mat-cell>
-                    <button mat-icon-button type="button" [routerLink]="['/catalog/products', element.id, 'edit']">
+                <td *matCellDef="let row; index as i" mat-cell>
+                    <button mat-icon-button type="button" [routerLink]="['/catalog/products', row.id, 'edit']">
                         <mat-icon>edite</mat-icon>
                     </button>
-                    <button mat-icon-button type="button" (click)="delete(element.id)">
+                    <button mat-icon-button type="button" (click)="delete(row.id)">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </td>

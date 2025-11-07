@@ -63,11 +63,11 @@
             <!-- actions -->
             <ng-container matColumnDef="actions">
                 <th *matHeaderCellDef mat-header-cell>操作</th>
-                <td mat-cell *matCellDef="let element; index as i">
-                    <button mat-icon-button type="button" (click)="openDialog(element.id)">
+                <td mat-cell *matCellDef="let row; index as i">
+                    <button mat-icon-button type="button" (click)="openDialog(row.id)">
                         <mat-icon>edite</mat-icon>
                     </button>
-                    <button mat-icon-button type="button" (click)="delete(element.id)">
+                    <button mat-icon-button type="button" (click)="delete(row.id)">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </td>

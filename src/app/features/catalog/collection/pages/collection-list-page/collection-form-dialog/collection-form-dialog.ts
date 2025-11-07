@@ -6,8 +6,9 @@ import { MatInputModule } from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Collection } from '@models';
 import { Upload, UploadFileInfo } from '@shared/upload';
-import { CollectionService } from '../../../../services/collection-service';
+import { CollectionService } from '../../../services/collection-service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'sa-collection-form-dialog',
@@ -27,6 +28,8 @@ export class CollectionFormDialog {
     private readonly collectionService = inject(CollectionService);
     private readonly data = inject<string>(MAT_DIALOG_DATA);
     private readonly dialogRef = inject(MatDialogRef<CollectionFormDialog>);
+    private readonly snackBar = inject(MatSnackBar);
+
     protected readonly mediaList = signal<UploadFileInfo[]>([]);
     private readonly id = signal<string | undefined>(undefined);
 
@@ -63,6 +66,11 @@ export class CollectionFormDialog {
                 ? this.collectionService.update(this.id()!, this.collectionForm.value as Collection)
                 : this.collectionService.create(this.collectionForm.value as Collection);
             $request.subscribe(() => {
+                this.snackBar.open('保存成功', '关闭', {
+                    duration: 3000,
+                    horizontalPosition: 'center',
+                    verticalPosition: 'top',
+                });
                 this.dialogRef.close(this.collectionForm.value);
             });
         }

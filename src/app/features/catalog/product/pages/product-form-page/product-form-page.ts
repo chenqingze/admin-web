@@ -23,7 +23,7 @@ import {
 } from '../../forms';
 import { Subject, takeUntil } from 'rxjs';
 import { Product, Variant, VariantOption } from '@models';
-import { MediaSelectorDialog } from '../../dialogs/media-selector-dialog/media-selector-dialog';
+import { MediaSelectorDialog } from './media-selector-dialog/media-selector-dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
