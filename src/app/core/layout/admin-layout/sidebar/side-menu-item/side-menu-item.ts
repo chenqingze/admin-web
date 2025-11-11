@@ -8,7 +8,7 @@ import { MenuItem } from '../../../models';
 import { LayoutStore } from '../../../services';
 
 @Component({
-    selector: 'sa-side-menu-item',
+    selector: 'app-side-menu-item',
     imports: [CommonModule, MatListModule, MatIconModule, MatButtonModule, RouterModule],
     templateUrl: './side-menu-item.html',
     styleUrl: './side-menu-item.scss',

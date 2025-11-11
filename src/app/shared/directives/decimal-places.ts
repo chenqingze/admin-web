@@ -1,11 +1,11 @@
 import { Directive, ElementRef, HostListener, inject, input } from '@angular/core';
 
 @Directive({
-    selector: '[saDecimalPlaces]',
+    selector: '[appDecimalPlaces]',
 })
 export class DecimalPlaces {
     private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-    readonly saDecimalPlaces = input(2);
+    readonly appDecimalPlaces = input(2);
 
     @HostListener('blur')
     onBlur() {
@@ -13,7 +13,7 @@ export class DecimalPlaces {
         const value = parseFloat(input.value);
         if (!isNaN(value)) {
             // 转成字符串，保留固定小数位
-            input.value = value.toFixed(this.saDecimalPlaces());
+            input.value = value.toFixed(this.appDecimalPlaces());
         }
     }
 }

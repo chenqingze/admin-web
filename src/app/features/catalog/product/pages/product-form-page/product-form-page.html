@@ -7,7 +7,7 @@
             <div class="flex gap-2 pt-4">
                 <div class="flex flex-8 flex-col gap-2">
                     <div class="mb-4 rounded-xs border border-dashed">
-                        <sa-upload [(fileList)]="mediaList" [multiple]="true" [maxFiles]="6" uploadType="drag-drop" />
+                        <app-upload [(fileList)]="mediaList" [multiple]="true" [maxFiles]="6" uploadType="drag-drop" />
                     </div>
 
                     <mat-form-field>
@@ -60,19 +60,23 @@
                     class="self-start"
                 >
                     <mat-button-toggle matTooltip="适合无规格商品，仅一个SKU" value="single">
+                        @if (variantMode !== 'single') {
+                            <mat-icon>radio_button_checked</mat-icon>
+                        }
                         单规格
-                        <!--<mat-icon>radio_button_checked</mat-icon>-->
                     </mat-button-toggle>
                     <mat-button-toggle matTooltip="适合有颜色/尺码等规格的商品" value="multiple">
+                        @if (variantMode !== 'multiple') {
+                            <mat-icon>grid_view</mat-icon>
+                        }
                         多规格
-                        <!--<mat-icon>grid_view</mat-icon>-->
                     </mat-button-toggle>
                 </mat-button-toggle-group>
                 @if (variantMode === 'single') {
                     <div [formGroup]="variants.at(0)" class="flex flex-col py-4">
                         <mat-form-field>
                             <mat-label>市场价</mat-label>
-                            <input matInput [saDecimalPlaces]="2" type="text" formControlName="msrp" />
+                            <input matInput [appDecimalPlaces]="2" type="text" formControlName="msrp" />
                             <mat-icon matSuffix>currency_yen</mat-icon>
                             @if (variants.at(0).controls.msrp.hasError('pattern')) {
                                 <mat-error>请输入有效的数字</mat-error>
@@ -83,7 +87,7 @@
                         </mat-form-field>
                         <mat-form-field>
                             <mat-label>销售价</mat-label>
-                            <input matInput [saDecimalPlaces]="2" type="text" formControlName="price" />
+                            <input matInput [appDecimalPlaces]="2" type="text" formControlName="price" />
                             <mat-icon matSuffix>currency_yen</mat-icon>
                             @if (variants.at(0).controls.price.hasError('required')) {
                                 <mat-error>不可以为空</mat-error>
@@ -97,7 +101,7 @@
                         </mat-form-field>
                         <mat-form-field>
                             <mat-label>折扣价</mat-label>
-                            <input matInput [saDecimalPlaces]="2" type="text" formControlName="rollbackPrice" />
+                            <input matInput [appDecimalPlaces]="2" type="text" formControlName="rollbackPrice" />
                             <mat-icon matSuffix>currency_yen</mat-icon>
                             @if (variants.at(0).controls.rollbackPrice.hasError('pattern')) {
                                 <mat-error>请输入有效的数字</mat-error>
@@ -108,7 +112,7 @@
                         </mat-form-field>
                         <mat-form-field>
                             <mat-label>成本</mat-label>
-                            <input matInput [saDecimalPlaces]="2" type="text" formControlName="cost" />
+                            <input matInput [appDecimalPlaces]="2" type="text" formControlName="cost" />
                             <mat-icon matSuffix>currency_yen</mat-icon>
                             @if (variants.at(0).controls.cost.hasError('pattern')) {
                                 <mat-error>请输入有效的数字</mat-error>
@@ -119,7 +123,7 @@
                         </mat-form-field>
                         <mat-form-field>
                             <mat-label>可用库存</mat-label>
-                            <input matInput [saDecimalPlaces]="0" type="text" formControlName="availableQty" />
+                            <input matInput [appDecimalPlaces]="0" type="text" formControlName="availableQty" />
                             <mat-icon matSuffix>inventory</mat-icon>
                             @if (variants.at(0).controls.availableQty.hasError('pattern')) {
                                 <mat-error>请输入有效的数字</mat-error>
@@ -231,31 +235,36 @@
                             <ng-container matColumnDef="msrp">
                                 <th *matHeaderCellDef mat-header-cell>市场价</th>
                                 <td *matCellDef="let variant; let i = index" mat-cell [formGroupName]="i">
-                                    <input matInput [saDecimalPlaces]="2" type="text" formControlName="msrp" />
+                                    <input matInput [appDecimalPlaces]="2" type="text" formControlName="msrp" />
                                 </td>
                             </ng-container>
                             <ng-container matColumnDef="price">
                                 <th *matHeaderCellDef mat-header-cell>销售价</th>
                                 <td *matCellDef="let variant; let i = index" mat-cell [formGroupName]="i">
-                                    <input matInput [saDecimalPlaces]="2" type="text" formControlName="price" />
+                                    <input matInput [appDecimalPlaces]="2" type="text" formControlName="price" />
                                 </td>
                             </ng-container>
                             <ng-container matColumnDef="rollbackPrice">
                                 <th *matHeaderCellDef mat-header-cell>折扣价</th>
                                 <td *matCellDef="let variant; let i = index" mat-cell [formGroupName]="i">
-                                    <input matInput [saDecimalPlaces]="2" type="text" formControlName="rollbackPrice" />
+                                    <input
+                                        matInput
+                                        [appDecimalPlaces]="2"
+                                        type="text"
+                                        formControlName="rollbackPrice"
+                                    />
                                 </td>
                             </ng-container>
                             <ng-container matColumnDef="cost">
                                 <th *matHeaderCellDef mat-header-cell>成本价</th>
                                 <td *matCellDef="let variant; let i = index" mat-cell [formGroupName]="i">
-                                    <input matInput [saDecimalPlaces]="2" type="text" formControlName="cost" />
+                                    <input matInput [appDecimalPlaces]="2" type="text" formControlName="cost" />
                                 </td>
                             </ng-container>
                             <ng-container matColumnDef="availableQty">
                                 <th *matHeaderCellDef mat-header-cell>库存</th>
                                 <td *matCellDef="let variant; let i = index" mat-cell [formGroupName]="i">
-                                    <input matInput [saDecimalPlaces]="0" type="text" formControlName="availableQty" />
+                                    <input matInput [appDecimalPlaces]="0" type="text" formControlName="availableQty" />
                                 </td>
                             </ng-container>
                             <!-- actions -->

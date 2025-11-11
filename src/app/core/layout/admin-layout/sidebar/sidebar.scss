@@ -1,5 +1,39 @@
-.hide-header-element {
-    height: 0 !important;
-    width: 0 !important;
-    opacity: 0;
+.sidebar {
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+    .sidebar-header {
+        position: relative;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 64px;
+        padding: 0 8px;
+        overflow: hidden;
+
+        .app-branding {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidemenu-collapse {
+            text-decoration: none;
+        }
+
+        .hide-header-element {
+            height: 0 !important;
+            width: 0 !important;
+            opacity: 0;
+        }
+    }
+
+    sidbar-main {
+        height: calc(100% - 64px);
+        overflow: hidden;
+    }
 }

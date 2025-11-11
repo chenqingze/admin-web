@@ -6,7 +6,7 @@
             <input matInput formControlName="name" placeholder="请输入品牌名称" />
         </mat-form-field>
         <mat-checkbox formControlName="visible">买家是否可见</mat-checkbox>
-        <sa-upload [(fileList)]="mediaList" [maxFiles]="1" />
+        <app-upload [(fileList)]="mediaList" [maxFiles]="1" />
     </mat-dialog-content>
     <mat-dialog-actions>
         <button type="button" matButton="tonal" mat-dialog-close>取消</button>

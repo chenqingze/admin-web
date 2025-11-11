@@ -13,7 +13,7 @@ import { AuthFacade } from '../../services';
 import { LoginRequest } from '../../models';
 
 @Component({
-    selector: 'sa-login-page',
+    selector: 'app-login-page',
     imports: [
         MatCardModule,
         MatFormFieldModule,

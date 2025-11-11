@@ -1,0 +1,17 @@
+.container {
+    height: 100vh;
+
+    .sidenav {
+    }
+
+    .header {
+        position: sticky;
+        top: 0;
+        z-index: 9;
+    }
+
+    .content {
+        position: relative;
+        padding: 0 30px 30px;
+    }
+}

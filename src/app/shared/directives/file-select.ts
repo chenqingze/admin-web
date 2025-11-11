@@ -13,8 +13,8 @@ import { BooleanInput, coerceStringArray } from '@angular/cdk/coercion';
 import { fileDropFilter } from './file-drop-filter';
 
 @Directive({
-    selector: '[saFileSelect]',
-    exportAs: 'saFileSelect',
+    selector: '[appFileSelect]',
+    exportAs: 'appFileSelect',
     host: {
         '[attr.data-disabled]': 'disabled() ? "" : null',
         '[attr.data-dragover]': 'isDragOver() ? "" : null',

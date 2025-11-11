@@ -9,7 +9,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
 
 @Component({
-    selector: 'sa-dashboard-page',
+    selector: 'app-dashboard-page',
     imports: [AsyncPipe, MatGridListModule, MatMenuModule, MatIconModule, MatButtonModule, MatCardModule],
     templateUrl: './dashboard.html',
     styleUrl: './dashboard.scss',

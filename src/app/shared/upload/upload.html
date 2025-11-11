@@ -1,7 +1,7 @@
 @if (uploadType() === 'list-card') {
     <div class="flex h-full w-full flex-wrap items-center gap-2">
         @for (file of fileList(); track $index) {
-            <sa-file-preview
+            <app-file-preview
                 [file]="file"
                 [fileIndex]="$index"
                 (remove)="onRemove($event)"
@@ -11,7 +11,7 @@
 
         @if (!maxFiles() || fileList().length < maxFiles()!) {
             <div
-                saFileSelect
+                appFileSelect
                 [disabled]="uploadType() !== 'list-card'"
                 [multiple]="multiple()"
                 (selected)="onSelected($event)"
@@ -31,13 +31,13 @@
     </div>
 } @else if (uploadType() === 'drag-drop') {
     <div
-        saFileSelect
+        appFileSelect
         [multiple]="multiple()"
         (selected)="onSelected($event)"
         class="flex h-full w-full flex-wrap items-center gap-2 hover:ring-2"
     >
         @for (file of fileList(); track $index) {
-            <sa-file-preview
+            <app-file-preview
                 [file]="file"
                 [fileIndex]="$index"
                 (remove)="onRemove($event)"

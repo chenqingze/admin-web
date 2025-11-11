@@ -24,7 +24,7 @@ export interface FlatTreeNode {
 }
 
 @Component({
-    selector: 'sa-tree',
+    selector: 'app-tree',
     templateUrl: './tree.component.html',
     styleUrl: './tree.component.scss',
     imports: [MatTreeModule, MatButtonModule, MatIconModule],

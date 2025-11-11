@@ -11,7 +11,7 @@ import { BrandService } from '../../../services/brand-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector: 'sa-dialogs',
+    selector: 'app-dialogs',
     imports: [
         MatDialogModule,
         MatFormFieldModule,

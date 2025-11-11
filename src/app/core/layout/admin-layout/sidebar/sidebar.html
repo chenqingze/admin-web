@@ -1,18 +1,25 @@
-<aside>
-    <div class="flex items-center justify-center gap-2 px-4">
-        <span>😊</span>
-        <span class="hide-header-element flex items-center gap-2" [class.hide-header-element]="isCollapsed()">
-            <span>Shop Admin</span>
-            <button matIconButton type="button" (click)="toggleCanCollapse()">
-                <mat-icon [style.transform]="canCollapse() ? 'rotate(90deg)' : 'rotate(-90deg)'">
-                    expand_circle_down
-                </mat-icon>
-            </button>
-        </span>
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <div class="app-branding">
+            <span>😊</span>
+            <span class="hide-header-element" [class.hide-header-element]="isCollapsed()">儿时明月 😊</span>
+        </div>
+
+        <button
+            matIconButton
+            type="button"
+            (click)="toggleCanCollapse()"
+            class="sidemenu-collapse hide-header-element"
+            [class.hide-header-element]="isCollapsed()"
+        >
+            <mat-icon [style.transform]="canCollapse() ? 'rotate(90deg)' : 'rotate(-90deg)'">
+                expand_circle_down
+            </mat-icon>
+        </button>
     </div>
     <mat-nav-list>
         @for (item of menuItems(); track item) {
-            <sa-side-menu-item [item]="item" />
+            <app-side-menu-item [item]="item" />
         }
     </mat-nav-list>
 </aside>

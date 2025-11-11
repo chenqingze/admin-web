@@ -32,7 +32,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { DecimalPlaces } from '@directives';
 
 @Component({
-    selector: 'sa-product-form-page',
+    selector: 'app-product-form-page',
     imports: [
         CommonModule,
         FormsModule,
@@ -48,10 +48,10 @@ import { DecimalPlaces } from '@directives';
         MatExpansionModule,
         MatChipsModule,
         MatTableModule,
-        Upload,
         NgxEditorModule,
-        DecimalPlaces,
         NgOptimizedImage,
+        DecimalPlaces,
+        Upload,
     ],
     templateUrl: './product-form-page.html',
     styleUrl: './product-form-page.scss',

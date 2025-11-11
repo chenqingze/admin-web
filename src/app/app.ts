@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { environment } from '@env/environment.development';
 
 @Component({
-    selector: 'sa-root',
+    selector: 'app-root',
     imports: [RouterOutlet],
     templateUrl: './app.html',
     styleUrl: './app.scss',

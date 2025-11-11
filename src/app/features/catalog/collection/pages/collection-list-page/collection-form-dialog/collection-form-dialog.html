@@ -5,7 +5,7 @@
             <mat-label>分组名称</mat-label>
             <input matInput formControlName="name" placeholder="请输入分组名称" />
         </mat-form-field>
-        <sa-upload [(fileList)]="mediaList" [maxFiles]="1" />
+        <app-upload [(fileList)]="mediaList" [maxFiles]="1" />
         <mat-checkbox labelPosition="before" formControlName="visible">买家是否可见</mat-checkbox>
     </mat-dialog-content>
     <mat-dialog-actions>

@@ -11,8 +11,8 @@ import { RouteExtraData } from '../../../routing';
 import { SideMenuItem } from './side-menu-item';
 
 @Component({
-    selector: 'sa-sidebar',
-    imports: [CommonModule, MatListModule, MatToolbarModule, MatButtonModule, SideMenuItem, MatIconModule],
+    selector: 'app-sidebar',
+    imports: [CommonModule, MatListModule, MatToolbarModule, MatButtonModule, MatIconModule, SideMenuItem],
     templateUrl: './sidebar.html',
     styleUrl: './sidebar.scss',
 })

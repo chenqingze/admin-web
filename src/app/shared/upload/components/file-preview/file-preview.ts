@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { UploadService } from '../../services';
 
 @Component({
-    selector: 'sa-file-preview',
+    selector: 'app-file-preview',
     imports: [CommonModule, MatProgressBarModule, MatButtonModule, MatIconModule, NgOptimizedImage],
     templateUrl: './file-preview.html',
     styleUrl: './file-preview.scss',

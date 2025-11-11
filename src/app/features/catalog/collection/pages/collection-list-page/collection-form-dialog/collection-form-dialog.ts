@@ -11,7 +11,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector: 'sa-collection-form-dialog',
+    selector: 'app-collection-form-dialog',
     imports: [
         MatDialogModule,
         MatFormFieldModule,

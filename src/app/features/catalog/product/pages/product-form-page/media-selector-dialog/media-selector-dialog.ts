@@ -5,7 +5,7 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { UploadFileInfo } from '@shared/upload';
 
 @Component({
-    selector: 'sa-media-selector-dialog',
+    selector: 'app-media-selector-dialog',
     imports: [CommonModule, MatDialogModule, MatButtonModule, NgOptimizedImage],
     templateUrl: './media-selector-dialog.html',
     styleUrl: './media-selector-dialog.scss',

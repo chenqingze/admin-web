@@ -16,10 +16,9 @@ import { NgOptimizedImage } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { Collection } from '@models';
 import { PaginatorProps } from '@ui';
-import { ConfirmDialogService } from '@shared/confirm-dialog';
 
 @Component({
-    selector: 'sa-collection-list-page',
+    selector: 'app-collection-list-page',
     imports: [
         MatCardModule,
         MatFormFieldModule,
@@ -39,7 +38,6 @@ import { ConfirmDialogService } from '@shared/confirm-dialog';
 })
 export class CollectionListPage {
     private readonly collectionService = inject(CollectionService);
-    private readonly confirmDialogService = inject(ConfirmDialogService);
     private readonly dialog = inject(MatDialog);
     private readonly snackBar = inject(MatSnackBar);
 
@@ -103,46 +101,38 @@ export class CollectionListPage {
     }
 
     protected delete(id: string) {
-        this.confirmDialogService.confirm('确定要删除该分组吗?').subscribe((confirmed) => {
-            if (confirmed) {
-                this.collectionService.delete(id).subscribe({
-                    next: () => {
-                        this.snackBar.open('删除成功', '关闭', {
-                            duration: 3000,
-                            horizontalPosition: 'center',
-                            verticalPosition: 'top',
-                        });
-                        this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
-                    },
-                    error: () =>
-                        this.snackBar.open('删除失败，请稍后再试', '关闭', {
-                            duration: 3000,
-                            panelClass: ['snack-error'],
-                        }),
+        this.collectionService.delete(id).subscribe({
+            next: () => {
+                this.snackBar.open('删除成功', '关闭', {
+                    duration: 3000,
+                    horizontalPosition: 'center',
+                    verticalPosition: 'top',
                 });
-            }
+                this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
+            },
+            error: () =>
+                this.snackBar.open('删除失败，请稍后再试', '关闭', {
+                    duration: 3000,
+                    panelClass: ['snack-error'],
+                }),
         });
     }
 
     protected deleteSelected() {
-        this.confirmDialogService.confirm('确定要批量删除选中的分组吗?').subscribe((confirmed) => {
-            if (confirmed) {
-                this.collectionService.deleteByIds(this.selectedIds).subscribe({
-                    next: () => {
-                        this.snackBar.open('删除成功', '关闭', {
-                            duration: 3000,
-                            horizontalPosition: 'center',
-                            verticalPosition: 'top',
-                        });
-                        this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
-                    },
-                    error: () =>
-                        this.snackBar.open('删除失败，请稍后再试', '关闭', {
-                            duration: 3000,
-                            panelClass: ['snack-error'],
-                        }),
+        this.collectionService.deleteByIds(this.selectedIds).subscribe({
+            next: () => {
+                this.snackBar.open('删除成功', '关闭', {
+                    duration: 3000,
+                    horizontalPosition: 'center',
+                    verticalPosition: 'top',
                 });
-            }
+                this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
+            },
+            error: () =>
+                this.snackBar.open('删除失败，请稍后再试', '关闭', {
+                    duration: 3000,
+                    panelClass: ['snack-error'],
+                }),
         });
     }
 }

@@ -9,7 +9,7 @@ import { Header } from './header/header';
 import { LayoutStore } from '../services';
 
 @Component({
-    selector: 'sa-admin-layout',
+    selector: 'app-admin-layout',
     imports: [CommonModule, MatSidenavModule, MatButtonModule, MatIconModule, RouterOutlet, Sidebar, Header],
     templateUrl: './admin-layout.html',
     styleUrl: './admin-layout.scss',

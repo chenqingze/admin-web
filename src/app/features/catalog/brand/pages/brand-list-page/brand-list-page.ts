@@ -15,10 +15,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PaginatorProps } from '@ui';
 import { MatIconModule } from '@angular/material/icon';
 import { BrandFormDialog } from './brand-form-dialog/brand-form-dialog';
-import { ConfirmDialogService } from '@shared/confirm-dialog';
 
 @Component({
-    selector: 'sa-brand-list-page',
+    selector: 'app-brand-list-page',
     imports: [
         CommonModule,
         MatFormFieldModule,
@@ -38,7 +37,6 @@ import { ConfirmDialogService } from '@shared/confirm-dialog';
 })
 export class BrandListPage {
     private readonly brandService = inject(BrandService);
-    private readonly confirmDialogService = inject(ConfirmDialogService);
     private readonly dialog = inject(MatDialog);
     private readonly snackBar = inject(MatSnackBar);
 
@@ -101,46 +99,38 @@ export class BrandListPage {
     }
 
     protected delete(id: string) {
-        this.confirmDialogService.confirm('确定要删除该品牌吗?').subscribe((confirmed) => {
-            if (confirmed) {
-                this.brandService.delete(id).subscribe({
-                    next: () => {
-                        this.snackBar.open('删除成功', '关闭', {
-                            duration: 3000,
-                            horizontalPosition: 'center',
-                            verticalPosition: 'top',
-                        });
-                        this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
-                    },
-                    error: () =>
-                        this.snackBar.open('删除失败，请稍后再试', '关闭', {
-                            duration: 3000,
-                            panelClass: ['snack-error'],
-                        }),
+        this.brandService.delete(id).subscribe({
+            next: () => {
+                this.snackBar.open('删除成功', '关闭', {
+                    duration: 3000,
+                    horizontalPosition: 'center',
+                    verticalPosition: 'top',
                 });
-            }
+                this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
+            },
+            error: () =>
+                this.snackBar.open('删除失败，请稍后再试', '关闭', {
+                    duration: 3000,
+                    panelClass: ['snack-error'],
+                }),
         });
     }
 
     protected deleteSelected() {
-        this.confirmDialogService.confirm('确定要批量删除选中的品牌吗?').subscribe((confirmed) => {
-            if (confirmed) {
-                this.brandService.deleteByIds(this.selectedIds).subscribe({
-                    next: () => {
-                        this.snackBar.open('删除成功', '关闭', {
-                            duration: 3000,
-                            horizontalPosition: 'center',
-                            verticalPosition: 'top',
-                        });
-                        this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
-                    },
-                    error: () =>
-                        this.snackBar.open('删除失败，请稍后再试', '关闭', {
-                            duration: 3000,
-                            panelClass: ['snack-error'],
-                        }),
+        this.brandService.deleteByIds(this.selectedIds).subscribe({
+            next: () => {
+                this.snackBar.open('删除成功', '关闭', {
+                    duration: 3000,
+                    horizontalPosition: 'center',
+                    verticalPosition: 'top',
                 });
-            }
+                this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
+            },
+            error: () =>
+                this.snackBar.open('删除失败，请稍后再试', '关闭', {
+                    duration: 3000,
+                    panelClass: ['snack-error'],
+                }),
         });
     }
 }

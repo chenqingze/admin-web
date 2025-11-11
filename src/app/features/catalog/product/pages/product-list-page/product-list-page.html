@@ -10,7 +10,15 @@
             </form>
             <span class="flex-auto"></span>
             <div class="flex gap-2">
-                <button type="button" matButton="filled" (click)="deleteSelected()">批量删除</button>
+                <button
+                    type="button"
+                    matButton="filled"
+                    saConfirm
+                    message="确定要批量删除选中的商品吗?"
+                    (confirmed)="deleteSelected()"
+                >
+                    批量删除
+                </button>
                 <a matButton="filled" [routerLink]="['/catalog/products/new']">新增</a>
             </div>
         </div>
@@ -66,7 +74,13 @@
                     <button mat-icon-button type="button" [routerLink]="['/catalog/products', row.id, 'edit']">
                         <mat-icon>edite</mat-icon>
                     </button>
-                    <button mat-icon-button type="button" (click)="delete(row.id)">
+                    <button
+                        mat-icon-button
+                        type="button"
+                        saConfirm
+                        message="确定要删除该商品吗?"
+                        (confirmed)="delete(row.id)"
+                    >
                         <mat-icon>delete</mat-icon>
                     </button>
                 </td>

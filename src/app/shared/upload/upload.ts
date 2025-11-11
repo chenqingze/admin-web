@@ -9,7 +9,7 @@ import { FilePreview } from './components';
 import { FileSelect } from '@directives';
 
 @Component({
-    selector: 'sa-upload',
+    selector: 'app-upload',
     imports: [CommonModule, MatIconModule, MatSnackBarModule, FileSelect, FilePreview],
     templateUrl: './upload.html',
     styleUrl: './upload.scss',

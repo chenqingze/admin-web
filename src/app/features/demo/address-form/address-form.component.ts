@@ -8,7 +8,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-    selector: 'sa-address-form',
+    selector: 'app-address-form',
     templateUrl: './address-form.component.html',
     styleUrl: './address-form.component.scss',
     imports: [MatInputModule, MatButtonModule, MatSelectModule, MatRadioModule, MatCardModule, ReactiveFormsModule],

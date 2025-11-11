@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-    selector: 'sa-header',
+    selector: 'app-header',
     imports: [MatToolbarModule, MatButtonModule, MatIconModule],
     templateUrl: './header.html',
     styleUrl: './header.scss',

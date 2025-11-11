@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { MatTableModule, MatTable } from '@angular/material/table';
-import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
-import { MatSortModule, MatSort } from '@angular/material/sort';
+import { MatTable, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { TableDataSource, TableItem } from './table-datasource';
 
 @Component({
-    selector: 'sa-table',
+    selector: 'app-table',
     templateUrl: './table.component.html',
     styleUrl: './table.component.scss',
     imports: [MatTableModule, MatPaginatorModule, MatSortModule],

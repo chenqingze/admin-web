@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
 @Component({
-    selector: 'sa-navigation',
+    selector: 'app-navigation',
     templateUrl: './navigation.component.html',
     styleUrl: './navigation.component.scss',
     imports: [MatToolbarModule, MatButtonModule, MatSidenavModule, MatListModule, MatIconModule, AsyncPipe],

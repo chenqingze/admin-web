@@ -10,7 +10,15 @@
             </form>
             <span class="flex-auto"></span>
             <div class="flex gap-2">
-                <button type="button" matButton="tonal" (click)="deleteSelected()">批量删除</button>
+                <button
+                    type="button"
+                    matButton="tonal"
+                    saConfirm
+                    message="确定要批量删除选中的分组吗?"
+                    (confirmed)="deleteSelected()"
+                >
+                    批量删除
+                </button>
                 <button type="button" matButton="filled" (click)="openDialog()">新增</button>
             </div>
         </div>
@@ -67,7 +75,13 @@
                     <button mat-icon-button type="button" (click)="openDialog(row.id)">
                         <mat-icon>edite</mat-icon>
                     </button>
-                    <button mat-icon-button type="button" (click)="delete(row.id)">
+                    <button
+                        mat-icon-button
+                        type="button"
+                        saConfirm
+                        message="确定要删除该分组吗?"
+                        (confirmed)="delete(row.id)"
+                    >
                         <mat-icon>delete</mat-icon>
                     </button>
                 </td>

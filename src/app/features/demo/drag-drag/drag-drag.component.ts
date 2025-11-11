@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
-    selector: 'sa-drag-drag',
+    selector: 'app-drag-drag',
     templateUrl: './drag-drag.component.html',
     styleUrl: './drag-drag.component.scss',
     imports: [CdkDrag, CdkDropList],
