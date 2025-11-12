@@ -1,58 +1,56 @@
-<div class="flex h-screen w-full items-center justify-center">
-    <mat-card class="w-full max-w-[380px]">
-        <mat-card-header class="mb-[24px]">
-            <mat-card-title>😊欢迎来到 => Shop</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <form class="flex w-full flex-col" [formGroup]="loginForm">
-                <mat-form-field>
-                    <mat-label>用户名*</mat-label>
-                    <input
-                        matInput
-                        formControlName="username"
-                        type="text"
-                        placeholder="请输入手机号/用户名/邮箱"
-                        required
-                    />
-                    <mat-icon matSuffix>face</mat-icon>
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>密码*</mat-label>
-                    <input
-                        matInput
-                        formControlName="password"
-                        [type]="hidePassword() ? 'password' : 'text'"
-                        placeholder="请输入密码"
-                        required
-                    />
-                    <button
-                        matIconButton
-                        matSuffix
-                        type="button"
-                        (click)="clickEvent($event)"
-                        [attr.aria-label]="'Hide password'"
-                        [attr.aria-pressed]="hidePassword()"
-                    >
-                        <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
-                    </button>
-                </mat-form-field>
-                <div class="flex justify-between">
-                    <mat-checkbox formControlName="rememberMe" labelPosition="after">保持登录状态</mat-checkbox>
-                    <a matButton routerLink="/auth/register">忘记密码</a>
-                </div>
-            </form>
-        </mat-card-content>
-        <mat-card-actions>
-            <button
-                type="submit"
-                matButton="filled"
-                color="primary"
-                class="w-full"
-                [disabled]="loginForm.invalid"
-                (click)="onSubmit()"
-            >
-                登录
-            </button>
-        </mat-card-actions>
-    </mat-card>
-</div>
+<mat-card class="login-card">
+    <mat-card-header>
+        <mat-card-title>😊欢迎来到 => Shop</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form class="login-form" [formGroup]="loginForm">
+            <mat-form-field>
+                <mat-label>用户名*</mat-label>
+                <input
+                    matInput
+                    formControlName="username"
+                    type="text"
+                    placeholder="请输入手机号/用户名/邮箱"
+                    required
+                />
+                <mat-icon matSuffix>face</mat-icon>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>密码*</mat-label>
+                <input
+                    matInput
+                    formControlName="password"
+                    [type]="hidePassword() ? 'password' : 'text'"
+                    placeholder="请输入密码"
+                    required
+                />
+                <button
+                    matIconButton
+                    matSuffix
+                    type="button"
+                    (click)="clickEvent($event)"
+                    [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hidePassword()"
+                >
+                    <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+            </mat-form-field>
+            <div class="login-form__footer">
+                <mat-checkbox formControlName="rememberMe" labelPosition="after">保持登录状态</mat-checkbox>
+                <a matButton routerLink="/auth/register">忘记密码</a>
+            </div>
+        </form>
+    </mat-card-content>
+    <mat-card-actions>
+        <button
+            type="submit"
+            matButton="filled"
+            color="primary"
+            [disabled]="loginForm.invalid"
+            (click)="onSubmit()"
+            class="login-form__submit-btn"
+        >
+            登录
+        </button>
+    </mat-card-actions>
+</mat-card>

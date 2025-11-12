@@ -1,17 +1,23 @@
-.container {
-    height: 100vh;
+:host {
+    .container {
+        height: 100vh;
 
-    .sidenav {
-    }
+        .sidenav {
+        }
 
-    .header {
-        position: sticky;
-        top: 0;
-        z-index: 9;
-    }
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 9;
+        }
 
-    .content {
-        position: relative;
-        padding: 0 30px 30px;
+        .content {
+            height: 100%;
+            position: relative;
+            padding: 30px;
+            border-radius: 20px;
+            background-color: #f4f7fb;
+            margin: 0 auto;
+        }
     }
 }
