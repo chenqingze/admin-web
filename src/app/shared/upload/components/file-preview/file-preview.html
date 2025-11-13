@@ -1,6 +1,6 @@
-<div class="group relative h-full w-full overflow-hidden rounded-xs border border-dashed hover:ring-2">
+<div class="file-preview">
     @if (file()) {
-        <div class="flex items-center justify-center">
+        <div class="preview-content">
             @if (isImage()) {
                 <!-- 配置可传入 with 和 height -->
                 @if (file()?.path) {
@@ -12,15 +12,13 @@
                 <mat-icon>draft</mat-icon>
             }
         </div>
-        <div
-            class="upload-overlay bg-mat-on-surface/50 absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        >
+        <div class="preview-overlay">
             @switch (file()?.status) {
                 @case ('UPLOADING') {
                     <button matIconButton type="button" (click)="removeFile($event)">
                         <mat-icon>close</mat-icon>
                     </button>
-                    <mat-progress-bar mode="determinate" [value]="file()?.percentage" class="!absolute bottom-0.5" />
+                    <mat-progress-bar mode="determinate" [value]="file()?.percentage" class="progress-info" />
                 }
                 @case ('SUCCESS') {
                     @if (isImage()) {

@@ -39,6 +39,7 @@ export class UploadService {
             message: '',
             name: '',
             path: undefined,
+            type: 'IMAGE',
             percentage: 0,
             status: 'PENDING',
         };
@@ -57,10 +58,11 @@ export class UploadService {
                     uploadFileInfo.message = 'Upload Success!';
                     uploadFileInfo.percentage = 100;
                     uploadFileInfo.status = 'SUCCESS';
-                    const { name, path, hash } = (event.body || {}) as UploadFileInfo;
+                    const { name, path, hash, type = 'IMAGE' } = (event.body || {}) as UploadFileInfo;
                     uploadFileInfo.name = name;
                     uploadFileInfo.path = path;
                     uploadFileInfo.hash = hash;
+                    uploadFileInfo.type = type;
                     // 保存文件信息到数据库
                     return this.saveFile(uploadFileInfo).pipe(
                         map((fileInfo) => {

@@ -1,30 +1,28 @@
-<mat-card>
-    <mat-card-header>
-        <div class="flex w-full items-baseline">
-            <form>
-                <mat-form-field>
-                    <mat-label>条件</mat-label>
-                    <input matInput placeholder="请输入搜索条件" />
-                </mat-form-field>
-                <button type="button" matButton="filled" class="ml-2">搜索</button>
-            </form>
-            <span class="flex-auto"></span>
-            <div class="flex gap-2">
-                <button
-                    type="button"
-                    matButton="tonal"
-                    saConfirm
-                    message="确定要批量删除选中的品牌吗?"
-                    (confirmed)="deleteSelected()"
-                >
-                    批量删除
-                </button>
-                <button type="button" matButton="filled" (click)="openDialog()">新增</button>
-            </div>
+<mat-card class="table-card">
+    <mat-card-header class="table-card__header">
+        <form class="table-card__filters">
+            <mat-form-field>
+                <mat-label>条件</mat-label>
+                <input matInput placeholder="请输入搜索条件" />
+            </mat-form-field>
+            <button type="button" matButton="filled" class="ml-2">搜索</button>
+        </form>
+        <span class="spacer"></span>
+        <div class="table-card__actions">
+            <button
+                type="button"
+                matButton="tonal"
+                appConfirm
+                message="确定要批量删除选中的品牌吗?"
+                (confirmed)="deleteSelected()"
+            >
+                批量删除
+            </button>
+            <button type="button" matButton="filled" (click)="openDialog()">新增</button>
         </div>
     </mat-card-header>
-    <mat-card-content>
-        <table mat-table [dataSource]="dataSource" aria-label="brands">
+    <mat-card-content class="table-card__content">
+        <table mat-table [dataSource]="dataSource" class="table-card__table" aria-label="brands">
             <ng-container matColumnDef="select">
                 <th *matHeaderCellDef mat-header-cell>
                     <mat-checkbox
@@ -48,10 +46,10 @@
             </ng-container>
             <ng-container matColumnDef="logo">
                 <th *matHeaderCellDef="let row" mat-header-cell>Logo</th>
-                <td *matCellDef="let row" mat-cell>
-                    <div class="relative h-8 w-8">
+                <td *matCellDef="let row" mat-cell class="table-card__col--image">
+                    <div class="table-card__image-wrapper">
                         @if (row.mediaPath) {
-                            <img [ngSrc]="row.mediaPath" fill alt="brand logo" />
+                            <img [ngSrc]="row.mediaPath" fill class="table-card__cell-image" alt="brand logo" />
                         }
                     </div>
                 </td>
@@ -65,7 +63,7 @@
                     <button
                         mat-icon-button
                         type="button"
-                        saConfirm
+                        appConfirm
                         message="确定要删除该品牌吗?"
                         (confirmed)="delete(row.id)"
                     >
@@ -83,6 +81,7 @@
             [pageIndex]="paginatorProps().pageIndex"
             [pageSize]="paginatorProps().pageSize"
             [length]="totalElements()"
+            class="table-card__paginator"
         />
     </mat-card-content>
 </mat-card>

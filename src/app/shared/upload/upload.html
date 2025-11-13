@@ -1,5 +1,5 @@
 @if (uploadType() === 'list-card') {
-    <div class="flex h-full w-full flex-wrap items-center gap-2">
+    <div class="list-card-container">
         @for (file of fileList(); track $index) {
             <app-file-preview
                 [file]="file"
@@ -15,27 +15,24 @@
                 [disabled]="uploadType() !== 'list-card'"
                 [multiple]="multiple()"
                 (selected)="onSelected($event)"
-                class="hover:ring-2"
+                class="list-card-select-area"
             >
                 <ng-content>
                     <div
-                        class="bg-mat-surface-container-low flex flex-col items-center justify-center rounded-xs border border-dashed"
+                        class="list-card-select-area__content"
                         [style]="`width:${previewWidth()};height:${previewHeight()}`"
                     >
                         <mat-icon>{{ listCardIcon() }}</mat-icon>
-                        <p class="text-xs">{{ listCardText() }}</p>
+                        @if (listCardText()) {
+                            <p class="list-card-select-area__description">{{ listCardText() }}</p>
+                        }
                     </div>
                 </ng-content>
             </div>
         }
     </div>
 } @else if (uploadType() === 'drag-drop') {
-    <div
-        appFileSelect
-        [multiple]="multiple()"
-        (selected)="onSelected($event)"
-        class="flex h-full w-full flex-wrap items-center gap-2 hover:ring-2"
-    >
+    <div appFileSelect [multiple]="multiple()" (selected)="onSelected($event)" class="drag-drop-container">
         @for (file of fileList(); track $index) {
             <app-file-preview
                 [file]="file"
@@ -47,11 +44,11 @@
 
         @if (fileList().length < 1) {
             <ng-content>
-                <div class="mb-4 flex w-full flex-col items-center justify-center gap-4">
+                <div class="drag-drop-select-area">
                     <p>
                         <mat-icon style="font-size: 48px; width: 48px; height: 48px">cloud_upload</mat-icon>
                     </p>
-                    <p class="text-xs">点击或者拖动文件到该区域来上传</p>
+                    <p class="drag-drop-select-area__description">点击或者拖动文件到该区域来上传</p>
                     <!--<p class="text-xs text-mat-secondary">请不要上传敏感数据，比如你的银行卡号和密码，信用卡号有效期和安全码</p>-->
                 </div>
             </ng-content>

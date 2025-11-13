@@ -1,0 +1,11 @@
+:host {
+    --mat-dialog-headline-padding: 6px 24px 13px;
+    --mat-dialog-content-padding: 20px 24px;
+
+    .dialog-form {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 8px 0;
+    }
+}

@@ -15,6 +15,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PaginatorProps } from '@ui';
 import { MatIconModule } from '@angular/material/icon';
 import { BrandFormDialog } from './brand-form-dialog/brand-form-dialog';
+import { Confirm } from '@directives';
 
 @Component({
     selector: 'app-brand-list-page',
@@ -31,6 +32,7 @@ import { BrandFormDialog } from './brand-form-dialog/brand-form-dialog';
         MatInput,
         MatLabel,
         NgOptimizedImage,
+        Confirm,
     ],
     templateUrl: './brand-list-page.html',
     styleUrl: './brand-list-page.scss',

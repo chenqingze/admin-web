@@ -8,6 +8,9 @@
     .login-card {
         width: 100%;
         max-width: 380px;
+        &__header {
+            padding-bottom: 16px;
+        }
     }
 
     .login-form {

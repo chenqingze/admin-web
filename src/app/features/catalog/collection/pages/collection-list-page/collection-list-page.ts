@@ -16,6 +16,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { Collection } from '@models';
 import { PaginatorProps } from '@ui';
+import { Confirm } from '@directives';
 
 @Component({
     selector: 'app-collection-list-page',
@@ -32,6 +33,7 @@ import { PaginatorProps } from '@ui';
         MatIconModule,
         MatSnackBarModule,
         NgOptimizedImage,
+        Confirm,
     ],
     templateUrl: './collection-list-page.html',
     styleUrl: './collection-list-page.scss',

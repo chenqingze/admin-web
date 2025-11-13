@@ -1,18 +1,61 @@
 /* file-upload.component.css */
-
-.file-select-area {
+.list-card-container {
+    width: 100%;
+    height: 100%;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 16px;
-    margin-bottom: 16px;
+    gap: 8px;
+
+    .list-card-select-area {
+        border-radius: var(--mat-sys-corner-extra-small);
+        border: 1px dashed;
+        transition: box-shadow 150ms ease;
+        overflow: hidden;
+        &:hover {
+            box-shadow: 0 0 0 2px var(--mat-sys-primary);
+        }
+
+        &__content {
+            background-color: var(--mat-sys-surface-container-low);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        &__description {
+            font-size: var(--mat-sys-body-small);
+        }
+    }
 }
 
-.file-name {
-    flex-grow: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: rgba(0, 0, 0, 0.6);
+.drag-drop-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+
+    border-radius: var(--mat-sys-corner-medium);
+    transition: box-shadow 150ms ease;
+    &:hover {
+        box-shadow: 0 0 0 2px var(--mat-sys-primary);
+    }
+
+    .drag-drop-select-area {
+        width: 100%;
+        margin-bottom: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        &__description {
+            font-size: var(--mat-sys-body-small);
+        }
+    }
 }
 
 mat-progress-bar {

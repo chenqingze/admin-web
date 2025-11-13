@@ -15,6 +15,7 @@ import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { Product } from '@models';
 import { PaginatorProps } from '@ui';
+import { Confirm } from '@directives';
 
 @Component({
     selector: 'app-product-list-page',
@@ -32,6 +33,7 @@ import { PaginatorProps } from '@ui';
         MatSnackBarModule,
         NgOptimizedImage,
         RouterLink,
+        Confirm,
     ],
     templateUrl: './product-list-page.html',
     styleUrl: './product-list-page.scss',
