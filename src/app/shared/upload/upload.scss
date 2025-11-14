@@ -37,8 +37,8 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
-
-    border-radius: var(--mat-sys-corner-medium);
+    border: 1px dashed var(--mat-sys-on-surface);
+    border-radius: var(--mat-sys-corner-extra-small);
     transition: box-shadow 150ms ease;
     &:hover {
         box-shadow: 0 0 0 2px var(--mat-sys-primary);
@@ -51,23 +51,9 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 8px;
+        gap: 4px;
         &__description {
             font-size: var(--mat-sys-body-small);
         }
     }
-}
-
-mat-progress-bar {
-    margin-bottom: 8px;
-}
-
-.progress-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.action-buttons button {
-    margin-left: 8px;
 }

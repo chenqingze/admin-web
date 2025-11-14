@@ -1,6 +1,6 @@
-<mat-card class="table-card">
-    <mat-card-header class="table-card__header">
-        <form class="table-card__filters">
+<mat-card appearance="outlined" class="card">
+    <mat-card-header class="card__header">
+        <form class="card__filters">
             <mat-form-field>
                 <mat-label>条件</mat-label>
                 <input matInput placeholder="请输入搜索条件" />
@@ -8,7 +8,7 @@
             <button type="button" matButton="filled" class="ml-2">搜索</button>
         </form>
         <span class="spacer"></span>
-        <div class="table-card__actions">
+        <div class="card__actions">
             <button
                 type="button"
                 matButton="tonal"
@@ -21,8 +21,8 @@
             <button type="button" matButton="filled" (click)="openDialog()">新增</button>
         </div>
     </mat-card-header>
-    <mat-card-content class="table-card__content">
-        <table mat-table [dataSource]="dataSource" class="table-card__table" aria-label="brands">
+    <mat-card-content class="card__content">
+        <table mat-table [dataSource]="dataSource" class="card__table" aria-label="brands">
             <ng-container matColumnDef="select">
                 <th *matHeaderCellDef mat-header-cell>
                     <mat-checkbox
@@ -46,10 +46,10 @@
             </ng-container>
             <ng-container matColumnDef="logo">
                 <th *matHeaderCellDef="let row" mat-header-cell>Logo</th>
-                <td *matCellDef="let row" mat-cell class="table-card__col--image">
-                    <div class="table-card__image-wrapper">
+                <td *matCellDef="let row" mat-cell class="card__col--image">
+                    <div class="card__image-wrapper">
                         @if (row.mediaPath) {
-                            <img [ngSrc]="row.mediaPath" fill class="table-card__cell-image" alt="brand logo" />
+                            <img [ngSrc]="row.mediaPath" fill class="card__cell-image" alt="brand logo" />
                         }
                     </div>
                 </td>
@@ -81,7 +81,7 @@
             [pageIndex]="paginatorProps().pageIndex"
             [pageSize]="paginatorProps().pageSize"
             [length]="totalElements()"
-            class="table-card__paginator"
+            class="card__paginator"
         />
     </mat-card-content>
 </mat-card>

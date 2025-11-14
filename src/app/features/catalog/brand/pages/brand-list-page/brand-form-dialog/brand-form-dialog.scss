@@ -2,10 +2,19 @@
     --mat-dialog-headline-padding: 6px 24px 13px;
     --mat-dialog-content-padding: 20px 24px;
 
+    .dialog-title {
+    }
+
     .dialog-form {
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 8px;
         padding: 8px 0;
+    }
+
+    .dialog-actions {
+        display: flex;
+        justify-content: flex-start;
+        gap: 8px;
     }
 }
