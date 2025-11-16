@@ -1,31 +1,28 @@
-<mat-card>
-    <mat-card-header>
-        <div class="flex w-full items-baseline gap-2">
-            <form>
-                <mat-form-field>
-                    <mat-label>条件</mat-label>
-                    <input matInput placeholder="" />
-                </mat-form-field>
-                <button type="button" matButton="filled" class="ml-2">搜索</button>
-            </form>
-            <span class="flex-auto"></span>
-            <div class="flex gap-2">
-                <button
-                    type="button"
-                    matButton="tonal"
-                    appConfirm
-                    message="确定要批量删除选中的分组吗?"
-                    (confirmed)="deleteSelected()"
-                >
-                    批量删除
-                </button>
-                <button type="button" matButton="filled" (click)="openDialog()">新增</button>
-            </div>
+<div class="card">
+    <div class="card__header">
+        <form [formGroup]="searchForm" class="filter-area">
+            <mat-form-field>
+                <mat-label>分组名称</mat-label>
+                <input matInput formControlName="name" placeholder="分组名称" />
+            </mat-form-field>
+            <button type="button" matButton="filled" (click)="search()">搜索</button>
+        </form>
+        <span class="spacer"></span>
+        <div class="action-area">
+            <button
+                type="button"
+                matButton="tonal"
+                appConfirm
+                message="确定要批量删除选中的分组吗?"
+                (confirmed)="deleteSelected()"
+            >
+                批量删除
+            </button>
+            <button type="button" matButton="filled" (click)="openDialog()">新增</button>
         </div>
-    </mat-card-header>
-
-    <mat-card-content>
-        <table mat-table [dataSource]="dataSource" aria-label="collections">
+    </div>
+    <div class="card__content">
+        <table mat-table [dataSource]="dataSource" class="table" aria-label="collections">
             <!-- Checkbox Column -->
             <ng-container matColumnDef="select">
                 <th mat-header-cell *matHeaderCellDef>
@@ -53,16 +50,18 @@
             <!-- name  -->
             <ng-container matColumnDef="name">
                 <th *matHeaderCellDef mat-header-cell>分组</th>
-                <td *matCellDef="let row" mat-cell>{{ row.name }}</td>
+                <td *matCellDef="let row" mat-cell>
+                    {{ row.name }}
+                </td>
             </ng-container>
 
             <!-- mediaPath  -->
             <ng-container matColumnDef="mediaPath">
                 <th *matHeaderCellDef mat-header-cell>图片</th>
-                <td *matCellDef="let row" mat-cell>
-                    <div class="relative h-8 w-8">
+                <td *matCellDef="let row" mat-cell class="table__cell--image">
+                    <div class="thumbnail">
                         @if (row.mediaPath) {
-                            <img [ngSrc]="row.mediaPath" fill alt="collection image" />
+                            <img [ngSrc]="row.mediaPath" fill class="thumbnail__img" alt="collection image" />
                         }
                     </div>
                 </td>
@@ -98,5 +97,5 @@
             [pageSize]="paginatorProps().pageSize"
             [length]="totalElements()"
         />
-    </mat-card-content>
-</mat-card>
+    </div>
+</div>

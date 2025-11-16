@@ -6,7 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { BrandService } from '../../services/brand-service';
+import { BrandService } from '../services/brand-service';
 import { Brand } from '@models';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,8 +14,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PaginatorProps } from '@ui';
 import { MatIconModule } from '@angular/material/icon';
-import { BrandFormDialog } from './brand-form-dialog/brand-form-dialog';
+import { BrandFormDialog } from '../brand-form-dialog/brand-form-dialog';
 import { Confirm } from '@directives';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-brand-list-page',
@@ -33,6 +34,7 @@ import { Confirm } from '@directives';
         MatLabel,
         NgOptimizedImage,
         Confirm,
+        ReactiveFormsModule,
     ],
     templateUrl: './brand-list-page.html',
     styleUrl: './brand-list-page.scss',
@@ -43,7 +45,7 @@ export class BrandListPage {
     private readonly snackBar = inject(MatSnackBar);
 
     protected dataSource = new MatTableDataSource<Brand>([]);
-    protected displayedColumns = ['select', 'name', 'logo', 'actions'];
+    protected displayedColumns = ['select', 'name', 'mediaPath', 'actions'];
     protected selection = new SelectionModel<Brand>(true, []);
     get selectedIds(): string[] {
         return this.selection.selected.map((item) => item.id!);
@@ -54,6 +56,10 @@ export class BrandListPage {
         pageSize: 5,
     });
     protected readonly totalElements = signal(0);
+
+    protected readonly searchForm = new FormGroup({
+        name: new FormControl(null),
+    });
 
     constructor() {
         effect(() => {
@@ -82,6 +88,17 @@ export class BrandListPage {
     protected onPageEvent(e: PageEvent) {
         const { pageSize, pageIndex } = e;
         this.paginatorProps.update((props) => ({ ...props, pageIndex, pageSize }));
+    }
+
+    protected search() {
+        const { pageIndex, pageSize } = this.paginatorProps();
+        this.brandService
+            .getPage({ page: pageIndex, size: pageSize }, { name: this.searchForm.value.name })
+            .subscribe((data) => {
+                const { page, content } = data;
+                this.dataSource.data = content;
+                this.totalElements.set(Number(page.totalElements));
+            });
     }
 
     protected openDialog(id?: string) {

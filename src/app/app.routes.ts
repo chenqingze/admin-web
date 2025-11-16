@@ -92,7 +92,7 @@ export const routes: Routes = [
                     {
                         path: 'collections',
                         loadComponent: () =>
-                            import('@features/catalog/collection/pages/collection-list-page/collection-list-page').then(
+                            import('@features/catalog/collection/collection-list-page/collection-list-page').then(
                                 (m) => m.CollectionListPage,
                             ),
                         title: '商品分组',
@@ -105,7 +105,7 @@ export const routes: Routes = [
                     {
                         path: 'brands',
                         loadComponent: () =>
-                            import('@features/catalog/brand/pages/brand-list-page/brand-list-page').then(
+                            import('@features/catalog/brand/brand-list-page/brand-list-page').then(
                                 (m) => m.BrandListPage,
                             ),
                         title: '品牌管理',

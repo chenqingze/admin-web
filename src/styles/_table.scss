@@ -1,0 +1,28 @@
+.table {
+    border-top: 1px solid var(--mat-sys-outline-variant);
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+    th,
+    td {
+        //padding: spacing(sm);
+        //vertical-align: middle;
+    }
+
+    th {
+        font-weight: 600;
+        color: var(--mat-on-surface-variant);
+    }
+
+    &__cell {
+        // 单元格自身的 padding
+        //padding: 8px;
+        // 如果需要对单元格内的缩略图进行布局调整 (例如居中)
+        &--image {
+            /* 针对图片列的特定 Element Modifier */
+            text-align: center;
+        }
+    }
+}
+
+.table-paginator {
+}

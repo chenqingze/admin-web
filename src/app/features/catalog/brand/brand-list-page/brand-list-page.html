@@ -1,14 +1,14 @@
-<mat-card appearance="outlined" class="card">
-    <mat-card-header class="card__header">
-        <form class="card__filters">
+<div class="card">
+    <div class="card__header">
+        <form [formGroup]="searchForm" class="filter-area">
             <mat-form-field>
-                <mat-label>条件</mat-label>
-                <input matInput placeholder="请输入搜索条件" />
+                <mat-label>品牌名称</mat-label>
+                <input matInput formControlName="name" placeholder="品牌名称" />
             </mat-form-field>
-            <button type="button" matButton="filled" class="ml-2">搜索</button>
+            <button type="button" matButton="filled" (click)="search()">搜索</button>
         </form>
         <span class="spacer"></span>
-        <div class="card__actions">
+        <div class="action-area">
             <button
                 type="button"
                 matButton="tonal"
@@ -20,9 +20,9 @@
             </button>
             <button type="button" matButton="filled" (click)="openDialog()">新增</button>
         </div>
-    </mat-card-header>
-    <mat-card-content class="card__content">
-        <table mat-table [dataSource]="dataSource" class="card__table" aria-label="brands">
+    </div>
+    <div class="card__content">
+        <table mat-table [dataSource]="dataSource" class="table" aria-label="brands">
             <ng-container matColumnDef="select">
                 <th *matHeaderCellDef mat-header-cell>
                     <mat-checkbox
@@ -44,16 +44,19 @@
                     {{ row.name }}
                 </td>
             </ng-container>
-            <ng-container matColumnDef="logo">
-                <th *matHeaderCellDef="let row" mat-header-cell>Logo</th>
-                <td *matCellDef="let row" mat-cell class="card__col--image">
-                    <div class="card__image-wrapper">
+
+            <!-- mediaPath  -->
+            <ng-container matColumnDef="mediaPath">
+                <th *matHeaderCellDef mat-header-cell>图片</th>
+                <td *matCellDef="let row" mat-cell class="table__cell--image">
+                    <div class="thumbnail">
                         @if (row.mediaPath) {
-                            <img [ngSrc]="row.mediaPath" fill class="card__cell-image" alt="brand logo" />
+                            <img [ngSrc]="row.mediaPath" fill class="thumbnail__img" alt="collection image" />
                         }
                     </div>
                 </td>
             </ng-container>
+
             <ng-container matColumnDef="actions">
                 <th *matHeaderCellDef="let row" mat-header-cell>操作</th>
                 <td *matCellDef="let row" mat-cell>
@@ -83,5 +86,5 @@
             [length]="totalElements()"
             class="card__paginator"
         />
-    </mat-card-content>
-</mat-card>
+    </div>
+</div>

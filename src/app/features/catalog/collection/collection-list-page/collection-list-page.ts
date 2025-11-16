@@ -2,7 +2,7 @@ import { Component, effect, inject, signal } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { CollectionService } from '../../services/collection-service';
+import { CollectionService } from '../services/collection-service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,12 +11,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { CollectionFormDialog } from './collection-form-dialog/collection-form-dialog';
+import { CollectionFormDialog } from '../collection-form-dialog/collection-form-dialog';
 import { NgOptimizedImage } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { Collection } from '@models';
 import { PaginatorProps } from '@ui';
 import { Confirm } from '@directives';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-collection-list-page',
@@ -34,6 +35,8 @@ import { Confirm } from '@directives';
         MatSnackBarModule,
         NgOptimizedImage,
         Confirm,
+        FormsModule,
+        ReactiveFormsModule,
     ],
     templateUrl: './collection-list-page.html',
     styleUrl: './collection-list-page.scss',
@@ -53,8 +56,11 @@ export class CollectionListPage {
         pageIndex: 0,
         pageSize: 5,
     });
-
     protected readonly totalElements = signal(0);
+
+    protected readonly searchForm = new FormGroup({
+        name: new FormControl(null),
+    });
 
     constructor() {
         effect(() => {
@@ -84,6 +90,17 @@ export class CollectionListPage {
     protected onPageEvent(e: PageEvent) {
         const { pageSize, pageIndex } = e;
         this.paginatorProps.update((props) => ({ ...props, pageIndex, pageSize }));
+    }
+
+    protected search() {
+        const { pageIndex, pageSize } = this.paginatorProps();
+        this.collectionService
+            .getPage({ page: pageIndex, size: pageSize }, { name: this.searchForm.value.name })
+            .subscribe((data) => {
+                const { page, content } = data;
+                this.dataSource.data = content;
+                this.totalElements.set(Number(page.totalElements));
+            });
     }
 
     protected openDialog(id?: string) {

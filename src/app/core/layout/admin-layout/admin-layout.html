@@ -1,4 +1,4 @@
-<mat-sidenav-container class="container" autosize autofocus>
+<mat-sidenav-container class="sidenav-container" autosize autofocus>
     <mat-sidenav
         #sidenav
         opened
@@ -12,8 +12,8 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
-        <app-header (toggleMenuBtn)="sidenav.toggle()" class="header" />
-        <main class="content">
+        <app-header (toggleMenuBtn)="sidenav.toggle()" />
+        <main class="main-content">
             <router-outlet />
         </main>
         <!-- app-footer -->
