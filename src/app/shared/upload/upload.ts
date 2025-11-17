@@ -74,7 +74,7 @@ export class Upload {
             this.fileService.cancelUpload(this.fileList()[index]);
             // 删除上传文件
             fileList.splice(index, 1);
-            return fileList;
+            return [...fileList];
         });
     }
 

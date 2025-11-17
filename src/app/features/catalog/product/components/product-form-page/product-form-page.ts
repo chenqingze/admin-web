@@ -30,6 +30,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonToggleChange, MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DecimalPlaces } from '@directives';
+import { CdkDrag } from '@angular/cdk/drag-drop';
 
 @Component({
     selector: 'app-product-form-page',
@@ -52,6 +53,7 @@ import { DecimalPlaces } from '@directives';
         NgOptimizedImage,
         DecimalPlaces,
         Upload,
+        CdkDrag,
     ],
     templateUrl: './product-form-page.html',
     styleUrl: './product-form-page.scss',
@@ -259,7 +261,7 @@ export class ProductFormPage implements OnInit, OnDestroy {
     protected openMediaSelectorDialog(variantCtrl: VariantFromGroup) {
         const dialogRef = this.dialog.open(MediaSelectorDialog, {
             data: [...this.mediaList()],
-            width: '560px',
+            width: '450px',
             maxWidth: '720px',
             maxHeight: 'calc(100vw - 32px)',
         });

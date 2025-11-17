@@ -6,7 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { BrandService } from '../services/brand-service';
+import { BrandService } from '../../services/brand-service';
 import { Brand } from '@models';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
@@ -81,8 +81,9 @@ export class BrandListPage {
     protected toggleAllRows() {
         if (this.isAllSelected()) {
             this.selection.clear();
+            return;
         }
-        return this.selection.select(...this.dataSource.data);
+        this.selection.select(...this.dataSource.data);
     }
 
     protected onPageEvent(e: PageEvent) {

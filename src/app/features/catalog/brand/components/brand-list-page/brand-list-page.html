@@ -14,6 +14,7 @@
                 matButton="tonal"
                 appConfirm
                 message="确定要批量删除选中的品牌吗?"
+                [disabled]="selection.isEmpty()"
                 (confirmed)="deleteSelected()"
             >
                 批量删除
@@ -28,12 +29,13 @@
                     <mat-checkbox
                         (change)="$event ? toggleAllRows() : null"
                         [checked]="selection.hasValue() && !isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()"
                     />
                 </th>
                 <td *matCellDef="let row" mat-cell>
                     <mat-checkbox
                         (click)="$event.stopPropagation()"
-                        (change)="$event ? selection.select(row) : null"
+                        (change)="$event ? selection.toggle(row) : null"
                         [checked]="selection.isSelected(row)"
                     />
                 </td>

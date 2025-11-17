@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Collection } from '@models';
 import { Upload, UploadFileInfo } from '@shared/upload';
-import { CollectionService } from '../services/collection-service';
+import { CollectionService } from '../../services/collection-service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

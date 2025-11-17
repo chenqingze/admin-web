@@ -1,0 +1,12 @@
+<h5 mat-dialog-title>选择图片</h5>
+<mat-dialog-content>
+    <div class="image-list">
+        @for (media of mediaList(); track $index) {
+            <div class="image-list__item">
+                <button type="button" (click)="selectImage(media)">
+                    <img [ngSrc]="media.path!" fill alt="Image option" />
+                </button>
+            </div>
+        }
+    </div>
+</mat-dialog-content>

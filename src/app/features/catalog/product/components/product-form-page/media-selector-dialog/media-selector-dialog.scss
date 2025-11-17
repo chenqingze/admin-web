@@ -1,0 +1,20 @@
+.image-list {
+    padding: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px;
+
+    &__item {
+        position: relative;
+        height: 48px;
+        width: 48px;
+        border-radius: var(--mat-sys-corner-small);
+        overflow: hidden;
+        &:hover {
+            cursor: pointer;
+            transform: scale(1.05);
+            box-shadow: 0 0 0 2px var(--mat-sys-primary);
+        }
+    }
+}

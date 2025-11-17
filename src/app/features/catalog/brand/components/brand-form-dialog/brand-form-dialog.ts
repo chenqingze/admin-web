@@ -7,7 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Upload, UploadFileInfo } from '@shared/upload';
 import { Brand } from '@models';
-import { BrandService } from '../services/brand-service';
+import { BrandService } from '../../services/brand-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({

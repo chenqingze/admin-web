@@ -1,26 +1,25 @@
-import { Component, effect, inject, signal } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { CollectionService } from '../services/collection-service';
+import { AfterViewInit, Component, effect, inject, signal, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { SelectionModel } from '@angular/cdk/collections';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
-import { CollectionFormDialog } from '../collection-form-dialog/collection-form-dialog';
+import { MatInputModule } from '@angular/material/input';
 import { NgOptimizedImage } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { SelectionModel } from '@angular/cdk/collections';
+import { ProductService } from '../../services/product-service';
+import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
-import { Collection } from '@models';
+import { Product } from '@models';
 import { PaginatorProps } from '@ui';
 import { Confirm } from '@directives';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-collection-list-page',
+    selector: 'app-product-list-page',
     imports: [
         MatCardModule,
         MatFormFieldModule,
@@ -34,21 +33,22 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
         MatIconModule,
         MatSnackBarModule,
         NgOptimizedImage,
+        RouterLink,
         Confirm,
-        FormsModule,
         ReactiveFormsModule,
     ],
-    templateUrl: './collection-list-page.html',
-    styleUrl: './collection-list-page.scss',
+    templateUrl: './product-list-page.html',
+    styleUrl: './product-list-page.scss',
 })
-export class CollectionListPage {
-    private readonly collectionService = inject(CollectionService);
-    private readonly dialog = inject(MatDialog);
+export class ProductListPage implements AfterViewInit {
+    private readonly productService = inject(ProductService);
     private readonly snackBar = inject(MatSnackBar);
 
-    protected dataSource = new MatTableDataSource<Collection>();
-    protected displayedColumns = ['select', 'name', 'mediaPath', 'actions'];
-    protected selection = new SelectionModel<Collection>(true, []);
+    @ViewChild(MatSort) protected sort!: MatSort;
+
+    protected dataSource = new MatTableDataSource<Product>();
+    protected displayedColumns = ['select', 'name', 'actions'];
+    protected selection = new SelectionModel<Product>(true, []);
     get selectedIds(): string[] {
         return this.selection.selected.map((item) => item.id!);
     }
@@ -65,12 +65,16 @@ export class CollectionListPage {
     constructor() {
         effect(() => {
             const { pageIndex, pageSize } = this.paginatorProps();
-            this.collectionService.getPage({ page: pageIndex, size: pageSize }).subscribe((data) => {
+            this.productService.getPage({ page: pageIndex, size: pageSize }).subscribe((data) => {
                 const { page, content } = data;
                 this.dataSource.data = content;
                 this.totalElements.set(Number(page.totalElements));
             });
         });
+    }
+
+    ngAfterViewInit(): void {
+        this.dataSource.sort = this.sort;
     }
 
     protected isAllSelected() {
@@ -94,7 +98,7 @@ export class CollectionListPage {
 
     protected search() {
         const { pageIndex, pageSize } = this.paginatorProps();
-        this.collectionService
+        this.productService
             .getPage({ page: pageIndex, size: pageSize }, { name: this.searchForm.value.name })
             .subscribe((data) => {
                 const { page, content } = data;
@@ -103,24 +107,8 @@ export class CollectionListPage {
             });
     }
 
-    protected openDialog(id?: string) {
-        const dialogRef = this.dialog.open(CollectionFormDialog, {
-            data: id,
-            width: '560px',
-            maxWidth: '720px',
-            maxHeight: 'calc(100vw - 32px)',
-        });
-
-        dialogRef.afterClosed().subscribe((data) => {
-            // console.log('The dialog was closed', data);
-            if (data) {
-                this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
-            }
-        });
-    }
-
     protected delete(id: string) {
-        this.collectionService.delete(id).subscribe({
+        this.productService.delete(id).subscribe({
             next: () => {
                 this.snackBar.open('删除成功', '关闭', {
                     duration: 3000,
@@ -138,7 +126,7 @@ export class CollectionListPage {
     }
 
     protected deleteSelected() {
-        this.collectionService.deleteByIds(this.selectedIds).subscribe({
+        this.productService.deleteByIds(this.selectedIds).subscribe({
             next: () => {
                 this.snackBar.open('删除成功', '关闭', {
                     duration: 3000,

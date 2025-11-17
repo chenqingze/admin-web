@@ -6,10 +6,10 @@ export interface Variant extends BaseModel {
     id: string | null;
     sku: string | null;
     barcode: string | null;
-    msrp: number | null;
-    price: number | null;
-    rollbackPrice: number | null;
-    cost: number | null;
+    msrp: string | null;
+    price: string | null;
+    rollbackPrice: string | null;
+    cost: string | null;
     orderMinQty: number | null;
     orderMaxQty: number | null;
     availableQty: number | null;
