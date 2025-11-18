@@ -39,7 +39,7 @@ export const routes: Routes = [
                     {
                         path: 'products',
                         loadComponent: () =>
-                            import('@features/catalog/product/components/product-list-page/product-list-page').then(
+                            import('@features/catalog/components/product-list-page/product-list-page').then(
                                 (m) => m.ProductListPage,
                             ),
                         title: '商品管理',
@@ -52,7 +52,7 @@ export const routes: Routes = [
                     {
                         path: 'products/new',
                         loadComponent: () =>
-                            import('@features/catalog/product/components/product-form-page/product-form-page').then(
+                            import('@features/catalog/components/product-form-page/product-form-page').then(
                                 (m) => m.ProductFormPage,
                             ),
                         title: '新增商品',
@@ -65,7 +65,7 @@ export const routes: Routes = [
                     {
                         path: 'products/:id/edit',
                         loadComponent: () =>
-                            import('@features/catalog/product/components/product-form-page/product-form-page').then(
+                            import('@features/catalog/components/product-form-page/product-form-page').then(
                                 (m) => m.ProductFormPage,
                             ),
                         title: '编辑商品',
@@ -78,7 +78,7 @@ export const routes: Routes = [
                     {
                         path: 'products/:id',
                         loadComponent: () =>
-                            import('@features/catalog/product/components/product-detail-page/product-detail-page').then(
+                            import('@features/catalog/components/product-detail-page/product-detail-page').then(
                                 (m) => m.ProductDetailPage,
                             ),
                         title: '商品详情',
@@ -92,9 +92,9 @@ export const routes: Routes = [
                     {
                         path: 'collections',
                         loadComponent: () =>
-                            import(
-                                '@features/catalog/collection/components/collection-list-page/collection-list-page'
-                            ).then((m) => m.CollectionListPage),
+                            import('@features/catalog/components/collection-list-page/collection-list-page').then(
+                                (m) => m.CollectionListPage,
+                            ),
                         title: '商品分组',
                         data: {
                             icon: 'widgets',
@@ -105,7 +105,7 @@ export const routes: Routes = [
                     {
                         path: 'brands',
                         loadComponent: () =>
-                            import('@features/catalog/brand/components/brand-list-page/brand-list-page').then(
+                            import('@features/catalog/components/brand-list-page/brand-list-page').then(
                                 (m) => m.BrandListPage,
                             ),
                         title: '品牌管理',
@@ -117,7 +117,7 @@ export const routes: Routes = [
                     },
                 ],
             },
-            // // 订单
+            // 订单
             // {
             //     path: 'orders',
             //     title: '订单管理',
@@ -295,7 +295,8 @@ export const routes: Routes = [
             //     ],
             // },
             // demo
-            {
+            /*
+           {
                 path: 'address',
                 title: 'address',
                 loadComponent: () =>
@@ -348,6 +349,7 @@ export const routes: Routes = [
                     showInMenu: true,
                 },
             },
+            */
         ],
     },
 

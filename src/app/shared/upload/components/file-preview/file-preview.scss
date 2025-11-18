@@ -4,8 +4,10 @@
     height: 100%;
     overflow: hidden;
     border-radius: var(--mat-sys-corner-extra-small);
+
     &:hover {
         box-shadow: 0 0 0 2px var(--mat-sys-primary);
+
         .preview-overlay {
             opacity: 1;
         }

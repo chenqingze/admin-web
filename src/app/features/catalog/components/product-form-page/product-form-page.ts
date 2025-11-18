@@ -32,8 +32,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { DecimalPlaces } from '@directives';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BrandService } from '../../../brand/services/brand-service';
-import { CollectionService } from '../../../collection/services/collection-service';
+import { BrandService } from '../../services/brand-service';
+import { CollectionService } from '../../services/collection-service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
