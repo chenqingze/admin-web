@@ -61,7 +61,7 @@ export class Login {
                     this.router.navigateByUrl(redirect);
                 },
                 error: () => {
-                    this.snackBar.open('用户名或密码错误!', '', {
+                    this.snackBar.open('用户名或密码错误!', '关闭', {
                         duration: 3000,
                         horizontalPosition: 'center',
                         verticalPosition: 'top',

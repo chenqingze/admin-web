@@ -31,6 +31,10 @@ import { MatButtonToggleChange, MatButtonToggleModule } from '@angular/material/
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DecimalPlaces } from '@directives';
 import { CdkDrag } from '@angular/cdk/drag-drop';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { BrandService } from '../../../brand/services/brand-service';
+import { CollectionService } from '../../../collection/services/collection-service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-product-form-page',
@@ -61,10 +65,13 @@ import { CdkDrag } from '@angular/cdk/drag-drop';
 export class ProductFormPage implements OnInit, OnDestroy {
     protected readonly id = input<string>();
 
+    private readonly router = inject(Router);
     private readonly dialog = inject(MatDialog);
     private readonly cd = inject(ChangeDetectorRef);
+    private readonly snackBar = inject(MatSnackBar);
     private readonly productService = inject(ProductService);
-    private readonly router = inject(Router);
+    private readonly brandService = inject(BrandService);
+    private readonly collectionService = inject(CollectionService);
 
     protected editor!: Editor;
     protected toolbar: Toolbar = [
@@ -89,6 +96,10 @@ export class ProductFormPage implements OnInit, OnDestroy {
         'availableQty',
         'actions',
     ];
+
+    protected readonly brands = toSignal(this.brandService.getAll(), { initialValue: [] });
+
+    protected readonly collections = toSignal(this.collectionService.getAll(), { initialValue: [] });
 
     protected variantMode = 'single' as 'single' | 'multiple';
 
@@ -259,6 +270,14 @@ export class ProductFormPage implements OnInit, OnDestroy {
     }
 
     protected openMediaSelectorDialog(variantCtrl: VariantFromGroup) {
+        if (this.mediaList().length === 0) {
+            this.snackBar.open('您还没有上传任何图片,请先上传图片', '关闭', {
+                duration: 3000,
+                horizontalPosition: 'center',
+                verticalPosition: 'top',
+            });
+            return;
+        }
         const dialogRef = this.dialog.open(MediaSelectorDialog, {
             data: [...this.mediaList()],
             width: '450px',
@@ -270,6 +289,10 @@ export class ProductFormPage implements OnInit, OnDestroy {
             variantCtrl?.patchValue({ mainMediaId: media.id, mainMediaPath: media.path });
             this.cd.markForCheck();
         });
+    }
+
+    protected removeVariantImage(variantCtrl: VariantFromGroup) {
+        variantCtrl.patchValue({ mainMediaId: null, mainMediaPath: null });
     }
 
     ngOnDestroy(): void {

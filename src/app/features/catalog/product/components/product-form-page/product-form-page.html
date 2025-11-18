@@ -1,4 +1,5 @@
 <form [formGroup]="productForm" novalidate class="product-form">
+    <!--基本信息-->
     <mat-card appearance="outlined">
         <mat-card-header>
             <mat-card-title>基本信息</mat-card-title>
@@ -21,17 +22,34 @@
                     <input matInput type="text" formControlName="summary" placeholder="请输入商品摘要" />
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>分类</mat-label>
-                    <input matInput type="text" formControlName="categoryId" placeholder="请选择商品分类" />
-                </mat-form-field>
-                <mat-form-field>
                     <mat-label>品牌</mat-label>
-                    <mat-select formControlName="brandId" placeholder="请选择品牌" />
+                    <mat-select
+                        formControlName="brandId"
+                        [placeholder]="brands().length > 0 ? '请选择品牌' : '暂无品牌数据'"
+                    >
+                        @for (brand of brands(); track brand.id) {
+                            <mat-option [value]="brand.id">{{ brand.name }}</mat-option>
+                        }
+                    </mat-select>
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>销售分组</mat-label>
-                    <mat-select formControlName="collectionIds" placeholder="请选择销售分组" />
+                    <mat-label>分组</mat-label>
+                    <mat-select
+                        formControlName="collectionIds"
+                        multiple
+                        [placeholder]="collections().length > 0 ? '请选择商品分组' : '暂无分组数据'"
+                    >
+                        @for (collection of collections(); track collection.id) {
+                            <mat-option [value]="collection.id">{{ collection.name }}</mat-option>
+                        }
+                    </mat-select>
+                    <mat-hint>*用于顾客按分组浏览商品</mat-hint>
                 </mat-form-field>
+                <!-- todo: 分类-->
+                <!--<mat-form-field>
+                    <mat-label>分类</mat-label>
+                    <mat-select formControlName="categoryId" placeholder="请选择销售分组"/>
+                </mat-form-field>-->
             </div>
             <div class="description">
                 <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
@@ -44,7 +62,7 @@
             </div>
         </mat-card-content>
     </mat-card>
-
+    <!--变体信息-->
     <mat-card appearance="outlined">
         <mat-card-header>
             <mat-card-title>价格与库存</mat-card-title>
@@ -219,11 +237,25 @@
                                         (click)="openMediaSelectorDialog(variant)"
                                     >
                                         @if (variant.value.mainMediaPath) {
-                                            <div class="thumbnail">
-                                                <img [ngSrc]="variant.value.mainMediaPath!" fill alt="media preview" />
+                                            <div class="thumbnail-wrapper">
+                                                <div class="thumbnail">
+                                                    <img
+                                                        [ngSrc]="variant.value.mainMediaPath!"
+                                                        fill
+                                                        alt="media preview"
+                                                    />
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    (click)="removeVariantImage(variant); $event.stopPropagation()"
+                                                    class="thumbnail-delete-btn"
+                                                    aria-label="删除图片"
+                                                >
+                                                    <mat-icon class="thumbnail-delete-btn__icon">close</mat-icon>
+                                                </button>
                                             </div>
                                         } @else {
-                                            <div class="image-action-wrapper">
+                                            <div class="add-image-icon-wrapper">
                                                 <mat-icon>add</mat-icon>
                                             </div>
                                         }

@@ -72,7 +72,42 @@
             margin-top: 16px;
             padding-bottom: 16px;
 
-            .image-action-wrapper {
+            .thumbnail-wrapper {
+                position: relative;
+                width: 40px;
+                height: 40px;
+
+                .thumbnail-delete-btn {
+                    width: 16px;
+                    height: 16px;
+
+                    position: absolute;
+                    top: -4px;
+                    right: -4px;
+
+                    background-color: var(--mat-sys-secondary-container);
+                    //opacity: 1;
+                    border-radius: var(--mat-sys-corner-full);
+                    border: none;
+                    padding: 0;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    cursor: pointer;
+
+                    &__icon {
+                        font-size: 16px;
+                        width: 16px;
+                        height: 16px;
+                        line-height: 16px;
+                        color: var(--mat-sys-on-secondary-container);
+                    }
+                }
+            }
+
+            .add-image-icon-wrapper {
                 width: 40px;
                 height: 40px;
                 border: 1px dashed var(--mat-sys-outline);
