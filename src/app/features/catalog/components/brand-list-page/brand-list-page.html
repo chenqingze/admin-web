@@ -1,95 +1,91 @@
-<div class="card">
-    <div class="card__header">
-        <form [formGroup]="searchForm">
-            <mat-form-field>
-                <mat-label>品牌名称</mat-label>
-                <input matInput formControlName="name" placeholder="品牌名称" />
-                <button type="button" matIconButton matSuffix (click)="search()">
-                    <mat-icon>search</mat-icon>
-                </button>
-            </mat-form-field>
-        </form>
-        <div>
-            <button
-                type="button"
-                matButton="tonal"
-                appConfirm
-                message="确定要批量删除选中的品牌吗?"
-                [disabled]="selection.isEmpty()"
-                (confirmed)="deleteSelected()"
-            >
-                批量删除
+<div class="table-toolbar-container">
+    <form [formGroup]="searchForm">
+        <mat-form-field>
+            <mat-label>品牌名称</mat-label>
+            <input matInput formControlName="name" placeholder="品牌名称" />
+            <button matIconButton matSuffix type="button" (click)="search()">
+                <mat-icon>search</mat-icon>
             </button>
-            <button type="button" matButton="filled" (click)="openDialog()">新增</button>
-        </div>
+        </mat-form-field>
+    </form>
+    <div class="actions-wrapper">
+        <button
+            type="button"
+            matButton="tonal"
+            appConfirm
+            message="确定要批量删除选中的品牌吗?"
+            [disabled]="selection.isEmpty()"
+            (confirmed)="deleteSelected()"
+        >
+            批量删除
+        </button>
+        <button type="button" matButton="filled" (click)="openDialog()">新增</button>
     </div>
-    <mat-card-content>
-        <div class="table-wrapper">
-            <table mat-table [dataSource]="dataSource" class="table" aria-label="brands">
-                <ng-container matColumnDef="select">
-                    <th *matHeaderCellDef mat-header-cell>
-                        <mat-checkbox
-                            (change)="$event ? toggleAllRows() : null"
-                            [checked]="selection.hasValue() && !isAllSelected()"
-                            [indeterminate]="selection.hasValue() && !isAllSelected()"
-                        />
-                    </th>
-                    <td *matCellDef="let row" mat-cell>
-                        <mat-checkbox
-                            (click)="$event.stopPropagation()"
-                            (change)="$event ? selection.toggle(row) : null"
-                            [checked]="selection.isSelected(row)"
-                        />
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="name">
-                    <th *matHeaderCellDef="let row" mat-header-cell>品牌</th>
-                    <td *matCellDef="let row" mat-cell>
-                        {{ row.name }}
-                    </td>
-                </ng-container>
+</div>
+<div class="table-container">
+    <table mat-table [dataSource]="dataSource" class="table" aria-label="brands">
+        <ng-container matColumnDef="select">
+            <th *matHeaderCellDef mat-header-cell>
+                <mat-checkbox
+                    (change)="$event ? toggleAllRows() : null"
+                    [checked]="selection.hasValue() && !isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                />
+            </th>
+            <td *matCellDef="let row" mat-cell>
+                <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)"
+                />
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+            <th *matHeaderCellDef="let row" mat-header-cell>品牌</th>
+            <td *matCellDef="let row" mat-cell>
+                {{ row.name }}
+            </td>
+        </ng-container>
 
-                <!-- mediaPath  -->
-                <ng-container matColumnDef="mediaPath">
-                    <th *matHeaderCellDef mat-header-cell>图片</th>
-                    <td *matCellDef="let row" mat-cell class="table__cell--image">
-                        <div class="thumbnail">
-                            @if (row.mediaPath) {
-                                <img [ngSrc]="row.mediaPath" fill class="thumbnail__img" alt="collection image" />
-                            }
-                        </div>
-                    </td>
-                </ng-container>
+        <!-- mediaPath  -->
+        <ng-container matColumnDef="mediaPath">
+            <th *matHeaderCellDef mat-header-cell>图片</th>
+            <td *matCellDef="let row" mat-cell class="table__cell--image">
+                <div class="thumbnail">
+                    @if (row.mediaPath) {
+                        <img [ngSrc]="row.mediaPath" fill class="thumbnail__img" alt="collection image" />
+                    }
+                </div>
+            </td>
+        </ng-container>
 
-                <ng-container matColumnDef="actions">
-                    <th *matHeaderCellDef="let row" mat-header-cell>操作</th>
-                    <td *matCellDef="let row" mat-cell>
-                        <button mat-icon-button type="button" (click)="openDialog(row.id)">
-                            <mat-icon>edite</mat-icon>
-                        </button>
-                        <button
-                            mat-icon-button
-                            type="button"
-                            appConfirm
-                            message="确定要删除该品牌吗?"
-                            (confirmed)="delete(row.id)"
-                        >
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </td>
-                </ng-container>
-                <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-                <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
-            </table>
-        </div>
-        <mat-paginator
-            #paginator
-            aria-label="Select page"
-            (page)="onPageEvent($event)"
-            [pageIndex]="paginatorProps().pageIndex"
-            [pageSize]="paginatorProps().pageSize"
-            [length]="totalElements()"
-            class="card__paginator"
-        />
-    </mat-card-content>
+        <ng-container matColumnDef="actions">
+            <th *matHeaderCellDef="let row" mat-header-cell>操作</th>
+            <td *matCellDef="let row" mat-cell>
+                <button mat-icon-button type="button" (click)="openDialog(row.id)">
+                    <mat-icon>edite</mat-icon>
+                </button>
+                <button
+                    mat-icon-button
+                    type="button"
+                    appConfirm
+                    message="确定要删除该品牌吗?"
+                    (confirmed)="delete(row.id)"
+                >
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+    </table>
+    <mat-paginator
+        #paginator
+        aria-label="Select page"
+        (page)="onPageEvent($event)"
+        [pageIndex]="paginatorProps().pageIndex"
+        [pageSize]="paginatorProps().pageSize"
+        [length]="totalElements()"
+        class="card__paginator"
+    />
 </div>

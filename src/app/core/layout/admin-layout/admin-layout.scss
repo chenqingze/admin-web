@@ -23,7 +23,10 @@
     }
 
     &__main {
+        height: 100%;
+        overflow: hidden;
         .page-wrapper {
+            height: 100%;
             position: relative;
             padding: var(--size-3);
             overflow: auto;

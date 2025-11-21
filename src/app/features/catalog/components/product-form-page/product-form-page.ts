@@ -1,4 +1,15 @@
-import { ChangeDetectorRef, Component, effect, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    effect,
+    ElementRef,
+    inject,
+    input,
+    OnDestroy,
+    OnInit,
+    signal,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
@@ -7,7 +18,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
-import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Upload, UploadFileInfo } from '@shared/upload';
 import { MatDialog } from '@angular/material/dialog';
 import { ProductService } from '../../services/product-service';
@@ -35,12 +46,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrandService } from '../../services/brand-service';
 import { CollectionService } from '../../services/collection-service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
     selector: 'app-product-form-page',
     imports: [
         CommonModule,
-        FormsModule,
         ReactiveFormsModule,
         MatCardModule,
         MatFormFieldModule,
@@ -55,6 +66,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
         MatTableModule,
         NgxEditorModule,
         NgOptimizedImage,
+        MatListModule,
         DecimalPlaces,
         Upload,
         CdkDrag,
@@ -62,7 +74,14 @@ import { toSignal } from '@angular/core/rxjs-interop';
     templateUrl: './product-form-page.html',
     styleUrl: './product-form-page.scss',
 })
-export class ProductFormPage implements OnInit, OnDestroy {
+export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
+    protected readonly sections = [
+        { id: 'basic', label: '1. 基本信息' },
+        { id: 'media', label: '2. 媒体图片' },
+        { id: 'variants', label: '3. 规格与变体' },
+        { id: 'customOptions', label: '3. 附加选项' },
+    ];
+    protected readonly activeSection = signal<string>(this.sections[0].id);
     protected readonly id = input<string>();
 
     private readonly router = inject(Router);
@@ -72,7 +91,7 @@ export class ProductFormPage implements OnInit, OnDestroy {
     private readonly productService = inject(ProductService);
     private readonly brandService = inject(BrandService);
     private readonly collectionService = inject(CollectionService);
-
+    private readonly el = inject(ElementRef);
     protected editor!: Editor;
     protected toolbar: Toolbar = [
         ['bold', 'italic'],
@@ -181,6 +200,55 @@ export class ProductFormPage implements OnInit, OnDestroy {
                 }
             });
         }
+    }
+
+    ngAfterViewInit(): void {
+        this.setupIntersectionObserver();
+    }
+
+    /**
+     * 点击跳转逻辑：平滑滚动到指定锚点
+     */
+    protected scrollTo(sectionId: string) {
+        // 查找目标元素
+        const element = this.el.nativeElement.querySelector(`#${sectionId}`);
+        if (element) {
+            // 使用 window.scrollTo 实现平滑滚动
+            element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start', // 滚动到顶部对齐
+            });
+            // 手动更新 active 状态，提供即时反馈
+            this.activeSection.set(sectionId);
+        }
+    }
+
+    /**
+     * 滚动监听逻辑：使用 IntersectionObserver API
+     */
+    private setupIntersectionObserver() {
+        const options: IntersectionObserverInit = {
+            root: null, // 监听视口 (Viewport)
+            // 触发检测的区域：当元素顶部距离视口顶部70%时触发
+            rootMargin: '0px 0px -70% 0px',
+            threshold: 0,
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    this.activeSection.set(entry.target.id);
+                }
+            });
+        }, options);
+
+        // 监听所有锚点 <section> 元素
+        this.sections.forEach((section) => {
+            const element = this.el.nativeElement.querySelector(`#${section.id}`);
+            if (element) {
+                observer.observe(element);
+            }
+        });
     }
 
     protected onVariantModeChange(event: MatButtonToggleChange) {

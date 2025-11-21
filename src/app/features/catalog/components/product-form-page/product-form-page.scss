@@ -1,136 +1,156 @@
 @use '@angular/material' as mat;
 
-.product-form {
+.product-add-page-container {
+    height: 100%;
     display: flex;
-    flex-direction: column;
-    gap: 16px;
+    gap: var(--size-4);
+    overflow: hidden;
 
-    .general-info-content {
-        display: flex;
-        gap: 16px;
-        padding-top: 16px;
-
-        .image-list-wrapper {
-            margin-bottom: 16px;
-        }
-
-        .general-info {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            gap: 8px;
-        }
-
-        .description {
-            width: 375px;
-            border-radius: var(--mat-sys-corner-extra-small);
-            border: 1px solid var(--mat-sys-outline);
-            margin-bottom: 21px;
-            overflow: hidden;
-            cursor: text;
-        }
+    .product-nav {
+        flex: 0 0 220px;
+        position: sticky;
+        top: 80px;
+        height: calc(100vh - 80px);
+        overflow-y: auto;
     }
 
-    .variant-info-content {
-        --mat-card-elevated-container-color: var(--mat-sys-surface);
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        padding-top: 16px;
+    .product-main {
+        flex: 1 1 auto;
+        overflow-y: auto;
 
-        .variant-mode {
-            align-self: flex-start;
-        }
-
-        .single-variant {
+        .product-form {
             display: flex;
             flex-direction: column;
-            padding: 16px 0;
-        }
+            gap: 16px;
 
-        .variant-option {
-            display: flex;
-            width: 100%;
-            align-items: center;
-            gap: 8px;
-        }
+            .general-info-content {
+                display: flex;
+                gap: 16px;
+                padding-top: 16px;
 
-        .variant-option__values {
-            --mat-form-field-container-vertical-padding: 8px;
-            flex: 1;
-        }
+                .image-list-wrapper {
+                    margin-bottom: 16px;
+                }
 
-        .variant-option-add-btn {
-            @include mat.button-density(-1);
-        }
-
-        .variant-table-wrapper {
-            width: 100%;
-            overflow: auto;
-            border: 1px solid var(--mat-sys-outline);
-            border-radius: var(--mat-sys-corner-extra-small);
-            margin-top: 16px;
-            padding-bottom: 16px;
-
-            .thumbnail-wrapper {
-                position: relative;
-                width: 40px;
-                height: 40px;
-
-                .thumbnail-delete-btn {
-                    width: 16px;
-                    height: 16px;
-
-                    position: absolute;
-                    top: -4px;
-                    right: -4px;
-
-                    background-color: var(--mat-sys-secondary-container);
-                    //opacity: 1;
-                    border-radius: var(--mat-sys-corner-full);
-                    border: none;
-                    padding: 0;
-
+                .general-info {
                     display: flex;
-                    align-items: center;
-                    justify-content: center;
+                    flex-direction: column;
+                    flex: 1;
+                    gap: 8px;
+                }
 
-                    cursor: pointer;
-
-                    &__icon {
-                        font-size: 16px;
-                        width: 16px;
-                        height: 16px;
-                        line-height: 16px;
-                        color: var(--mat-sys-on-secondary-container);
-                    }
+                .description {
+                    width: 375px;
+                    border-radius: var(--mat-sys-corner-extra-small);
+                    border: 1px solid var(--mat-sys-outline);
+                    margin-bottom: 21px;
+                    overflow: hidden;
+                    cursor: text;
                 }
             }
 
-            .add-image-icon-wrapper {
-                width: 40px;
-                height: 40px;
-                border: 1px dashed var(--mat-sys-outline);
-                border-radius: var(--mat-sys-corner-extra-small);
-                background-color: var(--mat-sys-surface-container-low);
+            .variant-info-content {
+                --mat-card-elevated-container-color: var(--mat-sys-surface);
                 display: flex;
-                align-items: center;
+                flex-direction: column;
+                gap: 16px;
+                padding-top: 16px;
+
+                .variant-mode {
+                    align-self: flex-start;
+                }
+
+                .single-variant {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 16px 0;
+                }
+
+                .variant-option {
+                    display: flex;
+                    width: 100%;
+                    align-items: center;
+                    gap: 8px;
+                }
+
+                .variant-option__values {
+                    --mat-form-field-container-vertical-padding: 8px;
+                    flex: 1;
+                }
+
+                .variant-option-add-btn {
+                    @include mat.button-density(-1);
+                }
+
+                .variant-table-wrapper {
+                    width: 100%;
+                    overflow: auto;
+                    border: 1px solid var(--mat-sys-outline);
+                    border-radius: var(--mat-sys-corner-extra-small);
+                    margin-top: 16px;
+                    padding-bottom: 16px;
+
+                    .thumbnail-wrapper {
+                        position: relative;
+                        width: 40px;
+                        height: 40px;
+
+                        .thumbnail-delete-btn {
+                            width: 16px;
+                            height: 16px;
+
+                            position: absolute;
+                            top: -4px;
+                            right: -4px;
+
+                            background-color: var(--mat-sys-secondary-container);
+                            //opacity: 1;
+                            border-radius: var(--mat-sys-corner-full);
+                            border: none;
+                            padding: 0;
+
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+
+                            cursor: pointer;
+
+                            &__icon {
+                                font-size: 16px;
+                                width: 16px;
+                                height: 16px;
+                                line-height: 16px;
+                                color: var(--mat-sys-on-secondary-container);
+                            }
+                        }
+                    }
+
+                    .add-image-icon-wrapper {
+                        width: 40px;
+                        height: 40px;
+                        border: 1px dashed var(--mat-sys-outline);
+                        border-radius: var(--mat-sys-corner-extra-small);
+                        background-color: var(--mat-sys-surface-container-low);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                }
+
+                .batch-actions {
+                    @include mat.button-density(-1);
+                    margin-left: auto;
+                    display: flex;
+                    gap: 8px;
+                }
+            }
+
+            .footer-actions {
+                width: 100%;
+                display: flex;
                 justify-content: center;
+                gap: 8px;
             }
         }
-
-        .batch-actions {
-            @include mat.button-density(-1);
-            margin-left: auto;
-            display: flex;
-            gap: 8px;
-        }
-    }
-
-    .footer-actions {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        gap: 8px;
     }
 }

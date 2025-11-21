@@ -1,50 +1,37 @@
-.table-wrapper {
-    width: 100%;
-    overflow: auto;
-    border: 1px solid var(--mat-sys-outline);
-    border-radius: var(--mat-sys-corner-extra-small);
-    //margin-top: 16px;
-    //padding-bottom: 16px;
-}
-
-.table-toolbar {
-    border: 1px solid var(--mat-sys-outline);
-    border-radius: var(--mat-sys-corner-extra-small);
+.table-toolbar-container {
+    height: var(--mat-form-field-container-height);
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 8px;
 
-    &__form {
-        //display: flex;
-        //align-items: center;
-        //gap: 8px;
-    }
-
-    &__actions {
+    .actions-wrapper {
         display: flex;
-        gap: 8px;
+        gap: var(--size-3);
     }
 }
 
-.table {
+.table-container {
     width: 100%;
+    border-radius: var(--mat-sys-corner-medium);
+    overflow-x: auto;
 
-    &__cell {
-        // 单元格自身的 padding
-        //padding: 8px;
-        // 如果需要对单元格内的缩略图进行布局调整 (例如居中)
-        &--image {
-            /* 针对图片列的特定 Element Modifier */
-            text-align: center;
-        }
+    .table {
+        width: 100%;
 
-        .image-text-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        &__cell {
+            // 单元格自身的 padding
+            //padding: 8px;
+            // 如果需要对单元格内的缩略图进行布局调整 (例如居中)
+            &--image {
+                /* 针对图片列的特定 Element Modifier */
+                text-align: center;
+            }
+
+            .image-text-wrapper {
+                display: flex;
+                align-items: center;
+                gap: var(--size-2);
+            }
         }
     }
-}
-
-.table-paginator {
 }

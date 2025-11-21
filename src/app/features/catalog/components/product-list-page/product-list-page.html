@@ -1,100 +1,99 @@
-<div class="card">
-    <div class="card__header">
-        <form [formGroup]="searchForm" class="filter-area">
-            <mat-form-field>
-                <mat-label>商品名称</mat-label>
-                <input matInput formControlName="name" placeholder="商品名称" />
-            </mat-form-field>
-            <button type="button" matButton="filled" (click)="search()">搜索</button>
-        </form>
-        <span class="spacer"></span>
-        <div class="action-area">
-            <button
-                type="button"
-                matButton="tonal"
-                appConfirm
-                message="确定要批量删除选中的商品吗?"
-                [disabled]="selection.isEmpty()"
-                (confirmed)="deleteSelected()"
-            >
-                批量删除
+<div class="table-toolbar-container">
+    <form [formGroup]="searchForm">
+        <mat-form-field>
+            <mat-label>商品名称</mat-label>
+            <input matInput formControlName="name" placeholder="商品名称" />
+            <button matIconButton matSuffix type="button" (click)="search()">
+                <mat-icon>search</mat-icon>
             </button>
-            <a matButton="filled" [routerLink]="['/catalog/products/new']">新增</a>
-        </div>
+        </mat-form-field>
+    </form>
+    <div class="actions-wrapper">
+        <button
+            type="button"
+            matButton="tonal"
+            appConfirm
+            message="确定要批量删除选中的商品吗?"
+            [disabled]="selection.isEmpty()"
+            (confirmed)="deleteSelected()"
+        >
+            批量删除
+        </button>
+        <a matButton="filled" [routerLink]="['/catalog/products/new']">新增</a>
     </div>
-    <div class="card__content">
-        <table mat-table [dataSource]="dataSource" class="table" aria-label="collections">
-            <!-- Checkbox Column -->
-            <ng-container matColumnDef="select">
-                <th *matHeaderCellDef mat-header-cell>
-                    <mat-checkbox
-                        (change)="$event ? toggleAllRows() : null"
-                        [checked]="selection.hasValue() && isAllSelected()"
-                        [indeterminate]="selection.hasValue() && !isAllSelected()"
-                    />
-                </th>
-                <td *matCellDef="let row" mat-cell>
-                    <mat-checkbox
-                        (click)="$event.stopPropagation()"
-                        (change)="$event ? selection.toggle(row) : null"
-                        [checked]="selection.isSelected(row)"
-                    />
-                </td>
-            </ng-container>
+</div>
+<div class="table-container">
+    <table mat-table [dataSource]="dataSource" class="table" aria-label="collections">
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+            <th *matHeaderCellDef mat-header-cell>
+                <mat-checkbox
+                    (change)="$event ? toggleAllRows() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                />
+            </th>
+            <td *matCellDef="let row" mat-cell>
+                <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)"
+                />
+            </td>
+        </ng-container>
 
-            <!-- Id  -->
-            <ng-container matColumnDef="id">
-                <th *matHeaderCellDef mat-header-cell>Id</th>
-                <td *matCellDef="let row" mat-cell>{{ row.id }}</td>
-            </ng-container>
+        <!-- Id  -->
+        <ng-container matColumnDef="id">
+            <th *matHeaderCellDef mat-header-cell>Id</th>
+            <td *matCellDef="let row" mat-cell>{{ row.id }}</td>
+        </ng-container>
 
-            <!-- name  -->
-            <ng-container matColumnDef="name">
-                <th *matHeaderCellDef mat-header-cell>商品</th>
-                <td *matCellDef="let row" mat-cell class="table__cell">
-                    <div class="image-text-wrapper">
-                        @if (row.mainMediaPath) {
-                            <div class="thumbnail">
-                                @if (row.mainMediaPath) {
-                                    <img [ngSrc]="row.mainMediaPath" fill class="thumbnail__img" alt="product image" />
-                                }
-                            </div>
-                        }
-                        <span>{{ row.name }}</span>
-                    </div>
-                </td>
-            </ng-container>
+        <!-- name  -->
+        <ng-container matColumnDef="name">
+            <th *matHeaderCellDef mat-header-cell>商品</th>
+            <td *matCellDef="let row" mat-cell class="table__cell">
+                <div class="image-text-wrapper">
+                    @if (row.mainMediaPath) {
+                        <div class="thumbnail">
+                            @if (row.mainMediaPath) {
+                                <img [ngSrc]="row.mainMediaPath" fill class="thumbnail__img" alt="product image" />
+                            }
+                        </div>
+                    }
+                    <span>{{ row.name }}</span>
+                </div>
+            </td>
+        </ng-container>
 
-            <!-- actions -->
-            <ng-container matColumnDef="actions">
-                <th *matHeaderCellDef mat-header-cell>操作</th>
-                <td *matCellDef="let row; index as i" mat-cell>
-                    <button mat-icon-button type="button" [routerLink]="['/catalog/products', row.id, 'edit']">
-                        <mat-icon>edite</mat-icon>
-                    </button>
-                    <button
-                        mat-icon-button
-                        type="button"
-                        appConfirm
-                        message="确定要删除该商品吗?"
-                        (confirmed)="delete(row.id)"
-                    >
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
+        <!-- actions -->
+        <ng-container matColumnDef="actions">
+            <th *matHeaderCellDef mat-header-cell>操作</th>
+            <td *matCellDef="let row; index as i" mat-cell>
+                <button mat-icon-button type="button" [routerLink]="['/catalog/products', row.id, 'edit']">
+                    <mat-icon>edite</mat-icon>
+                </button>
+                <button
+                    mat-icon-button
+                    type="button"
+                    appConfirm
+                    message="确定要删除该商品吗?"
+                    (confirmed)="delete(row.id)"
+                >
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
 
-            <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-            <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
-        </table>
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+    </table>
 
-        <mat-paginator
-            #paginator
-            aria-label="Select page"
-            (page)="onPageEvent($event)"
-            [pageIndex]="paginatorProps().pageIndex"
-            [pageSize]="paginatorProps().pageSize"
-            [length]="totalElements()"
-        />
-    </div>
+    <mat-paginator
+        #paginator
+        aria-label="Select page"
+        (page)="onPageEvent($event)"
+        [pageIndex]="paginatorProps().pageIndex"
+        [pageSize]="paginatorProps().pageSize"
+        [length]="totalElements()"
+    />
 </div>
