@@ -1,11 +1,10 @@
 @use '@fontsource-variable/roboto';
 @use 'material-symbols';
 @use 'styles/reset';
-@use 'styles/themes';
 @use 'styles/base';
-@use 'styles/card';
-@use 'styles/table';
-@use 'styles/thumbnail';
+@use 'styles/variables';
+@use 'styles/themes';
+@use 'styles/components';
 
 /* You can add global styles to this file, and also import other style files */
 

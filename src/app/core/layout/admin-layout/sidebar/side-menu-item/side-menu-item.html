@@ -3,10 +3,10 @@
     class="menu-item"
     [style.--mat-list-list-item-leading-icon-start-space.px]="isCollapsed() ? 16 : depth() * 16"
     [routerLink]="item().path ?? null"
-    (click)="toggleNestedMenu()"
     routerLinkActive="selected-menu-item"
     #rla="routerLinkActive"
     [activated]="rla.isActive"
+    (click)="toggleNestedMenu()"
 >
     <mat-icon
         matListItemIcon
@@ -29,6 +29,6 @@
 
 @if (item().children && nestedMenuOpened()) {
     @for (subItem of item().children; track subItem) {
-        <app-side-menu-item [item]="subItem" [depth]="depth() + 1" />
+        <app-side-menu-item [currentRoutePath]="currentRoutePath()" [item]="subItem" [depth]="depth() + 1" />
     }
 }

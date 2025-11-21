@@ -1,4 +1,4 @@
-import { Component, effect, HostListener, inject, signal } from '@angular/core';
+import { Component, effect, HostListener, inject, OnInit, signal } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -24,7 +24,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     templateUrl: './brand-form-dialog.html',
     styleUrl: './brand-form-dialog.scss',
 })
-export class BrandFormDialog {
+export class BrandFormDialog implements OnInit {
     private readonly brandService = inject(BrandService);
     private readonly data = inject<string>(MAT_DIALOG_DATA);
     private readonly dialogRef = inject(MatDialogRef<BrandFormDialog>);
@@ -44,6 +44,9 @@ export class BrandFormDialog {
             const mediaId = this.mediaList()[0]?.id ?? null;
             this.brandForm.patchValue({ mediaId });
         });
+    }
+
+    ngOnInit(): void {
         if (this.data) {
             this.brandService.getById(this.data).subscribe((brand) => {
                 const { id, name, mediaId, mediaPath, mediaType, visible } = brand;

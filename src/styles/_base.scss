@@ -1,3 +1,13 @@
-.spacer {
-    flex: 1 1 auto;
-}
+/* the props */
+@use 'open-props/style';
+
+/* optional imports that use the props */
+@use 'open-props/aspects';
+@use 'open-props/borders';
+@use 'open-props/fonts';
+@use 'open-props/gradients';
+@use 'open-props/shadows';
+@use 'open-props/sizes';
+@use 'open-props/zindex';
+
+/* see PropPacks for the full list */

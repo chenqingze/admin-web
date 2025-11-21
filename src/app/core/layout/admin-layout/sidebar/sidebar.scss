@@ -1,38 +1,49 @@
 .sidebar {
     height: 100%;
+    display: flex;
+    flex-direction: column;
 
-    .sidebar-header {
-        position: relative;
-        top: 0;
-        left: 0;
-        z-index: 1;
+    &__top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px;
+    }
+
+    &__brand {
+        flex: 1;
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 64px;
-        padding: 0 8px;
-        overflow: hidden;
 
-        .app-branding {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        &-logo {
         }
 
-        .sidemenu-collapse {
-            text-decoration: none;
-        }
-
-        .hide-header-element {
-            height: 0 !important;
-            width: 0 !important;
-            opacity: 0;
+        &-title {
         }
     }
 
-    .sidebar-content {
-        height: calc(100% - 64px);
-        overflow: hidden;
+    &__toggle {
+    }
+
+    &__menu {
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    &--collapsed {
+        width: 64px;
+
+        .sidebar__brand-title {
+            opacity: 0;
+            width: 0;
+            text-decoration: none;
+        }
+
+        .sidebar__toggle {
+            opacity: 0;
+            pointer-events: none;
+            text-decoration: none;
+        }
     }
 }

@@ -1,21 +1,26 @@
-<mat-sidenav-container class="sidenav-container" autosize autofocus>
-    <mat-sidenav
-        #sidenav
-        opened
-        mode="side"
-        (mouseenter)="onMouseEnter()"
-        (mouseleave)="onMouseLeave()"
-        class="sidenav"
-        [style.width.px]="width()"
-    >
-        <app-sidebar />
-    </mat-sidenav>
+<div class="layout">
+    @if (isProgressing()) {
+        <mat-progress-bar mode="indeterminate" color="primary" />
+    }
+    <mat-sidenav-container class="layout__container" autosize autofocus>
+        <mat-sidenav
+            #sidenav
+            opened
+            mode="side"
+            (mouseenter)="onMouseEnter()"
+            (mouseleave)="onMouseLeave()"
+            class="layout__sidebar"
+            [style.width.px]="width()"
+        >
+            <app-sidebar />
+        </mat-sidenav>
 
-    <mat-sidenav-content>
-        <app-header (toggleMenuBtn)="sidenav.toggle()" />
-        <main class="main-content">
-            <router-outlet />
-        </main>
-        <!-- app-footer -->
-    </mat-sidenav-content>
-</mat-sidenav-container>
+        <mat-sidenav-content class="layout__main">
+            <app-header (toggleMenuBtn)="sidenav.toggle()" class="layout__header" />
+            <main class="page-wrapper">
+                <router-outlet />
+            </main>
+            <!-- app-footer -->
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

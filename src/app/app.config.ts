@@ -2,7 +2,7 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessC
 import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { uiProviders } from '@ui';
-import { baseUrlInterceptor, errorInterceptor, httpProviders } from '@api';
+import { baseUrlInterceptor, errorInterceptor, httpLoadingInterceptor, httpProviders } from '@api';
 import { authInterceptor, authProvider } from '@auth';
 import { provideAuthInitializer } from '@core/init';
 import { routes } from './app.routes';
@@ -28,6 +28,8 @@ export const appConfig: ApplicationConfig = {
             }),*/
             /*, withDebugTracing()*/
         ),
-        provideHttpClient(withInterceptors([baseUrlInterceptor, authInterceptor, errorInterceptor])),
+        provideHttpClient(
+            withInterceptors([baseUrlInterceptor, authInterceptor, errorInterceptor, httpLoadingInterceptor]),
+        ),
     ],
 };

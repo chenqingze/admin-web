@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
@@ -14,6 +14,7 @@ import { LayoutStore } from '../../../services';
     styleUrl: './side-menu-item.scss',
 })
 export class SideMenuItem {
+    readonly currentRoutePath = input.required<string>();
     readonly item = input.required<MenuItem>();
     readonly depth = input<number>(1);
 
@@ -22,7 +23,21 @@ export class SideMenuItem {
 
     protected readonly nestedMenuOpened = signal(false);
 
+    constructor() {
+        effect(() => {
+            if (this.matches(this.currentRoutePath(), this.item())) {
+                this.nestedMenuOpened.set(true);
+            }
+        });
+    }
     protected toggleNestedMenu = () => {
         this.nestedMenuOpened.set(!this.nestedMenuOpened());
+    };
+
+    // 判断自己或后代是否匹配当前 url（是否包含当前 route）
+    private matches = (currentRoutePath: string, node: MenuItem): boolean => {
+        if (node.path && currentRoutePath.startsWith(node.path)) return true;
+        if (!node.children) return false;
+        return node.children.some((child) => this.matches(currentRoutePath, child));
     };
 }

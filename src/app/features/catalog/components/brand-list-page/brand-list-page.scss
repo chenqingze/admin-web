@@ -1,10 +1,32 @@
-.filter-area {
+.card {
+    border-radius: var(--radius-3);
+    //border-radius: var(--mat-sys-corner-large);
+    background-color: var(--mat-sys-surface);
+    padding: var(--size-4);
+    padding: var(--size-fluid-3);
+    box-shadow: var(--shadow-2);
+    flex-basis: var(--size-content-1);
     display: flex;
-    align-items: baseline;
-    gap: 8px;
-}
+    flex-direction: column;
+    gap: var(--size-2);
+    background: var(--surface-3);
+    border: 1px solid var(--surface-1);
 
-.action-area {
-    display: flex;
-    gap: 8px;
+    &:hover {
+        box-shadow: var(--shadow-3);
+    }
+
+    &__header {
+        width: 100%;
+        display: flex;
+    }
+
+    &__title {
+    }
+
+    &__content {
+    }
+
+    &__footer {
+    }
 }

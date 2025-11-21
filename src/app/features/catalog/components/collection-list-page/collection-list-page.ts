@@ -18,6 +18,7 @@ import { Collection } from '@models';
 import { PaginatorProps } from '@ui';
 import { Confirm } from '@directives';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PageHeader } from '@components';
 
 @Component({
     selector: 'app-collection-list-page',
@@ -37,6 +38,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
         Confirm,
         FormsModule,
         ReactiveFormsModule,
+        PageHeader,
     ],
     templateUrl: './collection-list-page.html',
     styleUrl: './collection-list-page.scss',

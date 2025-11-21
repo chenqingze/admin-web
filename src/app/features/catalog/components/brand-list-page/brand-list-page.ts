@@ -17,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { BrandFormDialog } from '../brand-form-dialog/brand-form-dialog';
 import { Confirm } from '@directives';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
     selector: 'app-brand-list-page',
@@ -24,6 +25,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
         CommonModule,
         MatFormFieldModule,
         MatCardModule,
+        MatToolbarModule,
         MatTableModule,
         MatPaginatorModule,
         MatCheckboxModule,

@@ -2,13 +2,15 @@ import { Component, inject, signal } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
-import { Route, Router } from '@angular/router';
+import { NavigationEnd, Route, Router } from '@angular/router';
 import { MenuItem } from '../../models';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LayoutStore } from '../../services';
 import { RouteExtraData } from '../../../routing';
 import { SideMenuItem } from './side-menu-item';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs';
 
 @Component({
     selector: 'app-sidebar',
@@ -25,6 +27,14 @@ export class Sidebar {
 
     protected readonly menuItems = signal<MenuItem[]>([]);
 
+    protected readonly currentRoutePath = toSignal(
+        this.router.events.pipe(
+            filter((event) => event instanceof NavigationEnd),
+            map((event) => event.urlAfterRedirects),
+        ),
+        { initialValue: this.router.url },
+    );
+
     constructor() {
         const routes = this.router.config;
         this.menuItems.set(this.buildMenu(routes));
@@ -34,7 +44,7 @@ export class Sidebar {
         this.layoutStore.toggleCanCollapse();
     }
 
-    // todo:目前是前端从路由动态生成菜单并根据权限过滤菜单,后面完善支持后端管理菜单
+    // todo:目前是前端从路由动态生成菜单并根据权限过滤菜单,后面完善支持可选后端管理菜单
     private buildMenu(routes: Route[], parentPath = ''): MenuItem[] {
         const items: MenuItem[] = [];
         for (const r of routes) {
