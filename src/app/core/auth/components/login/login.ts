@@ -60,8 +60,12 @@ export class Login {
                     this.authFacade.setRedirectUrl(null);
                     this.router.navigateByUrl(redirect);
                 },
-                error: () => {
-                    this.snackBar.open('用户名或密码错误!', '关闭', {
+                error: (err) => {
+                    let message = '用户名或密码错误!';
+                    if (err.status === 0) {
+                        message = '无法连接服务器，请检查网络或稍后再试。';
+                    }
+                    this.snackBar.open(message, '关闭', {
                         duration: 3000,
                         horizontalPosition: 'center',
                         verticalPosition: 'top',

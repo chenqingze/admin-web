@@ -32,7 +32,6 @@ import {
     VariantFromGroup,
     VariantOptionFormGroup,
 } from '../../forms';
-import { Subject, takeUntil } from 'rxjs';
 import { Product, Variant, VariantOption } from '@models';
 import { MediaSelectorDialog } from './media-selector-dialog/media-selector-dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -45,7 +44,7 @@ import { CdkDrag } from '@angular/cdk/drag-drop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrandService } from '../../services/brand-service';
 import { CollectionService } from '../../services/collection-service';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { MatListModule } from '@angular/material/list';
 
 @Component({
@@ -76,10 +75,11 @@ import { MatListModule } from '@angular/material/list';
 })
 export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
     protected readonly sections = [
-        { id: 'basic', label: '1. 基本信息' },
-        { id: 'media', label: '2. 媒体图片' },
-        { id: 'variants', label: '3. 规格与变体' },
-        { id: 'customOptions', label: '3. 附加选项' },
+        { id: 'basic', label: '基本信息' },
+        { id: 'description', label: '详情描述' },
+        { id: 'media', label: '媒体图片' },
+        { id: 'variants', label: '规格信息' },
+        { id: 'customOptions', label: '附加选项' },
     ];
     protected readonly activeSection = signal<string>(this.sections[0].id);
     protected readonly id = input<string>();
@@ -136,8 +136,6 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
 
     protected readonly mediaList = signal<UploadFileInfo[]>([]);
 
-    private ngUnsubscribe$ = new Subject<void>();
-
     constructor() {
         // 初始化form
         this.productForm = creatProductFormGroup(this.fb);
@@ -148,13 +146,9 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
             const mediaIds = this.mediaList().map((media) => media.id!);
             this.productForm.get('mediaIds')?.setValue(mediaIds);
         });
-    }
 
-    ngOnInit(): void {
-        // 初始化富文本编辑器对象
-        this.editor = new Editor();
         // 监听变体选项的变更,动态生成变体商品
-        this.variantOptions.valueChanges.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((options) => {
+        this.variantOptions.valueChanges.pipe(takeUntilDestroyed()).subscribe((options) => {
             const validVariantOptions = options.filter(
                 (option) => option.name && option.values && option.values.length > 0,
             );
@@ -167,6 +161,12 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
             });
             this.variants.controls = [...this.variants.controls];
         });
+    }
+
+    ngOnInit(): void {
+        // 初始化富文本编辑器对象
+        this.editor = new Editor();
+
         // 如果是编辑页面请求并初始化数据
         const productId = this.id();
         if (productId) {
@@ -224,17 +224,31 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
     }
 
     /**
-     * 滚动监听逻辑：使用 IntersectionObserver API
+     * 滚动监听逻辑处理锚点跟随：使用 IntersectionObserver API
      */
     private setupIntersectionObserver() {
         const options: IntersectionObserverInit = {
             root: null, // 监听视口 (Viewport)
             // 触发检测的区域：当元素顶部距离视口顶部70%时触发
-            rootMargin: '0px 0px -70% 0px',
-            threshold: 0,
+            rootMargin: '0px 0px -30% 0px',
+            threshold: [0.5, 1],
         };
 
         const observer = new IntersectionObserver((entries) => {
+            // 筛选当前在视口中的元素
+            const visibleSections = entries
+                .filter((entry) => entry.isIntersecting)
+                .map((entry) => ({
+                    id: entry.target.id,
+                    top: entry.boundingClientRect.top,
+                    bottom: entry.boundingClientRect.bottom,
+                }));
+
+            if (visibleSections.length > 0) {
+                visibleSections.sort((a, b) => a.top - b.top);
+                this.activeSection.set(visibleSections[0].id);
+            }
+
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     this.activeSection.set(entry.target.id);
@@ -365,10 +379,6 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.editor.destroy();
-        // 在组件销毁时发出通知
-        this.ngUnsubscribe$.next();
-        // 完成 Subject
-        this.ngUnsubscribe$.complete();
     }
 
     protected save() {

@@ -1,429 +1,393 @@
-<div class="product-add-page-container">
-    <div class="product-nav">
-        <mat-nav-list>
-            @for (section of sections; track section.id) {
-                <mat-list-item [activated]="activeSection() === section.id" (click)="scrollTo(section.id)">
-                    {{ section.label }}
-                </mat-list-item>
-            }
-        </mat-nav-list>
-    </div>
-    <div class="product-main">
-        <form [formGroup]="productForm" novalidate class="product-form">
-            <!--基本信息-->
-            <section id="basic">
-                <mat-card appearance="outlined">
-                    <mat-card-header>
-                        <mat-card-title>基本信息</mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content class="general-info-content">
-                        <div class="general-info">
-                            <div class="image-list-wrapper">
-                                <app-upload
-                                    [(fileList)]="mediaList"
-                                    [multiple]="true"
-                                    [maxFiles]="6"
-                                    uploadType="drag-drop"
-                                />
-                            </div>
-                            <mat-form-field>
-                                <mat-label>标题</mat-label>
-                                <input matInput type="text" formControlName="name" placeholder="请输入商品标题" />
-                            </mat-form-field>
-                            <mat-form-field>
-                                <mat-label>副标题</mat-label>
-                                <input matInput type="text" formControlName="caption" placeholder="请输入商品副标题" />
-                            </mat-form-field>
-                            <mat-form-field>
-                                <mat-label>摘要</mat-label>
-                                <input matInput type="text" formControlName="summary" placeholder="请输入商品摘要" />
-                            </mat-form-field>
-                            <mat-form-field>
-                                <mat-label>品牌</mat-label>
-                                <mat-select
-                                    formControlName="brandId"
-                                    [placeholder]="brands().length > 0 ? '请选择品牌' : '暂无品牌数据'"
-                                >
-                                    @for (brand of brands(); track brand.id) {
-                                        <mat-option [value]="brand.id">{{ brand.name }}</mat-option>
-                                    }
-                                </mat-select>
-                            </mat-form-field>
-                            <mat-form-field>
-                                <mat-label>分组</mat-label>
-                                <mat-select
-                                    formControlName="collectionIds"
-                                    multiple
-                                    [placeholder]="collections().length > 0 ? '请选择商品分组' : '暂无分组数据'"
-                                >
-                                    @for (collection of collections(); track collection.id) {
-                                        <mat-option [value]="collection.id">{{ collection.name }}</mat-option>
-                                    }
-                                </mat-select>
-                                <mat-hint>*用于顾客按分组浏览商品</mat-hint>
-                            </mat-form-field>
-                            <!-- todo: 分类-->
-                            <!--<mat-form-field>
-                                <mat-label>分类</mat-label>
-                                <mat-select formControlName="categoryId" placeholder="请选择销售分组"/>
-                            </mat-form-field>-->
-                        </div>
-                        <div class="description">
-                            <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
-                            <ngx-editor
-                                [editor]="editor"
-                                formControlName="mobileDescription"
-                                placeholder="请输入商品详情描述"
-                                class=""
-                            ></ngx-editor>
-                        </div>
-                    </mat-card-content>
-                </mat-card>
-            </section>
-            <!--变体信息/规格信息-->
-            <section id="variants">
-                <mat-card appearance="outlined">
-                    <mat-card-header>
-                        <mat-card-title>规格信息</mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content class="variant-info-content">
-                        <mat-button-toggle-group
-                            [value]="variantMode"
-                            (change)="onVariantModeChange($event)"
-                            aria-label="variant mode"
-                            class="variant-mode"
+<!-- 导航 -->
+<div class="product-nav">
+    <mat-nav-list>
+        @for (section of sections; track section.id) {
+            <mat-list-item [activated]="activeSection() === section.id" (click)="scrollTo(section.id)">
+                {{ section.label }}
+            </mat-list-item>
+        }
+    </mat-nav-list>
+</div>
+<form [formGroup]="productForm" novalidate class="product-main">
+    <!-- 基本信息 -->
+    <section id="basic">
+        <mat-card appearance="outlined">
+            <mat-card-header>
+                <mat-card-title>基本信息</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="basic">
+                    <mat-form-field>
+                        <mat-label>标题</mat-label>
+                        <input matInput type="text" formControlName="name" placeholder="请输入商品标题" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>副标题</mat-label>
+                        <input matInput type="text" formControlName="caption" placeholder="请输入商品副标题" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>摘要</mat-label>
+                        <input matInput type="text" formControlName="summary" placeholder="请输入商品摘要" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>品牌</mat-label>
+                        <mat-select
+                            formControlName="brandId"
+                            [placeholder]="brands().length > 0 ? '请选择品牌' : '暂无品牌数据'"
                         >
-                            <mat-button-toggle matTooltip="适合无规格商品，仅一个SKU" value="single">
-                                @if (variantMode !== 'single') {
-                                    <mat-icon>radio_button_checked</mat-icon>
-                                }
-                                单规格
-                            </mat-button-toggle>
-                            <mat-button-toggle matTooltip="适合有颜色/尺码等规格的商品" value="multiple">
-                                @if (variantMode !== 'multiple') {
-                                    <mat-icon>grid_view</mat-icon>
-                                }
-                                多规格
-                            </mat-button-toggle>
-                        </mat-button-toggle-group>
-                        @if (variantMode === 'single') {
-                            <div [formGroup]="variants.at(0)" class="single-variant">
-                                <mat-form-field>
-                                    <mat-label>市场价</mat-label>
-                                    <input matInput [appDecimalPlaces]="2" type="text" formControlName="msrp" />
-                                    <mat-icon matSuffix>currency_yen</mat-icon>
-                                    @if (variants.at(0).controls.msrp.hasError('pattern')) {
-                                        <mat-error>请输入有效的数字</mat-error>
-                                    }
-                                    @if (variants.at(0).controls.msrp.hasError('min')) {
-                                        <mat-error>不能为小于0</mat-error>
-                                    }
+                            @for (brand of brands(); track brand.id) {
+                                <mat-option [value]="brand.id">{{ brand.name }}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>分组</mat-label>
+                        <mat-select
+                            formControlName="collectionIds"
+                            multiple
+                            [placeholder]="collections().length > 0 ? '请选择商品分组' : '暂无分组数据'"
+                        >
+                            @for (collection of collections(); track collection.id) {
+                                <mat-option [value]="collection.id">{{ collection.name }}</mat-option>
+                            }
+                        </mat-select>
+                        <mat-hint>*用于顾客按分组浏览商品</mat-hint>
+                    </mat-form-field>
+                    <!-- todo: 分类-->
+                    <!--<mat-form-field>
+                        <mat-label>分类</mat-label>
+                        <mat-select formControlName="categoryId" placeholder="请选择销售分组"/>
+                    </mat-form-field>-->
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </section>
+    <!-- 详情描述 -->
+    <section id="description">
+        <mat-card appearance="outlined">
+            <mat-card-header>
+                <mat-card-title>详情描述</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="description">
+                    <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+                    <ngx-editor
+                        [editor]="editor"
+                        formControlName="mobileDescription"
+                        placeholder="请输入商品详情描述"
+                        class=""
+                    ></ngx-editor>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </section>
+    <!-- 媒体图片 -->
+    <section id="media">
+        <mat-card appearance="outlined">
+            <mat-card-header>
+                <mat-card-title>媒体图片</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="media">
+                    <app-upload [(fileList)]="mediaList" [multiple]="true" [maxFiles]="6" uploadType="drag-drop" />
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </section>
+    <!-- 变体信息/规格信息 -->
+    <section id="variants">
+        <mat-card appearance="outlined">
+            <mat-card-header>
+                <mat-card-title>规格信息</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="variants">
+                <mat-button-toggle-group
+                    [value]="variantMode"
+                    (change)="onVariantModeChange($event)"
+                    aria-label="variant mode"
+                    class="variant-mode"
+                >
+                    <mat-button-toggle matTooltip="适合无规格商品，仅一个SKU" value="single">
+                        @if (variantMode !== 'single') {
+                            <mat-icon>radio_button_checked</mat-icon>
+                        }
+                        单规格
+                    </mat-button-toggle>
+                    <mat-button-toggle matTooltip="适合有颜色/尺码等规格的商品" value="multiple">
+                        @if (variantMode !== 'multiple') {
+                            <mat-icon>grid_view</mat-icon>
+                        }
+                        多规格
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+                @if (variantMode === 'single') {
+                    <div [formGroup]="variants.at(0)" class="single-variant">
+                        <mat-form-field>
+                            <mat-label>市场价</mat-label>
+                            <input matInput [appDecimalPlaces]="2" type="text" formControlName="msrp" />
+                            <mat-icon matSuffix>currency_yen</mat-icon>
+                            @if (variants.at(0).controls.msrp.hasError('pattern')) {
+                                <mat-error>请输入有效的数字</mat-error>
+                            }
+                            @if (variants.at(0).controls.msrp.hasError('min')) {
+                                <mat-error>不能为小于0</mat-error>
+                            }
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>销售价</mat-label>
+                            <input matInput [appDecimalPlaces]="2" type="text" formControlName="price" />
+                            <mat-icon matSuffix>currency_yen</mat-icon>
+                            @if (variants.at(0).controls.price.hasError('required')) {
+                                <mat-error>不可以为空</mat-error>
+                            }
+                            @if (variants.at(0).controls.price.hasError('pattern')) {
+                                <mat-error>请输入有效的数字</mat-error>
+                            }
+                            @if (variants.at(0).controls.price.hasError('min')) {
+                                <mat-error>不能为小于0</mat-error>
+                            }
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>折扣价</mat-label>
+                            <input matInput [appDecimalPlaces]="2" type="text" formControlName="rollbackPrice" />
+                            <mat-icon matSuffix>currency_yen</mat-icon>
+                            @if (variants.at(0).controls.rollbackPrice.hasError('pattern')) {
+                                <mat-error>请输入有效的数字</mat-error>
+                            }
+                            @if (variants.at(0).controls.rollbackPrice.hasError('min')) {
+                                <mat-error>不能为小于0</mat-error>
+                            }
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>成本</mat-label>
+                            <input matInput [appDecimalPlaces]="2" type="text" formControlName="cost" />
+                            <mat-icon matSuffix>currency_yen</mat-icon>
+                            @if (variants.at(0).controls.cost.hasError('pattern')) {
+                                <mat-error>请输入有效的数字</mat-error>
+                            }
+                            @if (variants.at(0).controls.cost.hasError('min')) {
+                                <mat-error>不能为小于0</mat-error>
+                            }
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>可用库存</mat-label>
+                            <input matInput [appDecimalPlaces]="0" type="text" formControlName="availableQty" />
+                            <mat-icon matSuffix>inventory</mat-icon>
+                            @if (variants.at(0).controls.availableQty.hasError('pattern')) {
+                                <mat-error>请输入有效的数字</mat-error>
+                            }
+                            @if (variants.at(0).controls.availableQty.hasError('min')) {
+                                <mat-error>不能为小于0</mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                } @else if (variantMode === 'multiple') {
+                    <!-- 规格设置区 -->
+                    <mat-expansion-panel expanded formArrayName="variantOptions">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>规格配置</mat-panel-title>
+                        </mat-expansion-panel-header>
+                        @for (variantOption of variantOptions.controls; track $index; let variantOptionIdx = $index) {
+                            <div [formGroupName]="variantOptionIdx" class="variant-option">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>规格名</mat-label>
+                                    <input matInput formControlName="name" />
                                 </mat-form-field>
-                                <mat-form-field>
-                                    <mat-label>销售价</mat-label>
-                                    <input matInput [appDecimalPlaces]="2" type="text" formControlName="price" />
-                                    <mat-icon matSuffix>currency_yen</mat-icon>
-                                    @if (variants.at(0).controls.price.hasError('required')) {
-                                        <mat-error>不可以为空</mat-error>
-                                    }
-                                    @if (variants.at(0).controls.price.hasError('pattern')) {
-                                        <mat-error>请输入有效的数字</mat-error>
-                                    }
-                                    @if (variants.at(0).controls.price.hasError('min')) {
-                                        <mat-error>不能为小于0</mat-error>
-                                    }
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-label>折扣价</mat-label>
-                                    <input
-                                        matInput
-                                        [appDecimalPlaces]="2"
-                                        type="text"
-                                        formControlName="rollbackPrice"
-                                    />
-                                    <mat-icon matSuffix>currency_yen</mat-icon>
-                                    @if (variants.at(0).controls.rollbackPrice.hasError('pattern')) {
-                                        <mat-error>请输入有效的数字</mat-error>
-                                    }
-                                    @if (variants.at(0).controls.rollbackPrice.hasError('min')) {
-                                        <mat-error>不能为小于0</mat-error>
-                                    }
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-label>成本</mat-label>
-                                    <input matInput [appDecimalPlaces]="2" type="text" formControlName="cost" />
-                                    <mat-icon matSuffix>currency_yen</mat-icon>
-                                    @if (variants.at(0).controls.cost.hasError('pattern')) {
-                                        <mat-error>请输入有效的数字</mat-error>
-                                    }
-                                    @if (variants.at(0).controls.cost.hasError('min')) {
-                                        <mat-error>不能为小于0</mat-error>
-                                    }
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-label>可用库存</mat-label>
-                                    <input matInput [appDecimalPlaces]="0" type="text" formControlName="availableQty" />
-                                    <mat-icon matSuffix>inventory</mat-icon>
-                                    @if (variants.at(0).controls.availableQty.hasError('pattern')) {
-                                        <mat-error>请输入有效的数字</mat-error>
-                                    }
-                                    @if (variants.at(0).controls.availableQty.hasError('min')) {
-                                        <mat-error>不能为小于0</mat-error>
-                                    }
-                                </mat-form-field>
-                            </div>
-                        } @else if (variantMode === 'multiple') {
-                            <!-- 规格设置区 -->
-                            <mat-expansion-panel expanded formArrayName="variantOptions">
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>规格配置</mat-panel-title>
-                                </mat-expansion-panel-header>
-                                @for (
-                                    variantOption of variantOptions.controls;
-                                    track $index;
-                                    let variantOptionIdx = $index
-                                ) {
-                                    <div [formGroupName]="variantOptionIdx" class="variant-option">
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>规格名</mat-label>
-                                            <input matInput formControlName="name" />
-                                        </mat-form-field>
-                                        <mat-form-field class="variant-option__values">
-                                            <mat-label>规格选项</mat-label>
-                                            <mat-chip-grid #chipGrid aria-label="Enter variant option values">
-                                                @for (
-                                                    optionValue of variantOption.controls.values.value;
-                                                    track $index;
-                                                    let optionValueIdx = $index
-                                                ) {
-                                                    <mat-chip-row
-                                                        (removed)="removeOptionValue(variantOptionIdx, optionValue)"
-                                                        [editable]="true"
-                                                        (edited)="editOptionValue(variantOptionIdx, $event)"
-                                                        [aria-description]="'press enter to edit ' + optionValue"
-                                                        cdkDrag
-                                                    >
-                                                        <button
-                                                            matChipEdit
-                                                            type="button"
-                                                            [attr.aria-label]="'edit ' + optionValue"
-                                                        >
-                                                            <mat-icon>edit</mat-icon>
-                                                        </button>
-                                                        {{ optionValue }}
-                                                        <button
-                                                            matChipRemove
-                                                            type="button"
-                                                            [attr.aria-label]="'remove ' + optionValue"
-                                                        >
-                                                            <mat-icon>cancel</mat-icon>
-                                                        </button>
-                                                    </mat-chip-row>
-                                                }
-                                                <input
-                                                    placeholder="添加选项..."
-                                                    [matChipInputFor]="chipGrid"
-                                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                                    [matChipInputAddOnBlur]="true"
-                                                    (matChipInputTokenEnd)="addOptionValue(variantOptionIdx, $event)"
-                                                />
-                                            </mat-chip-grid>
-                                        </mat-form-field>
-                                        @if (variantOptions.length > 1) {
-                                            <button
-                                                matIconButton
-                                                type="button"
-                                                (click)="removeVariantOption(variantOptionIdx)"
+                                <mat-form-field class="variant-option__values">
+                                    <mat-label>规格选项</mat-label>
+                                    <mat-chip-grid #chipGrid aria-label="Enter variant option values">
+                                        @for (
+                                            optionValue of variantOption.controls.values.value;
+                                            track $index;
+                                            let optionValueIdx = $index
+                                        ) {
+                                            <mat-chip-row
+                                                (removed)="removeOptionValue(variantOptionIdx, optionValue)"
+                                                [editable]="true"
+                                                (edited)="editOptionValue(variantOptionIdx, $event)"
+                                                [aria-description]="'press enter to edit ' + optionValue"
+                                                cdkDrag
                                             >
+                                                <button
+                                                    matChipEdit
+                                                    type="button"
+                                                    [attr.aria-label]="'edit ' + optionValue"
+                                                >
+                                                    <mat-icon>edit</mat-icon>
+                                                </button>
+                                                {{ optionValue }}
+                                                <button
+                                                    matChipRemove
+                                                    type="button"
+                                                    [attr.aria-label]="'remove ' + optionValue"
+                                                >
+                                                    <mat-icon>cancel</mat-icon>
+                                                </button>
+                                            </mat-chip-row>
+                                        }
+                                        <input
+                                            placeholder="添加选项..."
+                                            [matChipInputFor]="chipGrid"
+                                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                            [matChipInputAddOnBlur]="true"
+                                            (matChipInputTokenEnd)="addOptionValue(variantOptionIdx, $event)"
+                                        />
+                                    </mat-chip-grid>
+                                </mat-form-field>
+                                @if (variantOptions.length > 1) {
+                                    <button matIconButton type="button" (click)="removeVariantOption(variantOptionIdx)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                }
+                            </div>
+                        }
+                        <button
+                            matButton="elevated"
+                            type="button"
+                            (click)="addVariantOption()"
+                            class="variant-option-add-btn"
+                        >
+                            <mat-icon>add</mat-icon>
+                            添加规格
+                        </button>
+                    </mat-expansion-panel>
+
+                    <!-- SKU/Variant 表格 -->
+                    <mat-card appearance="raised">
+                        <mat-card-header>
+                            <mat-card-subtitle>规格明细</mat-card-subtitle>
+                            <!-- 批量操作 -->
+                            <div class="batch-actions">
+                                <button matButton="elevated" type="button" (click)="batchSetPrice()">
+                                    批量设置价格
+                                </button>
+                                <button matButton="elevated" type="button">批量设置库存</button>
+                            </div>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <!-- variant table-->
+                            <div class="variant-table-wrapper">
+                                <table mat-table [dataSource]="variants.controls" formArrayName="variants">
+                                    <ng-container matColumnDef="media">
+                                        <th *matHeaderCellDef mat-header-cell>图片</th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let variant; let i = index"
+                                            (click)="openMediaSelectorDialog(variant)"
+                                        >
+                                            @if (variant.value.mainMediaPath) {
+                                                <div class="thumbnail-wrapper">
+                                                    <div class="thumbnail">
+                                                        <img
+                                                            [ngSrc]="variant.value.mainMediaPath!"
+                                                            fill
+                                                            alt="media preview"
+                                                        />
+                                                    </div>
+                                                    <button
+                                                        type="button"
+                                                        (click)="removeVariantImage(variant); $event.stopPropagation()"
+                                                        class="thumbnail-delete-btn"
+                                                        aria-label="删除图片"
+                                                    >
+                                                        <mat-icon class="thumbnail-delete-btn__icon">close</mat-icon>
+                                                    </button>
+                                                </div>
+                                            } @else {
+                                                <div class="add-image-icon-wrapper">
+                                                    <mat-icon>add</mat-icon>
+                                                </div>
+                                            }
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="name">
+                                        <th *matHeaderCellDef mat-header-cell>SKU</th>
+                                        <td *matCellDef="let variant; let i = index" mat-cell>
+                                            {{ buildVariantName(variant) }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="msrp">
+                                        <th *matHeaderCellDef mat-header-cell>市场价</th>
+                                        <td *matCellDef="let variant; let i = index" mat-cell [formGroupName]="i">
+                                            <input matInput type="text" [appDecimalPlaces]="2" formControlName="msrp" />
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="price">
+                                        <th *matHeaderCellDef mat-header-cell>销售价</th>
+                                        <td *matCellDef="let variant; let i = index" mat-cell [formGroupName]="i">
+                                            <input
+                                                matInput
+                                                type="text"
+                                                [appDecimalPlaces]="2"
+                                                formControlName="price"
+                                            />
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="rollbackPrice">
+                                        <th *matHeaderCellDef mat-header-cell>折扣价</th>
+                                        <td *matCellDef="let variant; let i = index" mat-cell [formGroupName]="i">
+                                            <input
+                                                matInput
+                                                type="text"
+                                                [appDecimalPlaces]="2"
+                                                formControlName="rollbackPrice"
+                                            />
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="cost">
+                                        <th *matHeaderCellDef mat-header-cell>成本价</th>
+                                        <td *matCellDef="let variant; let i = index" mat-cell [formGroupName]="i">
+                                            <input matInput type="text" [appDecimalPlaces]="2" formControlName="cost" />
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="availableQty">
+                                        <th *matHeaderCellDef mat-header-cell>库存</th>
+                                        <td *matCellDef="let variant; let i = index" mat-cell [formGroupName]="i">
+                                            <input
+                                                matInput
+                                                type="text"
+                                                [appDecimalPlaces]="0"
+                                                formControlName="availableQty"
+                                            />
+                                        </td>
+                                    </ng-container>
+                                    <!-- actions -->
+                                    <ng-container matColumnDef="actions">
+                                        <th *matHeaderCellDef mat-header-cell>操作</th>
+                                        <td *matCellDef="let variant; let i = index" mat-cell>
+                                            <button mat-icon-button type="button" (click)="removeVariant(i)">
                                                 <mat-icon>delete</mat-icon>
                                             </button>
-                                        }
-                                    </div>
-                                }
-                                <button
-                                    matButton="elevated"
-                                    type="button"
-                                    (click)="addVariantOption()"
-                                    class="variant-option-add-btn"
-                                >
-                                    <mat-icon>add</mat-icon>
-                                    添加规格
-                                </button>
-                            </mat-expansion-panel>
+                                        </td>
+                                    </ng-container>
+                                    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+                                    <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+                                </table>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                }
+            </mat-card-content>
+        </mat-card>
+    </section>
+    <!--附加选项-->
+    <section id="customOptions">
+        <mat-card appearance="outlined">
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title>附加选项</mat-card-title>
+                    <mat-card-subtitle></mat-card-subtitle>
+                </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="custom-options">内容区域</div>
+            </mat-card-content>
+        </mat-card>
+    </section>
 
-                            <!-- SKU/Variant 表格 -->
-                            <mat-card appearance="raised">
-                                <mat-card-header>
-                                    <mat-card-subtitle>规格明细</mat-card-subtitle>
-                                    <!-- 批量操作 -->
-                                    <div class="batch-actions">
-                                        <button matButton="elevated" type="button" (click)="batchSetPrice()">
-                                            批量设置价格
-                                        </button>
-                                        <button matButton="elevated" type="button">批量设置库存</button>
-                                    </div>
-                                </mat-card-header>
-                                <mat-card-content>
-                                    <!-- variant table-->
-                                    <div class="variant-table-wrapper">
-                                        <table mat-table [dataSource]="variants.controls" formArrayName="variants">
-                                            <ng-container matColumnDef="media">
-                                                <th *matHeaderCellDef mat-header-cell>图片</th>
-                                                <td
-                                                    mat-cell
-                                                    *matCellDef="let variant; let i = index"
-                                                    (click)="openMediaSelectorDialog(variant)"
-                                                >
-                                                    @if (variant.value.mainMediaPath) {
-                                                        <div class="thumbnail-wrapper">
-                                                            <div class="thumbnail">
-                                                                <img
-                                                                    [ngSrc]="variant.value.mainMediaPath!"
-                                                                    fill
-                                                                    alt="media preview"
-                                                                />
-                                                            </div>
-                                                            <button
-                                                                type="button"
-                                                                (click)="
-                                                                    removeVariantImage(variant);
-                                                                    $event.stopPropagation()
-                                                                "
-                                                                class="thumbnail-delete-btn"
-                                                                aria-label="删除图片"
-                                                            >
-                                                                <mat-icon class="thumbnail-delete-btn__icon">
-                                                                    close
-                                                                </mat-icon>
-                                                            </button>
-                                                        </div>
-                                                    } @else {
-                                                        <div class="add-image-icon-wrapper">
-                                                            <mat-icon>add</mat-icon>
-                                                        </div>
-                                                    }
-                                                </td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="name">
-                                                <th *matHeaderCellDef mat-header-cell>SKU</th>
-                                                <td *matCellDef="let variant; let i = index" mat-cell>
-                                                    {{ buildVariantName(variant) }}
-                                                </td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="msrp">
-                                                <th *matHeaderCellDef mat-header-cell>市场价</th>
-                                                <td
-                                                    *matCellDef="let variant; let i = index"
-                                                    mat-cell
-                                                    [formGroupName]="i"
-                                                >
-                                                    <input
-                                                        matInput
-                                                        type="text"
-                                                        [appDecimalPlaces]="2"
-                                                        formControlName="msrp"
-                                                    />
-                                                </td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="price">
-                                                <th *matHeaderCellDef mat-header-cell>销售价</th>
-                                                <td
-                                                    *matCellDef="let variant; let i = index"
-                                                    mat-cell
-                                                    [formGroupName]="i"
-                                                >
-                                                    <input
-                                                        matInput
-                                                        type="text"
-                                                        [appDecimalPlaces]="2"
-                                                        formControlName="price"
-                                                    />
-                                                </td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="rollbackPrice">
-                                                <th *matHeaderCellDef mat-header-cell>折扣价</th>
-                                                <td
-                                                    *matCellDef="let variant; let i = index"
-                                                    mat-cell
-                                                    [formGroupName]="i"
-                                                >
-                                                    <input
-                                                        matInput
-                                                        type="text"
-                                                        [appDecimalPlaces]="2"
-                                                        formControlName="rollbackPrice"
-                                                    />
-                                                </td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="cost">
-                                                <th *matHeaderCellDef mat-header-cell>成本价</th>
-                                                <td
-                                                    *matCellDef="let variant; let i = index"
-                                                    mat-cell
-                                                    [formGroupName]="i"
-                                                >
-                                                    <input
-                                                        matInput
-                                                        type="text"
-                                                        [appDecimalPlaces]="2"
-                                                        formControlName="cost"
-                                                    />
-                                                </td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="availableQty">
-                                                <th *matHeaderCellDef mat-header-cell>库存</th>
-                                                <td
-                                                    *matCellDef="let variant; let i = index"
-                                                    mat-cell
-                                                    [formGroupName]="i"
-                                                >
-                                                    <input
-                                                        matInput
-                                                        type="text"
-                                                        [appDecimalPlaces]="0"
-                                                        formControlName="availableQty"
-                                                    />
-                                                </td>
-                                            </ng-container>
-                                            <!-- actions -->
-                                            <ng-container matColumnDef="actions">
-                                                <th *matHeaderCellDef mat-header-cell>操作</th>
-                                                <td *matCellDef="let variant; let i = index" mat-cell>
-                                                    <button mat-icon-button type="button" (click)="removeVariant(i)">
-                                                        <mat-icon>delete</mat-icon>
-                                                    </button>
-                                                </td>
-                                            </ng-container>
-                                            <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-                                            <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
-                                        </table>
-                                    </div>
-                                </mat-card-content>
-                            </mat-card>
-                        }
-                    </mat-card-content>
-                </mat-card>
-            </section>
-            <!--附加选项-->
-            <section id="customOptions">
-                <mat-card>
-                    <mat-card-header>
-                        <mat-card-title-group>
-                            <mat-card-title>附加选项</mat-card-title>
-                            <mat-card-subtitle></mat-card-subtitle>
-                        </mat-card-title-group>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <div style="height: 800px">内容区域</div>
-                    </mat-card-content>
-                </mat-card>
-            </section>
-
-            <div class="footer-actions">
-                <button matButton="filled" type="button" (click)="save()">保存</button>
-                <button matButton="tonal" type="button">取消</button>
-                <button matButton="elevated" type="button">重置</button>
-            </div>
-        </form>
+    <div class="footer-actions">
+        <button matButton="filled" type="button" (click)="save()">保存</button>
+        <button matButton="tonal" type="button">取消</button>
+        <button matButton="elevated" type="button">重置</button>
     </div>
-</div>
+</form>

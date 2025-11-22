@@ -15,9 +15,9 @@
             <app-sidebar />
         </mat-sidenav>
 
-        <mat-sidenav-content class="layout__main">
+        <mat-sidenav-content #matSidenavContent>
             <app-header (toggleMenuBtn)="sidenav.toggle()" class="layout__header" />
-            <main class="page-wrapper">
+            <main class="layout__main">
                 <router-outlet />
             </main>
             <!-- app-footer -->

@@ -1,156 +1,149 @@
 @use '@angular/material' as mat;
 
-.product-add-page-container {
-    height: 100%;
+:host {
     display: flex;
     gap: var(--size-4);
-    overflow: hidden;
+    height: 100%;
 
     .product-nav {
         flex: 0 0 220px;
         position: sticky;
         top: 80px;
         height: calc(100vh - 80px);
-        overflow-y: auto;
     }
 
     .product-main {
         flex: 1 1 auto;
-        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
 
-        .product-form {
+        .basic {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 8px;
+        }
+
+        .description {
+            height: 520px;
+            width: 375px;
+            border-radius: var(--mat-sys-corner-extra-small);
+            border: 1px solid var(--mat-sys-outline);
+            margin-bottom: 21px;
+            overflow: hidden;
+            cursor: text;
+        }
+
+        .media {
+            height: 375px;
+        }
+
+        .variants {
+            --mat-card-elevated-container-color: var(--mat-sys-surface);
             display: flex;
             flex-direction: column;
             gap: 16px;
+            padding-top: 16px;
 
-            .general-info-content {
-                display: flex;
-                gap: 16px;
-                padding-top: 16px;
-
-                .image-list-wrapper {
-                    margin-bottom: 16px;
-                }
-
-                .general-info {
-                    display: flex;
-                    flex-direction: column;
-                    flex: 1;
-                    gap: 8px;
-                }
-
-                .description {
-                    width: 375px;
-                    border-radius: var(--mat-sys-corner-extra-small);
-                    border: 1px solid var(--mat-sys-outline);
-                    margin-bottom: 21px;
-                    overflow: hidden;
-                    cursor: text;
-                }
+            .variant-mode {
+                align-self: flex-start;
             }
 
-            .variant-info-content {
-                --mat-card-elevated-container-color: var(--mat-sys-surface);
+            .single-variant {
                 display: flex;
                 flex-direction: column;
-                gap: 16px;
-                padding-top: 16px;
+                padding: 16px 0;
+            }
 
-                .variant-mode {
-                    align-self: flex-start;
-                }
+            .variant-option {
+                display: flex;
+                width: 100%;
+                align-items: center;
+                gap: 8px;
+            }
 
-                .single-variant {
-                    display: flex;
-                    flex-direction: column;
-                    padding: 16px 0;
-                }
+            .variant-option__values {
+                --mat-form-field-container-vertical-padding: 8px;
+                flex: 1;
+            }
 
-                .variant-option {
-                    display: flex;
-                    width: 100%;
-                    align-items: center;
-                    gap: 8px;
-                }
+            .variant-option-add-btn {
+                @include mat.button-density(-1);
+            }
 
-                .variant-option__values {
-                    --mat-form-field-container-vertical-padding: 8px;
-                    flex: 1;
-                }
+            .variant-table-wrapper {
+                width: 100%;
+                overflow: auto;
+                border: 1px solid var(--mat-sys-outline);
+                border-radius: var(--mat-sys-corner-extra-small);
+                margin-top: 16px;
+                padding-bottom: 16px;
 
-                .variant-option-add-btn {
-                    @include mat.button-density(-1);
-                }
+                .thumbnail-wrapper {
+                    position: relative;
+                    width: 40px;
+                    height: 40px;
 
-                .variant-table-wrapper {
-                    width: 100%;
-                    overflow: auto;
-                    border: 1px solid var(--mat-sys-outline);
-                    border-radius: var(--mat-sys-corner-extra-small);
-                    margin-top: 16px;
-                    padding-bottom: 16px;
+                    .thumbnail-delete-btn {
+                        width: 16px;
+                        height: 16px;
 
-                    .thumbnail-wrapper {
-                        position: relative;
-                        width: 40px;
-                        height: 40px;
+                        position: absolute;
+                        top: -4px;
+                        right: -4px;
 
-                        .thumbnail-delete-btn {
-                            width: 16px;
-                            height: 16px;
+                        background-color: var(--mat-sys-secondary-container);
+                        //opacity: 1;
+                        border-radius: var(--mat-sys-corner-full);
+                        border: none;
+                        padding: 0;
 
-                            position: absolute;
-                            top: -4px;
-                            right: -4px;
-
-                            background-color: var(--mat-sys-secondary-container);
-                            //opacity: 1;
-                            border-radius: var(--mat-sys-corner-full);
-                            border: none;
-                            padding: 0;
-
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-
-                            cursor: pointer;
-
-                            &__icon {
-                                font-size: 16px;
-                                width: 16px;
-                                height: 16px;
-                                line-height: 16px;
-                                color: var(--mat-sys-on-secondary-container);
-                            }
-                        }
-                    }
-
-                    .add-image-icon-wrapper {
-                        width: 40px;
-                        height: 40px;
-                        border: 1px dashed var(--mat-sys-outline);
-                        border-radius: var(--mat-sys-corner-extra-small);
-                        background-color: var(--mat-sys-surface-container-low);
                         display: flex;
                         align-items: center;
                         justify-content: center;
+
+                        cursor: pointer;
+
+                        &__icon {
+                            font-size: 16px;
+                            width: 16px;
+                            height: 16px;
+                            line-height: 16px;
+                            color: var(--mat-sys-on-secondary-container);
+                        }
                     }
                 }
 
-                .batch-actions {
-                    @include mat.button-density(-1);
-                    margin-left: auto;
+                .add-image-icon-wrapper {
+                    width: 40px;
+                    height: 40px;
+                    border: 1px dashed var(--mat-sys-outline);
+                    border-radius: var(--mat-sys-corner-extra-small);
+                    background-color: var(--mat-sys-surface-container-low);
                     display: flex;
-                    gap: 8px;
+                    align-items: center;
+                    justify-content: center;
                 }
             }
 
-            .footer-actions {
-                width: 100%;
+            .batch-actions {
+                @include mat.button-density(-1);
+                margin-left: auto;
                 display: flex;
-                justify-content: center;
                 gap: 8px;
             }
+        }
+
+        .custom-options {
+            height: 500px; // testing
+        }
+
+        .footer-actions {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
         }
     }
 }
