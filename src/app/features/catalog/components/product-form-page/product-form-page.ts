@@ -46,6 +46,9 @@ import { BrandService } from '../../services/brand-service';
 import { CollectionService } from '../../services/collection-service';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { MatListModule } from '@angular/material/list';
+import { createCustomOptionFormGroup, CustomOptionFormGroup } from '../../forms/custom-option-form';
+import { CUSTOM_OPTION_TYPE_OPTIONS, CustomOption } from '@models/catalog/product/custom-option';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
     selector: 'app-product-form-page',
@@ -64,8 +67,9 @@ import { MatListModule } from '@angular/material/list';
         MatChipsModule,
         MatTableModule,
         NgxEditorModule,
-        NgOptimizedImage,
         MatListModule,
+        MatSlideToggleModule,
+        NgOptimizedImage,
         DecimalPlaces,
         Upload,
         CdkDrag,
@@ -108,9 +112,9 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
     protected readonly displayedColumns = [
         'media',
         'name',
-        'msrp',
         'price',
         'rollbackPrice',
+        'msrp',
         'cost',
         'availableQty',
         'actions',
@@ -119,6 +123,8 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
     protected readonly brands = toSignal(this.brandService.getAll(), { initialValue: [] });
 
     protected readonly collections = toSignal(this.collectionService.getAll(), { initialValue: [] });
+
+    protected readonly mediaList = signal<UploadFileInfo[]>([]);
 
     protected variantMode = 'single' as 'single' | 'multiple';
 
@@ -134,7 +140,9 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
         return this.productForm.get('variants') as FormArray<VariantFromGroup>;
     }
 
-    protected readonly mediaList = signal<UploadFileInfo[]>([]);
+    get customOptions() {
+        return this.productForm.get('customOptions') as FormArray<CustomOptionFormGroup>;
+    }
 
     constructor() {
         // 初始化form
@@ -172,28 +180,41 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
         if (productId) {
             this.productService.getById(productId).subscribe((product) => {
                 if (product) {
-                    const { variantOptions, variants } = product;
-                    // 变体视图
+                    const { variantOptions, variants, customOptions } = product;
+                    // 变体视图模式
                     if (variants.length > 1) {
                         this.variantMode = 'multiple';
                     }
                     // 商品图片
-                    const newMediaList = product.mediaList.map((media) => {
+                    const newMediaList = (product.mediaList || []).map((media) => {
                         const { id, path, hash, type } = media;
                         return { id, path, hash, type, status: 'SUCCESS' } as UploadFileInfo;
                     });
                     this.mediaList.set(newMediaList);
-                    // 表单数据
+
+                    /**
+                     * 处理表单数据:手动处理FormArray字段.因为patchValue或者是setValue 不会自动填充FormArray的长度,所以需要手动处理FormArray
+                     */
                     // 变体选项
                     this.variantOptions.clear({ emitEvent: false });
                     variantOptions.forEach((opt) => {
                         this.variantOptions.push(createVariantOptionFormGroup(this.fb, opt), { emitEvent: false });
                     });
+
                     // 变体
                     this.variants.clear({ emitEvent: false });
                     variants.forEach((variant) => {
                         this.variants.push(createVariantFormGroup(this.fb, variant), { emitEvent: false });
                     });
+
+                    // 附加选项/自定义选项
+                    this.customOptions.clear();
+                    customOptions.forEach((customOption) => {
+                        this.customOptions.push(createCustomOptionFormGroup(this.fb, customOption), {
+                            emitEvent: false,
+                        });
+                    });
+
                     this.productForm.patchValue(creatProductFormGroup(this.fb, product).getRawValue(), {
                         emitEvent: false,
                     });
@@ -224,14 +245,15 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
     }
 
     /**
+     * todo:处理滚动锚点激活跟随
      * 滚动监听逻辑处理锚点跟随：使用 IntersectionObserver API
      */
     private setupIntersectionObserver() {
         const options: IntersectionObserverInit = {
             root: null, // 监听视口 (Viewport)
             // 触发检测的区域：当元素顶部距离视口顶部70%时触发
-            rootMargin: '0px 0px -30% 0px',
-            threshold: [0.5, 1],
+            rootMargin: '0px 0px 90% 0px',
+            threshold: 1,
         };
 
         const observer = new IntersectionObserver((entries) => {
@@ -286,7 +308,7 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
         this.variantOptions.removeAt(variantOptionIdx);
     }
 
-    protected addOptionValue(variantOptionIdx: number, event: MatChipInputEvent) {
+    protected addVariantOptionValue(variantOptionIdx: number, event: MatChipInputEvent) {
         const value = (event.value || '').trim();
 
         // Add option Value
@@ -377,6 +399,10 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
         variantCtrl.patchValue({ mainMediaId: null, mainMediaPath: null });
     }
 
+    protected addCustomOption() {
+        this.customOptions.push(createCustomOptionFormGroup(this.fb, {} as CustomOption));
+    }
+
     ngOnDestroy(): void {
         this.editor.destroy();
     }
@@ -384,7 +410,7 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
     protected save() {
         if (this.productForm.valid) {
             const productId = this.id();
-            const product = this.productForm.value as Product;
+            const product = this.productForm.value as unknown as Product;
             const $request = productId
                 ? this.productService.update(productId, product)
                 : this.productService.create(product);
@@ -394,4 +420,6 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
             });
         }
     }
+
+    protected readonly CUSTOM_OPTION_TYPE_OPTIONS = CUSTOM_OPTION_TYPE_OPTIONS;
 }

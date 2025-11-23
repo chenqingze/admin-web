@@ -3,6 +3,6 @@
     <p>{{ data.message }}</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button matButton="tonal" type="button" mat-dialog-close>{{ data.cancelText }}</button>
-    <button matButton="filled" type="button" [mat-dialog-close]="true">{{ data.confirmText }}</button>
+    <button matButton="tonal" mat-dialog-close type="button">{{ data.cancelText }}</button>
+    <button matButton="filled" [mat-dialog-close]="true" type="button">{{ data.confirmText }}</button>
 </mat-dialog-actions>

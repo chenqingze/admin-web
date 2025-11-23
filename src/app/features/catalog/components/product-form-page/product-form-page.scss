@@ -13,15 +13,15 @@
     }
 
     .product-main {
-        flex: 1 1 auto;
+        flex: 1;
         display: flex;
         flex-direction: column;
         gap: 16px;
+        overflow: hidden;
 
         .basic {
             display: flex;
             flex-direction: column;
-            flex: 1;
             gap: 8px;
         }
 
@@ -36,7 +36,10 @@
         }
 
         .media {
-            height: 375px;
+            min-height: 80px;
+            width: 100%;
+            border-radius: var(--mat-sys-corner-extra-small);
+            border: 1px dashed var(--mat-sys-outline);
         }
 
         .variants {
@@ -73,12 +76,15 @@
             }
 
             .variant-table-wrapper {
-                width: 100%;
-                overflow: auto;
                 border: 1px solid var(--mat-sys-outline);
                 border-radius: var(--mat-sys-corner-extra-small);
                 margin-top: 16px;
                 padding-bottom: 16px;
+                overflow-x: auto;
+
+                .variant-table {
+                    //width: 100%;
+                }
 
                 .thumbnail-wrapper {
                     position: relative;

@@ -3,12 +3,12 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Upload, UploadFileInfo } from '@shared/upload';
 import { Brand } from '@models';
 import { BrandService } from '../../services/brand-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSlideToggle, MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
     selector: 'app-dialogs',
@@ -17,9 +17,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
-        MatCheckboxModule,
+        MatSlideToggleModule,
         ReactiveFormsModule,
         Upload,
+        MatSlideToggle,
     ],
     templateUrl: './brand-form-dialog.html',
     styleUrl: './brand-form-dialog.scss',

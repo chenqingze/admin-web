@@ -34,21 +34,12 @@
 } @else if (uploadType() === 'drag-drop') {
     <div appFileSelect [multiple]="multiple()" (selected)="onSelected($event)" class="drag-drop-container">
         @for (file of fileList(); track $index) {
-            @if (multiple()) {
-                <app-file-preview
-                    [file]="file"
-                    [fileIndex]="$index"
-                    (remove)="onRemove($event)"
-                    [style]="`width:${previewWidth()};height:${previewHeight()}`"
-                />
-            } @else {
-                <app-file-preview
-                    [file]="file"
-                    [fileIndex]="$index"
-                    (remove)="onRemove($event)"
-                    [style]="`width:${previewWidth()};height:${previewHeight()}`"
-                />
-            }
+            <app-file-preview
+                [file]="file"
+                [fileIndex]="$index"
+                (remove)="onRemove($event)"
+                [style]="`width:${previewWidth()};height:${previewHeight()}`"
+            />
         }
 
         @if (fileList().length < 1) {

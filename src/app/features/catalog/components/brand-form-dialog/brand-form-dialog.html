@@ -12,12 +12,12 @@
             [(fileList)]="mediaList"
             [maxFiles]="1"
         />
-        <mat-checkbox formControlName="visible" class="checkbox">买家是否可见</mat-checkbox>
+        <mat-slide-toggle formControlName="visible">买家是否可见</mat-slide-toggle>
     </form>
 </mat-dialog-content>
-<mat-dialog-actions align="start">
-    <button type="button" matButton="tonal" mat-dialog-close>取消</button>
-    <button type="button" matButton="filled" [mat-dialog-close]="true" [disabled]="brandForm.invalid" (click)="save()">
+<mat-dialog-actions>
+    <button matButton="elevated" mat-dialog-close type="button">取消</button>
+    <button matButton="filled" [mat-dialog-close]="true" [disabled]="brandForm.invalid" type="button" (click)="save()">
         确定
     </button>
 </mat-dialog-actions>

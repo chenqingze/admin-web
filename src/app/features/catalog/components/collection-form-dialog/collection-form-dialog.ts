@@ -7,8 +7,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Collection } from '@models';
 import { Upload, UploadFileInfo } from '@shared/upload';
 import { CollectionService } from '../../services/collection-service';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
     selector: 'app-collection-form-dialog',
@@ -17,7 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
-        MatCheckboxModule,
+        MatSlideToggleModule,
         ReactiveFormsModule,
         Upload,
     ],

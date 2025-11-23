@@ -21,5 +21,5 @@ export interface Variant extends BaseModel {
     option3Value: string | null;
     mainMediaId: string | null;
     mainMediaPath: string | null;
-    productId: string | null;
+    productId?: string | null;
 }

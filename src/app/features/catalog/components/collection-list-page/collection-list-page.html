@@ -11,16 +11,16 @@
     </form>
     <div class="actions-wrapper">
         <button
-            type="button"
             matButton="tonal"
             appConfirm
             message="确定要批量删除选中的分组吗?"
+            type="button"
             [disabled]="selection.isEmpty()"
             (confirmed)="deleteSelected()"
         >
             批量删除
         </button>
-        <button type="button" matButton="filled" (click)="openDialog()">新增</button>
+        <button matButton="filled" type="button" (click)="openDialog()">新增</button>
     </div>
 </div>
 <div class="table-container">
@@ -78,9 +78,9 @@
                 </button>
                 <button
                     mat-icon-button
-                    type="button"
                     appConfirm
                     message="确定要删除该分组吗?"
+                    type="button"
                     (confirmed)="delete(row.id)"
                 >
                     <mat-icon>delete</mat-icon>

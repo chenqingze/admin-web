@@ -18,8 +18,8 @@ export class Upload {
     private readonly snackBar = inject(MatSnackBar);
     private readonly fileService = inject(UploadService);
 
-    readonly previewWidth = input('6rem');
-    readonly previewHeight = input('6rem');
+    readonly previewWidth = input('5rem');
+    readonly previewHeight = input('5rem');
     readonly multiple = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
     readonly uploadType = input<'drag-drop' | 'list-card'>('list-card');
     readonly listCardIcon = input<string>('add');

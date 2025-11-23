@@ -64,3 +64,4 @@ For more information on using the Angular CLI, including detailed command refere
 [ ] 表格 no content 视图
 [ ] 增加动画,完善视觉效果:路由切换;页面进入/离开;@if、@for 动态渲染;提交按钮动效;请求等待动画
 [ ] 支持可选后端管理菜单
+[ ] 滚动时锚点跟随

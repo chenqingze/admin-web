@@ -10,10 +10,10 @@
                             {{ card.title }}
                             <button
                                 matIconButton
+                                [matMenuTriggerFor]="menu"
                                 type="button"
                                 class="more-button"
                                 aria-label="Toggle menu"
-                                [matMenuTriggerFor]="menu"
                             >
                                 <mat-icon>more_vert</mat-icon>
                             </button>

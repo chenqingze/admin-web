@@ -10,10 +10,10 @@
     </form>
     <div class="actions-wrapper">
         <button
-            type="button"
             matButton="tonal"
             appConfirm
             message="确定要批量删除选中的商品吗?"
+            type="button"
             [disabled]="selection.isEmpty()"
             (confirmed)="deleteSelected()"
         >
@@ -69,14 +69,14 @@
         <ng-container matColumnDef="actions">
             <th *matHeaderCellDef mat-header-cell>操作</th>
             <td *matCellDef="let row; index as i" mat-cell>
-                <button mat-icon-button type="button" [routerLink]="['/catalog/products', row.id, 'edit']">
+                <button mat-icon-button [routerLink]="['/catalog/products', row.id, 'edit']" type="button">
                     <mat-icon>edite</mat-icon>
                 </button>
                 <button
                     mat-icon-button
-                    type="button"
                     appConfirm
                     message="确定要删除该商品吗?"
+                    type="button"
                     (confirmed)="delete(row.id)"
                 >
                     <mat-icon>delete</mat-icon>
