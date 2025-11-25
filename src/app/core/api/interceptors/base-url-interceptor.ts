@@ -1,6 +1,6 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { BASE_URL } from '../providers/http-providers';
+import { BASE_URL } from '../providers';
 
 export function hasHttpScheme(url: string) {
     return new RegExp('^http(s)?://', 'i').test(url);
