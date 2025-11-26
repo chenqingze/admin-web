@@ -23,6 +23,6 @@ export interface CustomOption extends BaseModel {
     type: CustomOptionType;
     scope: CustomOptionScope;
     required: boolean;
-    multiple: boolean;
+    maxSelect: number | null;
     values: CustomOptionValue[];
 }

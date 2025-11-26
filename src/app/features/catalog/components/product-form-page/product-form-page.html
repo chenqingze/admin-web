@@ -247,8 +247,10 @@
                         <mat-card-subtitle>规格明细</mat-card-subtitle>
                         <!-- 批量操作 -->
                         <div class="batch-actions">
-                            <button matButton="elevated" type="button" (click)="batchSetPrice()">批量设置价格</button>
-                            <button matButton="elevated" type="button">批量设置库存</button>
+                            <button matButton="elevated" type="button" (click)="batchSetPrice()" class="small-btn">
+                                批量设置价格
+                            </button>
+                            <button matButton="elevated" type="button" class="small-btn">批量设置库存</button>
                         </div>
                     </mat-card-header>
                     <mat-card-content>
@@ -361,35 +363,37 @@
         <mat-card-header>
             <mat-card-title-group>
                 <mat-card-title>附加选项</mat-card-title>
-                <!-- 批量操作 -->
-                <div class="batch-actions">
-                    <button matButton="elevated" type="button" (click)="addCustomOption()">添加选项</button>
-                </div>
+                <button matButton="elevated" type="button" (click)="addCustomOption()" class="small-btn">
+                    添加选项
+                </button>
             </mat-card-title-group>
         </mat-card-header>
-        <mat-card-content>
+        <mat-card-content class="custom-options">
             <mat-accordion multi formArrayName="customOptions">
                 @for (customOption of customOptions.controls; track $index; let customOptionIdx = $index) {
                     <mat-expansion-panel [formGroupName]="customOptionIdx">
                         <mat-expansion-panel-header>
                             <mat-panel-title>{{ customOption.value.name }}</mat-panel-title>
                         </mat-expansion-panel-header>
-                        <mat-panel-title>
+                        <div class="custom-options-form">
                             <mat-form-field>
                                 <mat-label>选项名称</mat-label>
                                 <input matInput type="text" formControlName="name" />
                             </mat-form-field>
-                        </mat-panel-title>
-                        <mat-form-field>
-                            <mat-label>类型</mat-label>
-                            <mat-select formControlName="type">
-                                @for (customOptionType of CUSTOM_OPTION_TYPE_OPTIONS; track customOptionType) {
-                                    <mat-option [value]="customOptionType">{{ customOptionType }}</mat-option>
-                                }
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-slide-toggle formControlName="required">是否必须选择</mat-slide-toggle>
-                        <mat-slide-toggle formControlName="multiple">是否允许多选</mat-slide-toggle>
+                            <mat-form-field>
+                                <mat-label>类型</mat-label>
+                                <mat-select formControlName="type">
+                                    @for (customOptionType of CUSTOM_OPTION_TYPE_OPTIONS; track customOptionType) {
+                                        <mat-option [value]="customOptionType">{{ customOptionType }}</mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-slide-toggle formControlName="required">是否必须选择</mat-slide-toggle>
+                            @if (customOption.controls.type.value === 'SELECT') {
+                                <mat-slide-toggle formControlName="multiple">是否允许多选</mat-slide-toggle>
+                            }
+                        </div>
+
                         <mat-action-row>
                             <button matButton="tonal" type="button">删除</button>
                         </mat-action-row>

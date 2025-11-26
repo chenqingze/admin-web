@@ -6,9 +6,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Upload, UploadFileInfo } from '@shared/upload';
 import { Brand } from '@models';
-import { BrandService } from '../../services/brand-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSlideToggle, MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { BrandService } from '../../services';
 
 @Component({
     selector: 'app-dialogs',

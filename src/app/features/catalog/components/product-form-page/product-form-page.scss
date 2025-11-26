@@ -46,8 +46,8 @@
             --mat-card-elevated-container-color: var(--mat-sys-surface);
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            padding-top: 16px;
+            gap: var(--size-3);
+            padding-top: var(--size-3);
 
             .variant-mode {
                 align-self: flex-start;
@@ -56,14 +56,14 @@
             .single-variant {
                 display: flex;
                 flex-direction: column;
-                padding: 16px 0;
+                padding: var(--size-3) 0;
             }
 
             .variant-option {
                 display: flex;
                 width: 100%;
                 align-items: center;
-                gap: 8px;
+                gap: var(--size-3);
             }
 
             .variant-option__values {
@@ -134,7 +134,6 @@
             }
 
             .batch-actions {
-                @include mat.button-density(-1);
                 margin-left: auto;
                 display: flex;
                 gap: 8px;
@@ -142,7 +141,12 @@
         }
 
         .custom-options {
-            height: 500px; // testing
+            padding-top: var(--size-3);
+            .custom-options-form {
+                display: flex;
+                flex-flow: row wrap;
+                gap: var(--size-3);
+            }
         }
 
         .footer-actions {
@@ -152,4 +156,8 @@
             gap: 8px;
         }
     }
+}
+
+.small-btn {
+    @include mat.button-density(-1);
 }

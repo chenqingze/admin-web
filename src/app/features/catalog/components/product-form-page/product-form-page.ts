@@ -237,7 +237,7 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
             // 使用 window.scrollTo 实现平滑滚动
             element.scrollIntoView({
                 behavior: 'smooth',
-                block: 'start', // 滚动到顶部对齐
+                block: 'center', // 滚动到顶部对齐
             });
             // 手动更新 active 状态，提供即时反馈
             this.activeSection.set(sectionId);

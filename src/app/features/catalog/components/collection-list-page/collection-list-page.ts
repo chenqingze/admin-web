@@ -2,7 +2,6 @@ import { Component, effect, inject, signal } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { CollectionService } from '../../services/collection-service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,6 +18,7 @@ import { PaginatorProps } from '@ui';
 import { Confirm } from '@directives';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageHeader } from '@components';
+import { CollectionService } from '../../services';
 
 @Component({
     selector: 'app-collection-list-page',
@@ -26,7 +26,6 @@ import { PageHeader } from '@components';
         MatCardModule,
         MatFormFieldModule,
         MatInputModule,
-        MatIconModule,
         MatTableModule,
         MatCheckboxModule,
         MatPaginatorModule,

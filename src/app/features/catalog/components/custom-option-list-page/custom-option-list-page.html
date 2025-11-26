@@ -1,10 +1,11 @@
-<app-page-header>商品分组</app-page-header>
+<app-page-header>商品选项</app-page-header>
+
 <div class="table-toolbar-container">
     <form [formGroup]="searchForm" class="filter-wrapper">
         <mat-form-field>
-            <mat-label>分组名称</mat-label>
-            <input matInput formControlName="name" placeholder="分组名称" />
-            <button matIconButton matSuffix type="button" (click)="search()">
+            <mat-label></mat-label>
+            <input type="text" matInput formControlName="name" placeholder="选项名称" />
+            <button matIconButton matSuffix type="button">
                 <mat-icon>search</mat-icon>
             </button>
         </mat-form-field>
@@ -13,14 +14,14 @@
         <button
             matButton="tonal"
             appConfirm
-            message="确定要批量删除选中的分组吗?"
+            message="确定要批量删除选中的选项吗?"
             type="button"
             [disabled]="selection.isEmpty()"
             (confirmed)="deleteSelected()"
         >
             批量删除
         </button>
-        <button matButton="filled" type="button" (click)="openDialog()">新增</button>
+        <button matButton="filled" type="button" [routerLink]="['custom-options/new']">新增</button>
     </div>
 </div>
 <div class="table-container">
@@ -51,21 +52,25 @@
 
         <!-- name  -->
         <ng-container matColumnDef="name">
-            <th *matHeaderCellDef mat-header-cell>分组</th>
+            <th *matHeaderCellDef mat-header-cell>选项</th>
             <td *matCellDef="let row" mat-cell>
                 {{ row.name }}
             </td>
         </ng-container>
 
-        <!-- mediaPath  -->
-        <ng-container matColumnDef="mediaPath">
-            <th *matHeaderCellDef mat-header-cell>图片</th>
-            <td *matCellDef="let row" mat-cell class="table__cell--image">
-                <div class="thumbnail">
-                    @if (row.mediaPath) {
-                        <img [ngSrc]="row.mediaPath" fill class="thumbnail__img" alt="collection image" />
-                    }
-                </div>
+        <!-- values  -->
+        <ng-container matColumnDef="values">
+            <th *matHeaderCellDef mat-header-cell>选项值</th>
+            <td *matCellDef="let row" mat-cell>
+                {{ row.values }}
+            </td>
+        </ng-container>
+
+        <!-- associatedProductCount  -->
+        <ng-container matColumnDef="associatedProductCount">
+            <th *matHeaderCellDef mat-header-cell>已关联商品数</th>
+            <td *matCellDef="let row" mat-cell>
+                {{ row.associatedProductCount }}
             </td>
         </ng-container>
 
@@ -73,13 +78,13 @@
         <ng-container matColumnDef="actions">
             <th *matHeaderCellDef mat-header-cell>操作</th>
             <td mat-cell *matCellDef="let row; index as i">
-                <button mat-icon-button type="button" (click)="openDialog(row.id)">
+                <button mat-icon-button type="button" [routerLink]="['/custom-options', row.id, 'edit']">
                     <mat-icon>edite</mat-icon>
                 </button>
                 <button
                     mat-icon-button
                     appConfirm
-                    message="确定要删除该分组吗?"
+                    message="确定要删除该选项吗?"
                     type="button"
                     (confirmed)="delete(row.id)"
                 >

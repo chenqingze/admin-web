@@ -1,2 +1,2 @@
-export * from './catalog';
 export * from './base-model';
+export * from './catalog';

@@ -13,13 +13,13 @@ export function createCustomOptionValueFormGroup(fb: FormBuilder, data?: CustomO
 export type CustomOptionValueFormGroup = ReturnType<typeof createCustomOptionValueFormGroup>;
 
 export function createCustomOptionFormGroup(fb: FormBuilder, data?: CustomOption) {
-    const { id = null, name = '', type = 'SELECT', required = false, multiple = false, values = [] } = data || {};
+    const { id = null, name = '', type = 'SELECT', required = false, maxSelect = null, values = [] } = data || {};
     return fb.group({
         id: [id],
         name: [name, Validators.required],
         type: [type, Validators.required],
         required: [required, Validators.required],
-        multiple: [multiple, Validators.required],
+        maxSelect: [maxSelect],
         values: fb.array<CustomOptionValueFormGroup>(
             values.map((optionValue) => createCustomOptionValueFormGroup(fb, optionValue)),
             Validators.minLength(1),

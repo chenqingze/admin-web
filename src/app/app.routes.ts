@@ -103,6 +103,58 @@ export const routes: Routes = [
                         },
                     },
                     {
+                        path: 'custom-options',
+                        loadComponent: () =>
+                            import('@features/catalog/components/custom-option-list-page/custom-option-list-page').then(
+                                (m) => m.CustomOptionListPage,
+                            ),
+                        title: '商品选项',
+                        data: {
+                            perm: 'custom-option:list',
+                            icon: 'add_box',
+                            showInMenu: true,
+                        },
+                    },
+                    {
+                        path: 'custom-option/new',
+                        loadComponent: () =>
+                            import('@features/catalog/components/custom-option-form-page/custom-option-form-page').then(
+                                (m) => m.CustomOptionFormPage,
+                            ),
+                        title: '新增选项',
+                        data: {
+                            perm: 'custom-option:list',
+                            icon: 'add_box',
+                            showInMenu: true,
+                        },
+                    },
+                    {
+                        path: 'custom-option/:id/edit',
+                        loadComponent: () =>
+                            import('@features/catalog/components/custom-option-form-page/custom-option-form-page').then(
+                                (m) => m.CustomOptionFormPage,
+                            ),
+                        title: '编辑选项',
+                        data: {
+                            perm: 'custom-option:list',
+                            icon: 'add_box',
+                            showInMenu: true,
+                        },
+                    },
+                    {
+                        path: 'custom-option/:id',
+                        loadComponent: () =>
+                            import('@features/catalog/components/custom-option-form-page/custom-option-form-page').then(
+                                (m) => m.CustomOptionFormPage,
+                            ),
+                        title: '选项详情',
+                        data: {
+                            perm: 'custom-option:view',
+                            icon: 'add_box',
+                            showInMenu: true,
+                        },
+                    },
+                    {
                         path: 'brands',
                         loadComponent: () =>
                             import('@features/catalog/components/brand-list-page/brand-list-page').then(

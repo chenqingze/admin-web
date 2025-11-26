@@ -1,54 +1,52 @@
 import { Component, effect, inject, signal } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatButtonModule } from '@angular/material/button';
+import { PageHeader } from '@components';
 import { MatCardModule } from '@angular/material/card';
-import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Brand } from '@models';
-import { SelectionModel } from '@angular/cdk/collections';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { PaginatorProps } from '@ui';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { BrandFormDialog } from '../brand-form-dialog/brand-form-dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Confirm } from '@directives';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { BrandService } from '../../services';
+import { SelectionModel } from '@angular/cdk/collections';
+import { PaginatorProps } from '@ui';
+import { CustomOptionService } from '../../services';
+import { CustomOption } from '@models/catalog/product/custom-option';
+import { RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'app-brand-list-page',
+    selector: 'app-custom-option-list-page',
     imports: [
-        CommonModule,
-        MatFormFieldModule,
         MatCardModule,
-        MatToolbarModule,
+        MatFormFieldModule,
+        MatInputModule,
         MatTableModule,
-        MatPaginatorModule,
         MatCheckboxModule,
+        MatPaginatorModule,
+        MatSortModule,
         MatButtonModule,
         MatIconModule,
-        MatFormField,
-        MatInput,
-        MatLabel,
-        NgOptimizedImage,
-        Confirm,
+        MatSnackBarModule,
+        FormsModule,
         ReactiveFormsModule,
+        PageHeader,
+        Confirm,
+        RouterLink,
     ],
-    templateUrl: './brand-list-page.html',
-    styleUrl: './brand-list-page.scss',
+    templateUrl: './custom-option-list-page.html',
+    styleUrl: './custom-option-list-page.scss',
 })
-export class BrandListPage {
-    private readonly brandService = inject(BrandService);
-    private readonly dialog = inject(MatDialog);
+export class CustomOptionListPage {
+    private readonly customOptionService = inject(CustomOptionService);
     private readonly snackBar = inject(MatSnackBar);
 
-    protected dataSource = new MatTableDataSource<Brand>([]);
-    protected displayedColumns = ['select', 'name', 'mediaPath', 'actions'];
-    protected selection = new SelectionModel<Brand>(true, []);
+    protected dataSource = new MatTableDataSource<CustomOption>();
+    protected displayedColumns = ['select', 'name', 'values', 'associatedProductCount', 'actions'];
+    protected selection = new SelectionModel<CustomOption>(true, []);
     get selectedIds(): string[] {
         return this.selection.selected.map((item) => item.id!);
     }
@@ -66,7 +64,7 @@ export class BrandListPage {
     constructor() {
         effect(() => {
             const { pageIndex, pageSize } = this.paginatorProps();
-            this.brandService.getPage({ page: pageIndex, size: pageSize }).subscribe((data) => {
+            this.customOptionService.getPage({ page: pageIndex, size: pageSize }).subscribe((data) => {
                 const { page, content } = data;
                 this.dataSource.data = content;
                 this.totalElements.set(Number(page.totalElements));
@@ -95,7 +93,7 @@ export class BrandListPage {
 
     protected search() {
         const { pageIndex, pageSize } = this.paginatorProps();
-        this.brandService
+        this.customOptionService
             .getPage({ page: pageIndex, size: pageSize }, { name: this.searchForm.value.name })
             .subscribe((data) => {
                 const { page, content } = data;
@@ -104,24 +102,8 @@ export class BrandListPage {
             });
     }
 
-    protected openDialog(id?: string) {
-        const dialogRef = this.dialog.open(BrandFormDialog, {
-            data: id,
-            width: '560px',
-            maxWidth: '720px',
-            maxHeight: 'calc(100vw - 32px)',
-        });
-
-        dialogRef.afterClosed().subscribe((data) => {
-            // console.log('The dialog was closed', data);
-            if (data) {
-                this.paginatorProps.set({ ...this.paginatorProps(), pageIndex: 0 });
-            }
-        });
-    }
-
     protected delete(id: string) {
-        this.brandService.delete(id).subscribe({
+        this.customOptionService.delete(id).subscribe({
             next: () => {
                 this.snackBar.open('删除成功', '关闭', {
                     duration: 3000,
@@ -139,7 +121,7 @@ export class BrandListPage {
     }
 
     protected deleteSelected() {
-        this.brandService.deleteByIds(this.selectedIds).subscribe({
+        this.customOptionService.deleteByIds(this.selectedIds).subscribe({
             next: () => {
                 this.snackBar.open('删除成功', '关闭', {
                     duration: 3000,
