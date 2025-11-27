@@ -21,7 +21,7 @@ export interface CustomOption extends BaseModel {
     name: string;
     position: number;
     type: CustomOptionType;
-    scope: CustomOptionScope;
+    scope: CustomOptionScope | null;
     required: boolean;
     maxSelect: number | null;
     values: CustomOptionValue[];

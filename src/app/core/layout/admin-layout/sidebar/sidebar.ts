@@ -62,9 +62,10 @@ export class Sidebar {
                 items.push(...this.buildMenu(r.children, r.path));
             } else if (showInMenu) {
                 const menuItem: MenuItem = {
-                    path: isVirtual ? null : path,
+                    path: path,
                     icon,
                     label,
+                    isVirtual,
                 };
                 if (r.children) {
                     menuItem.children = this.buildMenu(r.children, path);

@@ -1,11 +1,12 @@
 <a
     mat-list-item
-    class="menu-item"
     [style.--mat-list-list-item-leading-icon-start-space.px]="isCollapsed() ? 24 : depth() * 24"
     [routerLink]="item().path ?? null"
+    [routerLinkActiveOptions]="{ exact: false }"
+    [activated]="rla.isActive"
     routerLinkActive="selected-menu-item"
     #rla="routerLinkActive"
-    [activated]="rla.isActive"
+    class="menu-item"
     (click)="toggleNestedMenu()"
 >
     <mat-icon

@@ -3,4 +3,5 @@ export interface MenuItem {
     label: string;
     icon: string;
     children?: MenuItem[];
+    isVirtual?: boolean;
 }

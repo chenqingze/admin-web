@@ -10,7 +10,8 @@ To start a local development server, run:
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will
+automatically reload whenever you modify any of the source files.
 
 ## Code scaffolding
 
@@ -34,7 +35,8 @@ To build the project run:
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build
+optimizes your application for performance and speed.
 
 ## Running unit tests
 
@@ -56,7 +58,8 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 
 ## Additional Resources
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+For more information on using the Angular CLI, including detailed command references, visit
+the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
 
 ## Todo List
 
@@ -65,3 +68,4 @@ For more information on using the Angular CLI, including detailed command refere
 [ ] 增加动画,完善视觉效果:路由切换;页面进入/离开;@if、@for 动态渲染;提交按钮动效;请求等待动画
 [ ] 支持可选后端管理菜单
 [ ] 滚动时锚点跟随
+[ ] 禁用虚拟路由导航行为

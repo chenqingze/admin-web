@@ -116,7 +116,7 @@ export const routes: Routes = [
                         },
                     },
                     {
-                        path: 'custom-option/new',
+                        path: 'custom-options/new',
                         loadComponent: () =>
                             import('@features/catalog/components/custom-option-form-page/custom-option-form-page').then(
                                 (m) => m.CustomOptionFormPage,
@@ -129,7 +129,7 @@ export const routes: Routes = [
                         },
                     },
                     {
-                        path: 'custom-option/:id/edit',
+                        path: 'custom-options/:id/edit',
                         loadComponent: () =>
                             import('@features/catalog/components/custom-option-form-page/custom-option-form-page').then(
                                 (m) => m.CustomOptionFormPage,
@@ -142,7 +142,7 @@ export const routes: Routes = [
                         },
                     },
                     {
-                        path: 'custom-option/:id',
+                        path: 'custom-options/:id',
                         loadComponent: () =>
                             import('@features/catalog/components/custom-option-form-page/custom-option-form-page').then(
                                 (m) => m.CustomOptionFormPage,
