@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractCrudApi } from '@api';
-import { CustomOption } from '@models/catalog/product/custom-option';
+import { CustomOption } from '@models';
 
 @Injectable({
     providedIn: 'root',

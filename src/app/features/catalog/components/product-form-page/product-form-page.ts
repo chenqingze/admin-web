@@ -21,18 +21,19 @@ import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { FormArray, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Upload, UploadFileInfo } from '@shared/upload';
 import { MatDialog } from '@angular/material/dialog';
-import { ProductService } from '../../services/product-service';
 import { Router } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import {
+    createCustomOptionFormGroup,
     createVariantFormGroup,
     createVariantOptionFormGroup,
     creatProductFormGroup,
+    CustomOptionFormGroup,
     ProductFormGroup,
     VariantFromGroup,
     VariantOptionFormGroup,
 } from '../../forms';
-import { Product, Variant, VariantOption } from '@models';
+import { CUSTOM_OPTION_TYPE_OPTIONS, CustomOption, Product, Variant, VariantOption } from '@models';
 import { MediaSelectorDialog } from './media-selector-dialog/media-selector-dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -42,13 +43,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { DecimalPlaces } from '@directives';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BrandService } from '../../services/brand-service';
-import { CollectionService } from '../../services/collection-service';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { MatListModule } from '@angular/material/list';
-import { createCustomOptionFormGroup, CustomOptionFormGroup } from '../../forms/custom-option-form';
-import { CUSTOM_OPTION_TYPE_OPTIONS, CustomOption } from '@models/catalog/product/custom-option';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { PageHeader } from '@components';
+import { BrandService, CollectionService, ProductService } from '../../services';
 
 @Component({
     selector: 'app-product-form-page',
@@ -73,6 +72,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         DecimalPlaces,
         Upload,
         CdkDrag,
+        PageHeader,
     ],
     templateUrl: './product-form-page.html',
     styleUrl: './product-form-page.scss',

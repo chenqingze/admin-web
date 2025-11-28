@@ -15,7 +15,7 @@ import { Confirm } from '@directives';
 import { SelectionModel } from '@angular/cdk/collections';
 import { PaginatorProps } from '@ui';
 import { CustomOptionService } from '../../services';
-import { CustomOption } from '@models/catalog/product/custom-option';
+import { CustomOption } from '@models';
 import { RouterLink } from '@angular/router';
 
 @Component({

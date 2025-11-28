@@ -1,5 +1,7 @@
 .table-toolbar-container {
     height: var(--mat-form-field-container-height);
+    width: 100%;
+    border-radius: var(--mat-sys-corner-medium);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -13,6 +15,8 @@
 .table-container {
     width: 100%;
     border-radius: var(--mat-sys-corner-medium);
+    padding: var(--size-3);
+    background-color: var(--mat-sys-surface);
     overflow-x: auto;
 
     .table {

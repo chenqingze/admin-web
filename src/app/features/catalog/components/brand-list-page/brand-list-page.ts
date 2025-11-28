@@ -18,6 +18,7 @@ import { Confirm } from '@directives';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrandService } from '../../services';
+import { PageHeader } from '@components';
 
 @Component({
     selector: 'app-brand-list-page',
@@ -37,6 +38,7 @@ import { BrandService } from '../../services';
         NgOptimizedImage,
         Confirm,
         ReactiveFormsModule,
+        PageHeader,
     ],
     templateUrl: './brand-list-page.html',
     styleUrl: './brand-list-page.scss',

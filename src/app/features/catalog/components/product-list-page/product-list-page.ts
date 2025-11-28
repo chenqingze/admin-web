@@ -17,6 +17,7 @@ import { Product } from '@models';
 import { PaginatorProps } from '@ui';
 import { Confirm } from '@directives';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { PageHeader } from '@components';
 
 @Component({
     selector: 'app-product-list-page',
@@ -36,6 +37,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
         RouterLink,
         Confirm,
         ReactiveFormsModule,
+        PageHeader,
     ],
     templateUrl: './product-list-page.html',
     styleUrl: './product-list-page.scss',

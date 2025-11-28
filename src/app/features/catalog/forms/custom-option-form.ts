@@ -1,5 +1,5 @@
 import { FormBuilder, Validators } from '@angular/forms';
-import { CustomOption, CustomOptionValue } from '@models/catalog/product/custom-option';
+import { CustomOption, CustomOptionValue } from '@models';
 
 export function createCustomOptionValueFormGroup(fb: FormBuilder, data?: CustomOptionValue) {
     const { label = null, value = '', adjustmentValue = null, adjustmentType = null } = data || {};
