@@ -29,7 +29,6 @@ import {
     createVariantOptionFormGroup,
     creatProductFormGroup,
     CustomOptionFormGroup,
-    ProductFormGroup,
     VariantFromGroup,
     VariantOptionFormGroup,
 } from '../../forms';
@@ -52,10 +51,11 @@ import { BrandService, CollectionService, ProductService } from '../../services'
 @Component({
     selector: 'app-product-form-page',
     imports: [
+        PageHeader,
         CommonModule,
         ReactiveFormsModule,
-        MatCardModule,
         MatFormFieldModule,
+        MatCardModule,
         MatInputModule,
         MatSelectModule,
         MatButtonModule,
@@ -72,7 +72,6 @@ import { BrandService, CollectionService, ProductService } from '../../services'
         DecimalPlaces,
         Upload,
         CdkDrag,
-        PageHeader,
     ],
     templateUrl: './product-form-page.html',
     styleUrl: './product-form-page.scss',
@@ -85,6 +84,7 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
         { id: 'variants', label: '规格信息' },
         { id: 'customOptions', label: '附加选项' },
     ];
+
     protected readonly activeSection = signal<string>(this.sections[0].id);
     protected readonly id = input<string>();
 
@@ -130,7 +130,7 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
 
     private readonly fb = inject(FormBuilder);
 
-    protected readonly productForm: ProductFormGroup;
+    protected readonly productForm = creatProductFormGroup(this.fb);
 
     get variantOptions() {
         return this.productForm.get('variantOptions') as FormArray<VariantOptionFormGroup>;
@@ -146,7 +146,6 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
 
     constructor() {
         // 初始化form
-        this.productForm = creatProductFormGroup(this.fb);
         this.variants.push(createVariantFormGroup(this.fb));
 
         // 处理商品媒体图片id

@@ -1,19 +1,13 @@
 import { BaseModel } from '../../base-model';
 
-export const ADJUSTMENT_TYPE_OPTIONS = ['FIX', 'PERCENT'] as const;
-export type AdjustmentType = (typeof ADJUSTMENT_TYPE_OPTIONS)[number];
-
 export interface CustomOptionValue {
+    id: string | null;
     label: string | null;
     value: string;
-    adjustmentValue: string | null;
-    adjustmentType: AdjustmentType | null;
+    priceAdjustment: string | null;
 }
 
-export const CUSTOM_OPTION_SCOPE_OPTIONS = ['GLOBAL', 'CATEGORY', 'PRODUCT'] as const;
-export type CustomOptionScope = (typeof CUSTOM_OPTION_SCOPE_OPTIONS)[number];
-
-export const CUSTOM_OPTION_TYPE_OPTIONS = ['SELECT', 'TEXT', 'NUMBER', 'IMAGE'] as const;
+export const CUSTOM_OPTION_TYPE_OPTIONS = ['SINGLE_CHOICE', 'MULTI_CHOICE', 'TEXT_INPUT', 'FILE_UPLOAD'] as const;
 export type CustomOptionType = (typeof CUSTOM_OPTION_TYPE_OPTIONS)[number];
 
 export interface CustomOption extends BaseModel {
@@ -21,8 +15,7 @@ export interface CustomOption extends BaseModel {
     name: string;
     position: number;
     type: CustomOptionType;
-    scope: CustomOptionScope | null;
     required: boolean;
-    maxSelect: number | null;
+    priceAdjustment: string | null;
     values: CustomOptionValue[];
 }
