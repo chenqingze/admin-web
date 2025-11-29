@@ -16,14 +16,17 @@ import { MatCardModule } from '@angular/material/card';
 import { Collection } from '@models';
 import { PaginatorProps } from '@ui';
 import { Confirm } from '@directives';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PageHeader } from '@components';
 import { CollectionService } from '../../services';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
     selector: 'app-collection-list-page',
     imports: [
         MatCardModule,
+        ReactiveFormsModule,
+        MatDividerModule,
         MatFormFieldModule,
         MatInputModule,
         MatTableModule,
@@ -35,8 +38,6 @@ import { CollectionService } from '../../services';
         MatSnackBarModule,
         NgOptimizedImage,
         Confirm,
-        FormsModule,
-        ReactiveFormsModule,
         PageHeader,
     ],
     templateUrl: './collection-list-page.html',

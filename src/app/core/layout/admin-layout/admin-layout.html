@@ -4,7 +4,7 @@
     }
     <mat-sidenav-container class="layout__container" autosize autofocus>
         <mat-sidenav
-            #sidenav
+            #navigation
             opened
             mode="side"
             (mouseenter)="onMouseEnter()"
@@ -16,7 +16,7 @@
         </mat-sidenav>
 
         <mat-sidenav-content #matSidenavContent>
-            <app-header (toggleMenuBtn)="sidenav.toggle()" class="layout__header" />
+            <app-header (toggleNavigation)="navigation.toggle()" class="layout__header" />
             <main class="layout__main">
                 <router-outlet />
             </main>

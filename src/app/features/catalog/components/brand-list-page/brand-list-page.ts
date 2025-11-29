@@ -3,7 +3,6 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Brand } from '@models';
@@ -19,25 +18,26 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrandService } from '../../services';
 import { PageHeader } from '@components';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
     selector: 'app-brand-list-page',
     imports: [
         CommonModule,
+        ReactiveFormsModule,
         MatFormFieldModule,
         MatCardModule,
+        MatInputModule,
         MatToolbarModule,
         MatTableModule,
         MatPaginatorModule,
         MatCheckboxModule,
         MatButtonModule,
         MatIconModule,
-        MatFormField,
-        MatInput,
-        MatLabel,
+        MatDividerModule,
         NgOptimizedImage,
         Confirm,
-        ReactiveFormsModule,
         PageHeader,
     ],
     templateUrl: './brand-list-page.html',

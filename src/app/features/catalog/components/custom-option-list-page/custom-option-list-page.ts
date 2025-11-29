@@ -2,7 +2,7 @@ import { Component, effect, inject, signal } from '@angular/core';
 import { PageHeader } from '@components';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -17,10 +17,12 @@ import { PaginatorProps } from '@ui';
 import { CustomOptionService } from '../../services';
 import { CustomOption } from '@models';
 import { RouterLink } from '@angular/router';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
     selector: 'app-custom-option-list-page',
     imports: [
+        ReactiveFormsModule,
         MatCardModule,
         MatFormFieldModule,
         MatInputModule,
@@ -31,8 +33,7 @@ import { RouterLink } from '@angular/router';
         MatButtonModule,
         MatIconModule,
         MatSnackBarModule,
-        FormsModule,
-        ReactiveFormsModule,
+        MatDividerModule,
         PageHeader,
         Confirm,
         RouterLink,

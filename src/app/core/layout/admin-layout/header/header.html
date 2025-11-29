@@ -1,8 +1,76 @@
 <mat-toolbar>
-    <button matIconButton type="button" (click)="toggleMenuBtn.emit()" aria-label="icon-button with menu icon">
+    <button
+        matIconButton
+        type="button"
+        matTooltip="Toggle Side Navigation Menu"
+        (click)="toggleNavigation.emit()"
+        aria-label="icon-button with menu icon"
+    >
         <mat-icon>menu</mat-icon>
     </button>
-    <button matIconButton type="button" aria-label="icon-button with share icon">
-        <mat-icon>share</mat-icon>
-    </button>
+    <div class="top-toolbar">
+        <h1>儿时明月</h1>
+        <div class="config-buttons">
+            <button matIconButton type="button" (click)="toggleFullscreen()" matTooltip="Toggle fullscreen">
+                <mat-icon>fullscreen</mat-icon>
+            </button>
+            <button matIconButton type="button" [matMenuTriggerFor]="menu" matTooltip="Switch color mode">
+                @switch (currentColorMode()) {
+                    @case ('system') {
+                        <mat-icon>night_sight_auto</mat-icon>
+                    }
+                    @case ('light') {
+                        <mat-icon>light_mode</mat-icon>
+                    }
+                    @case ('dark') {
+                        <mat-icon>dark_mode</mat-icon>
+                    }
+                }
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item type="button" (click)="setColorMode('system')">
+                    <mat-icon>
+                        {{ currentColorMode() === 'system' ? 'radio_button_checked ' : 'radio_button_unchecked' }}
+                    </mat-icon>
+                    <span>跟随系统</span>
+                    <mat-icon>night_sight_auto</mat-icon>
+                </button>
+                <button mat-menu-item type="button" (click)="setColorMode('light')">
+                    <mat-icon>
+                        {{ currentColorMode() === 'light' ? 'radio_button_checked ' : 'radio_button_unchecked' }}
+                    </mat-icon>
+                    <span>浅色主题</span>
+                    <mat-icon>light_mode</mat-icon>
+                </button>
+                <button mat-menu-item type="button" (click)="setColorMode('dark')">
+                    <mat-icon>
+                        {{ currentColorMode() === 'dark' ? 'radio_button_checked ' : 'radio_button_unchecked' }}
+                    </mat-icon>
+                    <span>暗色主题</span>
+                    <mat-icon>dark_mode</mat-icon>
+                </button>
+            </mat-menu>
+            <!--<button
+                     matIconButton
+                     type="button"
+                     (click)="toggleDirection()"
+                     [matTooltip]="state.direction === 'rtl' ? 'Switch to LTR' : 'Switch to RTL'"
+             >
+                 @if (state.direction === 'rtl') {
+                     <mat-icon>west</mat-icon>
+                 } @else {
+                     <mat-icon>east</mat-icon>
+                 }
+             </button>
+             <button
+                 type="button"
+                 #densityTooltip="matTooltip"
+                 matIconButton
+                 (click)="toggleDensity(undefined, densityTooltip)"
+                 [matTooltip]="'Density: ' + state.density"
+             >
+                 <mat-icon>grid_on</mat-icon>
+             </button>-->
+        </div>
+    </div>
 </mat-toolbar>

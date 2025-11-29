@@ -19,6 +19,7 @@ export class SkipNavigation implements OnDestroy {
         this.unsubscribe = this.renderer.listen(this.ref.nativeElement as HTMLElement, 'click', (event: MouseEvent) => {
             if (this.appSkipNavigation()) {
                 event.stopImmediatePropagation();
+                event.preventDefault();
                 this.skipNavigationClick.emit();
             }
         });

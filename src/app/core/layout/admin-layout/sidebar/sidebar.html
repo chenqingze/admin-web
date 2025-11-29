@@ -10,12 +10,10 @@
             </mat-icon>
         </button>
     </div>
-
-    <div class="sidebar__menu">
-        <mat-nav-list>
-            @for (item of menuItems(); track item) {
-                <app-side-menu-item [currentRoutePath]="currentRoutePath()" [item]="item" />
-            }
-        </mat-nav-list>
-    </div>
+    <mat-divider />
+    <mat-nav-list class="sidebar__menu-list">
+        @for (item of menuItems(); track item) {
+            <app-side-menu-item [currentRoutePath]="currentRoutePath()" [item]="item" />
+        }
+    </mat-nav-list>
 </aside>

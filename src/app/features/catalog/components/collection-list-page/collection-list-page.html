@@ -23,74 +23,80 @@
         <button matButton="filled" type="button" (click)="openDialog()">新增</button>
     </div>
 </div>
-<div class="table-container">
-    <table mat-table [dataSource]="dataSource" class="table" aria-label="collections">
-        <!-- Checkbox Column -->
-        <ng-container matColumnDef="select">
-            <th *matHeaderCellDef mat-header-cell>
-                <mat-checkbox
-                    (change)="$event ? toggleAllRows() : null"
-                    [checked]="selection.hasValue() && isAllSelected()"
-                    [indeterminate]="selection.hasValue() && !isAllSelected()"
-                />
-            </th>
-            <td *matCellDef="let row" mat-cell>
-                <mat-checkbox
-                    (click)="$event.stopPropagation()"
-                    (change)="$event ? selection.toggle(row) : null"
-                    [checked]="selection.isSelected(row)"
-                />
-            </td>
-        </ng-container>
+<div class="table-and-paginator-container">
+    <div class="table-container">
+        <table mat-table [dataSource]="dataSource" class="table" aria-label="collections">
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="select">
+                <th *matHeaderCellDef mat-header-cell>
+                    <mat-checkbox
+                        (change)="$event ? toggleAllRows() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                    />
+                </th>
+                <td *matCellDef="let row" mat-cell>
+                    <mat-checkbox
+                        (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)"
+                    />
+                </td>
+            </ng-container>
 
-        <!-- Id  -->
-        <ng-container matColumnDef="id">
-            <th *matHeaderCellDef mat-header-cell>Id</th>
-            <td *matCellDef="let row" mat-cell>{{ row.id }}</td>
-        </ng-container>
+            <!-- Id  -->
+            <ng-container matColumnDef="id">
+                <th *matHeaderCellDef mat-header-cell>Id</th>
+                <td *matCellDef="let row" mat-cell>{{ row.id }}</td>
+            </ng-container>
 
-        <!-- name  -->
-        <ng-container matColumnDef="name">
-            <th *matHeaderCellDef mat-header-cell>分组</th>
-            <td *matCellDef="let row" mat-cell>
-                {{ row.name }}
-            </td>
-        </ng-container>
+            <!-- name  -->
+            <ng-container matColumnDef="name">
+                <th *matHeaderCellDef mat-header-cell>分组</th>
+                <td *matCellDef="let row" mat-cell>
+                    {{ row.name }}
+                </td>
+            </ng-container>
 
-        <!-- mediaPath  -->
-        <ng-container matColumnDef="mediaPath">
-            <th *matHeaderCellDef mat-header-cell>图片</th>
-            <td *matCellDef="let row" mat-cell class="table__cell--image">
-                <div class="thumbnail">
-                    @if (row.mediaPath) {
-                        <img [ngSrc]="row.mediaPath" fill class="thumbnail__img" alt="collection image" />
-                    }
-                </div>
-            </td>
-        </ng-container>
+            <!-- mediaPath  -->
+            <ng-container matColumnDef="mediaPath">
+                <th *matHeaderCellDef mat-header-cell>图片</th>
+                <td *matCellDef="let row" mat-cell class="table__cell--image">
+                    <div class="thumbnail">
+                        @if (row.mediaPath) {
+                            <img [ngSrc]="row.mediaPath" fill class="thumbnail__img" alt="collection image" />
+                        }
+                    </div>
+                </td>
+            </ng-container>
 
-        <!-- actions -->
-        <ng-container matColumnDef="actions">
-            <th *matHeaderCellDef mat-header-cell>操作</th>
-            <td mat-cell *matCellDef="let row; index as i">
-                <button mat-icon-button type="button" (click)="openDialog(row.id)">
-                    <mat-icon>edite</mat-icon>
-                </button>
-                <button
-                    mat-icon-button
-                    appConfirm
-                    message="确定要删除该分组吗?"
-                    type="button"
-                    (confirmed)="delete(row.id)"
-                >
-                    <mat-icon>delete</mat-icon>
-                </button>
-            </td>
-        </ng-container>
+            <!-- actions -->
+            <ng-container matColumnDef="actions">
+                <th *matHeaderCellDef mat-header-cell>操作</th>
+                <td mat-cell *matCellDef="let row; index as i">
+                    <button mat-icon-button type="button" (click)="openDialog(row.id)">
+                        <mat-icon>edite</mat-icon>
+                    </button>
+                    <button
+                        mat-icon-button
+                        appConfirm
+                        message="确定要删除该分组吗?"
+                        type="button"
+                        (confirmed)="delete(row.id)"
+                    >
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
 
-        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-        <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
-    </table>
+            <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+            <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+            <tr *matNoDataRow>
+                <td>暂无数据</td>
+            </tr>
+        </table>
+    </div>
+    <mat-divider />
     <mat-paginator
         #paginator
         aria-label="Select page"

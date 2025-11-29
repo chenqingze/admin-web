@@ -1,14 +1,6 @@
-import {
-    computed,
-    DOCUMENT,
-    effect,
-    inject,
-    Injectable,
-    linkedSignal,
-    Renderer2,
-    RendererFactory2,
-} from '@angular/core';
-import { PREFERRED_COLOR_MODE } from '../providers';
+import { DOCUMENT, effect, inject, Injectable, linkedSignal, Renderer2, RendererFactory2, signal } from '@angular/core';
+import { PREFERS_COLOR_SCHEME } from '../providers';
+import { ColorMode } from '../models';
 
 export const injectRenderer2 = (): Renderer2 => inject(RendererFactory2).createRenderer(null, null);
 // todo:colorMode 跟随系统
@@ -16,34 +8,46 @@ export const injectRenderer2 = (): Renderer2 => inject(RendererFactory2).createR
     providedIn: 'root',
 })
 export class ThemeService {
-    private readonly DARK_MODE_CLASS = 'dark-mode';
+    readonly DARK_MODE_CLASS = 'dark-mode';
+    private readonly LOCAL_STORAGE_COLOR_MODE_KEY: string = '_color_mode';
 
-    private readonly _renderer = injectRenderer2();
-    private readonly _document = inject(DOCUMENT);
-    private readonly _preferredColorMode = inject(PREFERRED_COLOR_MODE);
-    private readonly _colorMode = linkedSignal(() => this._preferredColorMode());
-    readonly colorMode = this._colorMode.asReadonly();
-    readonly isDarkMode = computed(() => this.colorMode() === 'dark');
+    private readonly renderer = injectRenderer2();
+    private readonly document = inject(DOCUMENT);
+    private readonly prefersColorScheme = inject(PREFERS_COLOR_SCHEME);
+    private readonly colorScheme = linkedSignal(() => this.prefersColorScheme()).asReadonly();
+    private readonly colorMode = signal<ColorMode>(
+        (localStorage.getItem(this.LOCAL_STORAGE_COLOR_MODE_KEY) || 'system') as ColorMode,
+    );
+    readonly currentColorMode = this.colorMode.asReadonly();
 
     constructor() {
         effect(() => {
-            this._applyDarkModeClass(this.isDarkMode());
+            localStorage.setItem(this.LOCAL_STORAGE_COLOR_MODE_KEY, this.currentColorMode());
+            this.applyDarkModeClass(this.getCurrentColorScheme() === 'dark');
         });
     }
 
-    toggleDarkMode(): void {
-        this._colorMode.update((mode) => (mode === 'light' ? 'dark' : 'light'));
+    setColorMode(mode: ColorMode) {
+        this.colorMode.set(mode);
     }
 
-    setDarkMode(enabled: boolean): void {
-        this._colorMode.set(enabled ? 'dark' : 'light');
+    private getCurrentColorScheme() {
+        switch (this.currentColorMode()) {
+            case 'dark':
+                return 'dark';
+            case 'light':
+                return 'light';
+            case 'system':
+            default:
+                return this.colorScheme();
+        }
     }
 
-    private _applyDarkModeClass(enabled: boolean): void {
-        if (enabled) {
-            this._renderer.addClass(this._document.body, this.DARK_MODE_CLASS);
+    private applyDarkModeClass(isDarkModeEnable: boolean): void {
+        if (isDarkModeEnable) {
+            this.renderer.addClass(this.document.body, this.DARK_MODE_CLASS);
         } else {
-            this._renderer.removeClass(this._document.body, this.DARK_MODE_CLASS);
+            this.renderer.removeClass(this.document.body, this.DARK_MODE_CLASS);
         }
     }
 }

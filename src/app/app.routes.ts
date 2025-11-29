@@ -347,61 +347,76 @@ export const routes: Routes = [
             //     ],
             // },
             // demo
-            /*
-           {
-                path: 'address',
-                title: 'address',
-                loadComponent: () =>
-                    import('./features/demo/address-form/address-form.component').then((m) => m.AddressFormComponent),
-                data: {
-                    perm: 'address',
-                    icon: 'address',
-                    showInMenu: true,
-                },
-            },
             {
-                path: 'drag-drag',
-                title: 'drag-drag',
-                loadComponent: () =>
-                    import('./features/demo/drag-drag/drag-drag.component').then((m) => m.DragDragComponent),
+                path: 'demo',
+                title: '示例',
                 data: {
-                    perm: 'drag-drag',
-                    icon: 'drag-drag',
+                    perm: 'brand:list',
+                    icon: 'branding_watermark',
                     showInMenu: true,
+                    isVirtual: true,
                 },
+                children: [
+                    {
+                        path: 'address',
+                        title: 'address',
+                        loadComponent: () =>
+                            import('./features/demo/address-form/address-form.component').then(
+                                (m) => m.AddressFormComponent,
+                            ),
+                        data: {
+                            perm: 'address',
+                            icon: 'address',
+                            showInMenu: true,
+                        },
+                    },
+                    {
+                        path: 'drag-drag',
+                        title: 'drag-drag',
+                        loadComponent: () =>
+                            import('./features/demo/drag-drag/drag-drag.component').then((m) => m.DragDragComponent),
+                        data: {
+                            perm: 'drag-drag',
+                            icon: 'drag-drag',
+                            showInMenu: true,
+                        },
+                    },
+                    {
+                        path: 'navigation',
+                        title: 'navigation',
+                        loadComponent: () =>
+                            import('./features/demo/navigation/navigation.component').then(
+                                (m) => m.NavigationComponent,
+                            ),
+                        data: {
+                            perm: 'navigation',
+                            icon: 'navigation',
+                            showInMenu: true,
+                        },
+                    },
+                    {
+                        path: 'table',
+                        title: 'table',
+                        loadComponent: () =>
+                            import('./features/demo/table/table.component').then((m) => m.TableComponent),
+                        data: {
+                            perm: 'table',
+                            icon: 'table',
+                            showInMenu: true,
+                        },
+                    },
+                    {
+                        path: 'tree',
+                        title: 'tree',
+                        loadComponent: () => import('./features/demo/tree/tree.component').then((m) => m.TreeComponent),
+                        data: {
+                            perm: 'tree',
+                            icon: 'tree',
+                            showInMenu: true,
+                        },
+                    },
+                ],
             },
-            {
-                path: 'navigation',
-                title: 'navigation',
-                loadComponent: () =>
-                    import('./features/demo/navigation/navigation.component').then((m) => m.NavigationComponent),
-                data: {
-                    perm: 'navigation',
-                    icon: 'navigation',
-                    showInMenu: true,
-                },
-            },
-            {
-                path: 'table',
-                title: 'table',
-                loadComponent: () => import('./features/demo/table/table.component').then((m) => m.TableComponent),
-                data: {
-                    perm: 'table',
-                    icon: 'table',
-                    showInMenu: true,
-                },
-            },
-            {
-                path: 'tree',
-                title: 'tree',
-                loadComponent: () => import('./features/demo/tree/tree.component').then((m) => m.TreeComponent),
-                data: {
-                    perm: 'tree',
-                    icon: 'tree',
-                    showInMenu: true,
-                },
-            },
-            */
         ],
     },
 

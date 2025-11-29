@@ -1,4 +1,5 @@
-<mat-list-item
+<a
+    mat-list-item
     #rla="routerLinkActive"
     [appSkipNavigation]="item().isVirtual"
     (skipNavigationClick)="toggleNestedMenu()"
@@ -26,7 +27,7 @@
             <mat-icon [style.transform]="nestedMenuOpened() ? 'rotate(90deg)' : ''">keyboard_arrow_right</mat-icon>
         </span>
     }
-</mat-list-item>
+</a>
 
 @if (item().children && nestedMenuOpened()) {
     @for (subItem of item().children; track subItem) {

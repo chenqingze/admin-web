@@ -1,69 +1,62 @@
 <app-page-header>添加/编辑商品选项</app-page-header>
 <form [formGroup]="customOptionForm">
     <mat-card appearance="outlined">
-        <mat-card-content>
-            <div class="custom-option-form">
+        <mat-card-content class="custom-option-form">
+            <mat-form-field>
+                <mat-label>名称</mat-label>
+                <input matInput type="text" formControlName="name" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>类型</mat-label>
+                <mat-select formControlName="type">
+                    @for (customOptionType of CUSTOM_OPTION_TYPE_OPTIONS; track customOptionType) {
+                        <mat-option [value]="customOptionType">{{ customOptionType }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            @if (['TEXT_INPUT', 'FILE_UPLOAD'].includes(customOptionForm.get('type')?.value ?? '')) {
                 <mat-form-field>
-                    <mat-label>名称</mat-label>
-                    <input matInput type="text" formControlName="name" />
+                    <mat-label>价格调整(¥)</mat-label>
+                    <input matInput [appDecimalPlaces]="2" type="text" formControlName="priceAdjustment" />
+                    <mat-icon matSuffix>currency_yen</mat-icon>
+                    @if (customOptionForm.get('priceAdjustment')?.hasError('pattern')) {
+                        <mat-error>请输入有效的数字</mat-error>
+                    }
+                    @if (customOptionForm.get('priceAdjustment')?.hasError('min')) {
+                        <mat-error>不能为小于0</mat-error>
+                    }
                 </mat-form-field>
-                <mat-form-field>
-                    <mat-label>类型</mat-label>
-                    <mat-select formControlName="type">
-                        @for (customOptionType of CUSTOM_OPTION_TYPE_OPTIONS; track customOptionType) {
-                            <mat-option [value]="customOptionType">{{ customOptionType }}</mat-option>
-                        }
-                    </mat-select>
-                </mat-form-field>
-                @if (['TEXT_INPUT', 'FILE_UPLOAD'].includes(customOptionForm.get('type')?.value ?? '')) {
-                    <mat-form-field>
-                        <mat-label>价格调整(¥)</mat-label>
-                        <input matInput [appDecimalPlaces]="2" type="text" formControlName="priceAdjustment" />
-                        <mat-icon matSuffix>currency_yen</mat-icon>
-                        @if (customOptionForm.get('priceAdjustment')?.hasError('pattern')) {
-                            <mat-error>请输入有效的数字</mat-error>
-                        }
-                        @if (customOptionForm.get('priceAdjustment')?.hasError('min')) {
-                            <mat-error>不能为小于0</mat-error>
-                        }
-                    </mat-form-field>
-                } @else {
-                    <mat-card appearance="outlined">
-                        <mat-card-header>选项值列表</mat-card-header>
-                        <mat-card-content>
-                            <table mat-table [dataSource]="values.controls" formArrayName="values" class="table">
-                                <ng-container matColumnDef="value">
-                                    <th *matHeaderCellDef mat-header-cell>标签/值</th>
-                                    <td *matCellDef="let row; let i = index" mat-cell [formGroupName]="i">
-                                        <input matInput type="text" formControlName="value" />
-                                    </td>
-                                </ng-container>
-                                <ng-container matColumnDef="label">
-                                    <th *matHeaderCellDef mat-header-cell>标签(可选)</th>
-                                    <td *matCellDef="let row; let i = index" mat-cell [formGroupName]="i">
-                                        <input matInput type="text" formControlName="label" />
-                                    </td>
-                                </ng-container>
-                                <ng-container matColumnDef="priceAdjustment">
-                                    <th *matHeaderCellDef mat-header-cell>价格调整(¥)</th>
-                                    <td *matCellDef="let row; let i = index" mat-cell [formGroupName]="i">
-                                        <input
-                                            matInput
-                                            type="text"
-                                            [appDecimalPlaces]="2"
-                                            formControlName="priceAdjustment"
-                                        />
-                                    </td>
-                                </ng-container>
-                                <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-                                <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
-                            </table>
-                        </mat-card-content>
-                    </mat-card>
-                }
-
-                <mat-slide-toggle formControlName="required">是否必须选择</mat-slide-toggle>
-            </div>
+            } @else {
+                <div class="table-toolbar-container">
+                    <p>选项值列表</p>
+                    <button matButton type="button">添加选项值</button>
+                </div>
+                <div class="table-container table-container--bordered table-container--mb">
+                    <table mat-table [dataSource]="values.controls" formArrayName="values" class="table">
+                        <ng-container matColumnDef="value">
+                            <th *matHeaderCellDef mat-header-cell>标签/值</th>
+                            <td *matCellDef="let row; let i = index" mat-cell [formGroupName]="i">
+                                <input matInput type="text" formControlName="value" />
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="label">
+                            <th *matHeaderCellDef mat-header-cell>标签(可选)</th>
+                            <td *matCellDef="let row; let i = index" mat-cell [formGroupName]="i">
+                                <input matInput type="text" formControlName="label" />
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="priceAdjustment">
+                            <th *matHeaderCellDef mat-header-cell>价格调整(¥)</th>
+                            <td *matCellDef="let row; let i = index" mat-cell [formGroupName]="i">
+                                <input matInput type="text" [appDecimalPlaces]="2" formControlName="priceAdjustment" />
+                            </td>
+                        </ng-container>
+                        <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+                        <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+                    </table>
+                </div>
+            }
+            <mat-slide-toggle formControlName="required">是否必须选择</mat-slide-toggle>
         </mat-card-content>
         <mat-card-actions align="start">
             <button matButton="filled" type="button" (click)="save()">保存</button>

@@ -10,7 +10,6 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ProductService } from '../../services/product-service';
 import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { Product } from '@models';
@@ -18,6 +17,8 @@ import { PaginatorProps } from '@ui';
 import { Confirm } from '@directives';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PageHeader } from '@components';
+import { MatDividerModule } from '@angular/material/divider';
+import { ProductService } from '../../services';
 
 @Component({
     selector: 'app-product-list-page',
@@ -33,6 +34,7 @@ import { PageHeader } from '@components';
         MatButtonModule,
         MatIconModule,
         MatSnackBarModule,
+        MatDividerModule,
         NgOptimizedImage,
         RouterLink,
         Confirm,
