@@ -22,8 +22,8 @@ export const uiProviders: Provider[] = [
         provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
         useValue: {
             appearance: 'outline',
-            hideRequiredMarker: true,
-            // subscriptSizing: 'dynamic',
+            hideRequiredMarker: false,
+            subscriptSizing: 'dynamic',
         },
     },
     {

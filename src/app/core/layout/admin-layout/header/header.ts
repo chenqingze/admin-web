@@ -6,10 +6,20 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ThemeService } from '../../../theme/services';
 import { MatMenuModule } from '@angular/material/menu';
 import { ColorMode } from '../../../theme/models';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatRadioModule } from '@angular/material/radio';
 
 @Component({
     selector: 'app-header',
-    imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatTooltipModule, MatMenuModule],
+    imports: [
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatMenuModule,
+        MatFormFieldModule,
+        MatRadioModule,
+    ],
     templateUrl: './header.html',
     styleUrl: './header.scss',
 })

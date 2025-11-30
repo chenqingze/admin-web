@@ -6,7 +6,7 @@ export function createVariantOptionFormGroup(fb: FormBuilder, data?: VariantOpti
     return fb.group({
         id: [id],
         name: [name, Validators.required],
-        values: [values, Validators.required, Validators.minLength(1)], // 这里是普通数组，UI 负责 push/pop
+        values: [values, [Validators.required, Validators.minLength(1)]], // 这里是普通数组，UI 负责 push/pop
     });
 }
 export type VariantOptionFormGroup = ReturnType<typeof createVariantOptionFormGroup>;

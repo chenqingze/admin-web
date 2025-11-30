@@ -4,10 +4,8 @@
         <mat-form-field>
             <mat-label>分组名称</mat-label>
             <input matInput formControlName="name" placeholder="分组名称" />
-            <button matIconButton matSuffix type="button" (click)="search()">
-                <mat-icon>search</mat-icon>
-            </button>
         </mat-form-field>
+        <button matButton="tonal" type="button" (click)="search()">搜索</button>
     </form>
     <div class="actions-wrapper">
         <button

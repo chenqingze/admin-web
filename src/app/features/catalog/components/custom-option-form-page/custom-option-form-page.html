@@ -27,28 +27,34 @@
                     }
                 </mat-form-field>
             } @else {
-                <div class="table-toolbar-container">
-                    <p>选项值列表</p>
-                    <button matButton type="button">添加选项值</button>
-                </div>
                 <div class="table-container table-container--bordered table-container--mb">
-                    <table mat-table [dataSource]="values.controls" formArrayName="values" class="table">
+                    <div class="table-toolbar-container table-toolbar-container--inside-table-container">
+                        <h3>选项值列表</h3>
+                        <button matButton type="button" (click)="addCustomOptionValue()">添加选项值</button>
+                    </div>
+                    <table mat-table [dataSource]="dataSource" formArrayName="values" class="table">
                         <ng-container matColumnDef="value">
                             <th *matHeaderCellDef mat-header-cell>标签/值</th>
                             <td *matCellDef="let row; let i = index" mat-cell [formGroupName]="i">
-                                <input matInput type="text" formControlName="value" />
+                                <input matInput type="text" formControlName="value" class="table__cell--input" />
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="label">
                             <th *matHeaderCellDef mat-header-cell>标签(可选)</th>
                             <td *matCellDef="let row; let i = index" mat-cell [formGroupName]="i">
-                                <input matInput type="text" formControlName="label" />
+                                <input matInput type="text" formControlName="label" class="table__cell--input" />
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="priceAdjustment">
                             <th *matHeaderCellDef mat-header-cell>价格调整(¥)</th>
                             <td *matCellDef="let row; let i = index" mat-cell [formGroupName]="i">
-                                <input matInput type="text" [appDecimalPlaces]="2" formControlName="priceAdjustment" />
+                                <input
+                                    matInput
+                                    type="text"
+                                    [appDecimalPlaces]="2"
+                                    formControlName="priceAdjustment"
+                                    class="table__cell--input"
+                                />
                             </td>
                         </ng-container>
                         <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
@@ -58,7 +64,7 @@
             }
             <mat-slide-toggle formControlName="required">是否必须选择</mat-slide-toggle>
         </mat-card-content>
-        <mat-card-actions align="start">
+        <mat-card-actions>
             <button matButton="filled" type="button" (click)="save()">保存</button>
             <button matButton="tonal" type="button">取消</button>
             <button matButton="elevated" type="button">重置</button>

@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatChipEditedEvent, MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
@@ -119,6 +119,7 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
         'availableQty',
         'actions',
     ];
+    protected readonly dataSource = new MatTableDataSource<VariantFromGroup>([]);
 
     protected readonly brands = toSignal(this.brandService.getAll(), { initialValue: [] });
 
@@ -166,7 +167,7 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
                 const optionValues = { option1Value, option2Value, option3Value };
                 this.variants.push(createVariantFormGroup(this.fb, { ...optionValues } as Partial<Variant>));
             });
-            this.variants.controls = [...this.variants.controls];
+            this.dataSource.data = [...this.variants.controls];
         });
     }
 

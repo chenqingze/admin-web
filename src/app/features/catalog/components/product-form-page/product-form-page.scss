@@ -22,7 +22,7 @@
         .basic {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 16px;
         }
 
         .description {
@@ -56,6 +56,7 @@
             .single-variant {
                 display: flex;
                 flex-direction: column;
+                gap: 16px;
                 padding: 16px 0;
             }
 
@@ -73,64 +74,6 @@
 
             .variant-option-add-btn {
                 @include mat.button-density(-1);
-            }
-
-            .variant-table-wrapper {
-                border: 1px solid var(--mat-sys-outline);
-                border-radius: var(--mat-sys-corner-extra-small);
-                margin-top: 16px;
-                padding-bottom: 16px;
-                overflow-x: auto;
-
-                .variant-table {
-                    //width: 100%;
-                }
-
-                .thumbnail-wrapper {
-                    position: relative;
-                    width: 40px;
-                    height: 40px;
-
-                    .thumbnail-delete-btn {
-                        width: 16px;
-                        height: 16px;
-
-                        position: absolute;
-                        top: -4px;
-                        right: -4px;
-
-                        background-color: var(--mat-sys-secondary-container);
-                        //opacity: 1;
-                        border-radius: var(--mat-sys-corner-full);
-                        border: none;
-                        padding: 0;
-
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-
-                        cursor: pointer;
-
-                        &__icon {
-                            font-size: 16px;
-                            width: 16px;
-                            height: 16px;
-                            line-height: 16px;
-                            color: var(--mat-sys-on-secondary-container);
-                        }
-                    }
-                }
-
-                .add-image-icon-wrapper {
-                    width: 40px;
-                    height: 40px;
-                    border: 1px dashed var(--mat-sys-outline);
-                    border-radius: var(--mat-sys-corner-extra-small);
-                    background-color: var(--mat-sys-surface-container-low);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
             }
 
             .batch-actions {

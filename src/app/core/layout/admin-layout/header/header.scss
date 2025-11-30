@@ -13,3 +13,10 @@
         align-items: center;
     }
 }
+// 在overlay出现
+.mat-mdc-menu-item--selected {
+    --mat-menu-item-label-text-color: var(--mat-sys-primary);
+    .mat-icon {
+        color: var(--mat-sys-primary);
+    }
+}

@@ -1,32 +1,78 @@
-.thumbnail {
-    // Block 宿主的样式：控制尺寸和裁剪
+.thumbnail-wrapper {
     position: relative;
     width: 40px;
     height: 40px;
-    overflow: hidden;
-    border-radius: var(--mat-sys-corner-medium);
-    transition: transform 0.2s ease;
 
-    &:hover {
-        transform: scale(1.05);
+    .thumbnail {
+        // Block 宿主的样式：控制尺寸和裁剪
+        position: relative;
+        width: 40px;
+        height: 40px;
+        overflow: hidden;
+        border-radius: var(--mat-sys-corner-medium);
+        transition: transform 0.2s ease;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+
+        &__img {
+            // Element 样式：确保图片填满容器
+            width: 100%;
+            height: 100%;
+            object-fit: cover; // 裁剪图片以填充容器
+        }
+
+        &__overlay {
+            --mat-icon-color: var(--mat-sys-surface);
+            background-color: var(--mat-sys-surface-container-highest);
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 300ms ease;
+        }
     }
 
-    &__img {
-        // Element 样式：确保图片填满容器
-        width: 100%;
-        height: 100%;
-        object-fit: cover; // 裁剪图片以填充容器
-    }
+    .thumbnail-delete-btn {
+        width: 16px;
+        height: 16px;
 
-    &__overlay {
-        --mat-icon-color: var(--mat-sys-surface);
-        background-color: var(--mat-sys-surface-container-highest);
         position: absolute;
-        inset: 0;
+        top: -4px;
+        right: -4px;
+
+        background-color: var(--mat-sys-secondary-container);
+        //opacity: 1;
+        border-radius: var(--mat-sys-corner-full);
+        border: none;
+        padding: 0;
+
         display: flex;
         align-items: center;
         justify-content: center;
-        opacity: 0;
-        transition: opacity 300ms ease;
+
+        cursor: pointer;
+
+        &__icon {
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            color: var(--mat-sys-on-secondary-container);
+        }
     }
+}
+// todo:考虑是否定义公共组件
+.add-image-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    border: 1px dashed var(--mat-sys-outline);
+    border-radius: var(--mat-sys-corner-extra-small);
+    background-color: var(--mat-sys-surface-container-low);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

@@ -28,24 +28,30 @@
                 }
             </button>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item type="button" (click)="setColorMode('system')">
-                    <mat-icon>
-                        {{ currentColorMode() === 'system' ? 'radio_button_checked ' : 'radio_button_unchecked' }}
-                    </mat-icon>
+                <button
+                    mat-menu-item
+                    type="button"
+                    (click)="setColorMode('system')"
+                    [class.mat-mdc-menu-item--selected]="currentColorMode() === 'system'"
+                >
                     <span>跟随系统</span>
                     <mat-icon>night_sight_auto</mat-icon>
                 </button>
-                <button mat-menu-item type="button" (click)="setColorMode('light')">
-                    <mat-icon>
-                        {{ currentColorMode() === 'light' ? 'radio_button_checked ' : 'radio_button_unchecked' }}
-                    </mat-icon>
+                <button
+                    mat-menu-item
+                    type="button"
+                    (click)="setColorMode('light')"
+                    [class.mat-mdc-menu-item--selected]="currentColorMode() === 'light'"
+                >
                     <span>浅色主题</span>
                     <mat-icon>light_mode</mat-icon>
                 </button>
-                <button mat-menu-item type="button" (click)="setColorMode('dark')">
-                    <mat-icon>
-                        {{ currentColorMode() === 'dark' ? 'radio_button_checked ' : 'radio_button_unchecked' }}
-                    </mat-icon>
+                <button
+                    mat-menu-item
+                    type="button"
+                    (click)="setColorMode('dark')"
+                    [class.mat-mdc-menu-item--selected]="currentColorMode() === 'dark'"
+                >
                     <span>暗色主题</span>
                     <mat-icon>dark_mode</mat-icon>
                 </button>

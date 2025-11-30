@@ -30,7 +30,7 @@ export function createCustomOptionFormGroup(fb: FormBuilder, data?: CustomOption
         priceAdjustment: [priceAdjustment, [Validators.pattern(NUMBER_PATTERN), Validators.min(0)]],
         values: fb.array<CustomOptionValueFormGroup>(
             values.map((optionValue) => createCustomOptionValueFormGroup(fb, optionValue)),
-            Validators.minLength(1),
+            Validators.minLength(0),
         ),
     });
 }

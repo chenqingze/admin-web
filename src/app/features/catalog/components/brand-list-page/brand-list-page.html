@@ -1,13 +1,11 @@
 <app-page-header>品牌管理</app-page-header>
 <div class="table-toolbar-container">
-    <form [formGroup]="searchForm">
+    <form [formGroup]="searchForm" class="filter-wrapper">
         <mat-form-field>
             <mat-label>品牌名称</mat-label>
             <input matInput formControlName="name" placeholder="品牌名称" />
-            <button matIconButton matSuffix type="button" (click)="search()">
-                <mat-icon>search</mat-icon>
-            </button>
         </mat-form-field>
+        <button matButton="tonal" type="button" (click)="search()">搜索</button>
     </form>
     <div class="actions-wrapper">
         <button
