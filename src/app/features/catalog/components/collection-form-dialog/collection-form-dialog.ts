@@ -46,15 +46,17 @@ export class CollectionFormDialog {
         });
         if (this.data) {
             this.collectionService.getById(this.data).subscribe((collection) => {
-                const { id, name, mediaId, mediaPath, mediaType, visible } = collection;
-                this.id.set(id!);
-                if (mediaId && mediaPath) {
-                    this.mediaList.update((items) => [
-                        ...items,
-                        { id: mediaId, path: mediaPath, type: mediaType, status: 'SUCCESS' } as UploadFileInfo,
-                    ]);
+                if (collection) {
+                    const { id, name, mediaId, mediaPath, mediaType, visible } = collection;
+                    this.id.set(id!);
+                    if (mediaId && mediaPath) {
+                        this.mediaList.update((items) => [
+                            ...items,
+                            { id: mediaId, path: mediaPath, type: mediaType, status: 'SUCCESS' } as UploadFileInfo,
+                        ]);
+                    }
+                    this.collectionForm.setValue({ name: name, mediaId, visible });
                 }
-                this.collectionForm.setValue({ name: name, mediaId, visible });
             });
         }
     }

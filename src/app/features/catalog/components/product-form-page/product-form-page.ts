@@ -215,9 +215,7 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
                         });
                     });
 
-                    this.productForm.patchValue(creatProductFormGroup(this.fb, product).getRawValue(), {
-                        emitEvent: false,
-                    });
+                    this.productForm.patchValue(product, { emitEvent: false });
                 }
             });
         }

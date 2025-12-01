@@ -11,7 +11,7 @@ import { createCustomOptionFormGroup, createCustomOptionValueFormGroup, CustomOp
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { DecimalPlaces } from '@directives';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CustomOptionService } from '../../services';
@@ -44,6 +44,7 @@ export class CustomOptionFormPage implements OnInit {
     protected readonly fb = inject(FormBuilder);
     private readonly snackBar = inject(MatSnackBar);
     private readonly router = inject(Router);
+    private readonly location = inject(Location);
 
     protected readonly id = input<string>();
     protected readonly customOptionForm = createCustomOptionFormGroup(this.fb);
@@ -74,7 +75,6 @@ export class CustomOptionFormPage implements OnInit {
                         throw new Error(`Something Wrong ,Unknown custom option '${value}'`);
                 }
             });
-        this.customOptionForm.get('type')?.setValue('SINGLE_CHOICE');
         this.values.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
             this.dataSource.data = [...this.values.controls];
         });
@@ -83,6 +83,22 @@ export class CustomOptionFormPage implements OnInit {
     ngOnInit(): void {
         // todo: 处理编辑时的初始化数据
         console.log('id', this.id());
+        const customOptionId = this.id();
+        if (customOptionId) {
+            this.customOptionService.getById(customOptionId).subscribe((customOption) => {
+                if (customOption) {
+                    const { values } = customOption;
+                    this.values.clear({ emitEvent: false });
+                    values.forEach((customOptionValue) => {
+                        this.values.push(createCustomOptionValueFormGroup(this.fb, customOptionValue), {
+                            emitEvent: false,
+                        });
+                    });
+                    this.customOptionForm.patchValue(customOption, { emitEvent: false });
+                    this.dataSource.data = [...this.values.controls];
+                }
+            });
+        }
     }
 
     protected addCustomOptionValue() {
@@ -91,7 +107,7 @@ export class CustomOptionFormPage implements OnInit {
 
     @HostListener('document:keydown.enter', [])
     protected save() {
-        console.log(this.customOptionForm.value);
+        // console.log(this.customOptionForm.value);
         if (this.customOptionForm.valid) {
             const $request = this.id()
                 ? this.customOptionService.update(this.id()!, this.customOptionForm.value as CustomOption)
@@ -102,8 +118,18 @@ export class CustomOptionFormPage implements OnInit {
                     horizontalPosition: 'center',
                     verticalPosition: 'top',
                 });
-                this.router.navigateByUrl('/catalog/custom-options');
+                this.goBack();
             });
+        }
+    }
+
+    protected goBack(): void {
+        if (window.history.length > 1) {
+            // 浏览器有历史记录 → 返回上一页
+            this.location.back();
+        } else {
+            // 没有历史，用户可能直接打开了当前页 → 回列表页
+            this.router.navigate(['/catalog/custom-options']); // 换成你的列表页路由
         }
     }
 }

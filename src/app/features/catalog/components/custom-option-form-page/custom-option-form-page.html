@@ -65,8 +65,10 @@
             <mat-slide-toggle formControlName="required">是否必须选择</mat-slide-toggle>
         </mat-card-content>
         <mat-card-actions>
-            <button matButton="filled" type="button" (click)="save()">保存</button>
-            <button matButton="tonal" type="button">取消</button>
+            <button matButton="filled" type="button" (click)="save()" [disabled]="customOptionForm.invalid">
+                保存
+            </button>
+            <button matButton="tonal" type="button" (click)="goBack()">取消</button>
             <button matButton="elevated" type="button">重置</button>
         </mat-card-actions>
     </mat-card>

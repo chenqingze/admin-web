@@ -412,7 +412,7 @@
         </mat-card>
 
         <div class="footer-actions">
-            <button matButton="filled" type="button" (click)="save()">保存</button>
+            <button matButton="filled" type="button" (click)="save()" [disabled]="productForm.invalid">保存</button>
             <button matButton="tonal" type="button">取消</button>
             <button matButton="elevated" type="button">重置</button>
         </div>

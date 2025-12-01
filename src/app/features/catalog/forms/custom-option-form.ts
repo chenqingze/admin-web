@@ -17,7 +17,7 @@ export function createCustomOptionFormGroup(fb: FormBuilder, data?: CustomOption
     const {
         id = null,
         name = '',
-        type = 'SINGLE_CHOICE',
+        type = 'MULTI_CHOICE',
         required = false,
         priceAdjustment = null,
         values = [],
