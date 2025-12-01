@@ -3,9 +3,9 @@
         <mat-card-title>😊欢迎来到 => Shop</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <form class="login-form" [formGroup]="loginForm">
+        <form [formGroup]="loginForm" class="login-form">
             <mat-form-field>
-                <mat-label>用户名*</mat-label>
+                <mat-label>用户名</mat-label>
                 <input
                     matInput
                     formControlName="username"
@@ -16,7 +16,7 @@
                 <mat-icon matSuffix>face</mat-icon>
             </mat-form-field>
             <mat-form-field>
-                <mat-label>密码*</mat-label>
+                <mat-label>密码</mat-label>
                 <input
                     matInput
                     formControlName="password"

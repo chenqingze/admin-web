@@ -21,18 +21,15 @@ import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { FormArray, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Upload, UploadFileInfo } from '@shared/upload';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import {
-    createCustomOptionFormGroup,
     createVariantFormGroup,
     createVariantOptionFormGroup,
     creatProductFormGroup,
-    CustomOptionFormGroup,
     VariantFromGroup,
     VariantOptionFormGroup,
 } from '../../forms';
-import { CUSTOM_OPTION_TYPE_OPTIONS, CustomOption, Product, Variant, VariantOption } from '@models';
+import { Collection, CustomOption, Product, Variant, VariantOption } from '@models';
 import { MediaSelectorDialog } from './media-selector-dialog/media-selector-dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -46,7 +43,8 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { PageHeader } from '@components';
-import { BrandService, CollectionService, ProductService } from '../../services';
+import { BrandService, CollectionService, CustomOptionService, ProductService } from '../../services';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-product-form-page',
@@ -95,6 +93,7 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
     private readonly productService = inject(ProductService);
     private readonly brandService = inject(BrandService);
     private readonly collectionService = inject(CollectionService);
+    private readonly customOptionService = inject(CustomOptionService);
     private readonly el = inject(ElementRef);
     protected editor!: Editor;
     protected toolbar: Toolbar = [
@@ -119,11 +118,16 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
         'availableQty',
         'actions',
     ];
+
     protected readonly dataSource = new MatTableDataSource<VariantFromGroup>([]);
 
     protected readonly brands = toSignal(this.brandService.getAll(), { initialValue: [] });
 
-    protected readonly collections = toSignal(this.collectionService.getAll(), { initialValue: [] });
+    protected readonly collections = toSignal(this.collectionService.getAll(), { initialValue: [] as Collection[] });
+
+    protected readonly customOptions = toSignal(this.customOptionService.getAll(), {
+        initialValue: [] as CustomOption[],
+    });
 
     protected readonly mediaList = signal<UploadFileInfo[]>([]);
 
@@ -141,8 +145,15 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
         return this.productForm.get('variants') as FormArray<VariantFromGroup>;
     }
 
-    get customOptions() {
-        return this.productForm.get('customOptions') as FormArray<CustomOptionFormGroup>;
+    get customOptionIds() {
+        if (!this.productForm.get('customOptionIds')?.value) {
+            this.productForm.get('customOptionIds')?.setValue([]);
+        }
+        return this.productForm.get('customOptionIds')!.value!;
+    }
+
+    getSelectedCustomOptionName(customOptionId: string) {
+        return this.customOptions().find((customOption) => customOption.id === customOptionId)?.name;
     }
 
     constructor() {
@@ -180,7 +191,7 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
         if (productId) {
             this.productService.getById(productId).subscribe((product) => {
                 if (product) {
-                    const { variantOptions, variants, customOptions } = product;
+                    const { variantOptions, variants } = product;
                     // 变体视图模式
                     if (variants.length > 1) {
                         this.variantMode = 'multiple';
@@ -205,14 +216,6 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
                     this.variants.clear({ emitEvent: false });
                     variants.forEach((variant) => {
                         this.variants.push(createVariantFormGroup(this.fb, variant), { emitEvent: false });
-                    });
-
-                    // 附加选项/自定义选项
-                    this.customOptions.clear();
-                    customOptions.forEach((customOption) => {
-                        this.customOptions.push(createCustomOptionFormGroup(this.fb, customOption), {
-                            emitEvent: false,
-                        });
                     });
 
                     this.productForm.patchValue(product, { emitEvent: false });
@@ -398,7 +401,7 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
     }
 
     protected addCustomOption() {
-        this.customOptions.push(createCustomOptionFormGroup(this.fb, {} as CustomOption));
+        this.customOptionIds.push('');
     }
 
     ngOnDestroy(): void {
@@ -418,6 +421,4 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
             });
         }
     }
-
-    protected readonly CUSTOM_OPTION_TYPE_OPTIONS = CUSTOM_OPTION_TYPE_OPTIONS;
 }

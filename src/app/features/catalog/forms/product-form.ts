@@ -2,7 +2,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Product, ProductStatus } from '@models';
 import { createVariantOptionFormGroup, VariantOptionFormGroup } from './variant-option-form';
 import { createVariantFormGroup, VariantFromGroup } from './variant-from';
-import { createCustomOptionFormGroup, CustomOptionFormGroup } from './custom-option-form';
 
 export function creatProductFormGroup(fb: FormBuilder, data?: Product) {
     const {
@@ -19,7 +18,7 @@ export function creatProductFormGroup(fb: FormBuilder, data?: Product) {
         collectionIds = [],
         variantOptions = [],
         variants = [],
-        customOptions = [],
+        customOptionIds = [],
     } = data || {};
     return fb.group({
         id: [id],
@@ -40,9 +39,7 @@ export function creatProductFormGroup(fb: FormBuilder, data?: Product) {
             variants.map((variant) => createVariantFormGroup(fb, variant)),
             Validators.minLength(1),
         ),
-        customOptions: fb.array<CustomOptionFormGroup>(
-            customOptions.map((option) => createCustomOptionFormGroup(fb, option)),
-        ),
+        customOptionIds: [customOptionIds],
     });
 }
 
