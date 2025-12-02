@@ -84,12 +84,8 @@
         }
 
         .custom-options {
-            padding-top: 16px;
-            .custom-option-detail {
-                display: flex;
-                flex-flow: row wrap;
-                gap: 16px;
-            }
+            width: 100%;
+            padding: 16px 0;
         }
 
         .footer-actions {

@@ -149,7 +149,7 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
         if (!this.productForm.get('customOptionIds')?.value) {
             this.productForm.get('customOptionIds')?.setValue([]);
         }
-        return this.productForm.get('customOptionIds')!.value!;
+        return this.productForm.get('customOptionIds')!.value! as string[];
     }
 
     getSelectedCustomOptionName(customOptionId: string) {
@@ -398,10 +398,6 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
 
     protected removeVariantImage(variantCtrl: VariantFromGroup) {
         variantCtrl.patchValue({ mainMediaId: null, mainMediaPath: null });
-    }
-
-    protected addCustomOption() {
-        this.customOptionIds.push('');
     }
 
     ngOnDestroy(): void {

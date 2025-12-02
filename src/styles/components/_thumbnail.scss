@@ -1,42 +1,36 @@
-.thumbnail-wrapper {
+.thumbnail {
+    // Block 宿主的样式：控制尺寸和裁剪
     position: relative;
     width: 40px;
     height: 40px;
+    overflow: hidden;
+    border-radius: var(--mat-sys-corner-medium);
+    transition: transform 0.2s ease;
 
-    .thumbnail {
-        // Block 宿主的样式：控制尺寸和裁剪
-        position: relative;
-        width: 40px;
-        height: 40px;
-        overflow: hidden;
-        border-radius: var(--mat-sys-corner-medium);
-        transition: transform 0.2s ease;
-
-        &:hover {
-            transform: scale(1.05);
-        }
-
-        &__img {
-            // Element 样式：确保图片填满容器
-            width: 100%;
-            height: 100%;
-            object-fit: cover; // 裁剪图片以填充容器
-        }
-
-        &__overlay {
-            --mat-icon-color: var(--mat-sys-surface);
-            background-color: var(--mat-sys-surface-container-highest);
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 300ms ease;
-        }
+    &:hover {
+        transform: scale(1.05);
     }
 
-    .thumbnail-delete-btn {
+    &__img {
+        // Element 样式：确保图片填满容器
+        width: 100%;
+        height: 100%;
+        object-fit: cover; // 裁剪图片以填充容器
+    }
+
+    &__overlay {
+        --mat-icon-color: var(--mat-sys-surface);
+        background-color: var(--mat-sys-surface-container-highest);
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 300ms ease;
+    }
+
+    &__delete-btn {
         width: 16px;
         height: 16px;
 
@@ -65,6 +59,7 @@
         }
     }
 }
+
 // todo:考虑是否定义公共组件
 .add-image-icon-wrapper {
     width: 40px;

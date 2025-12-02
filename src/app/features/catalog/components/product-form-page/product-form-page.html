@@ -267,17 +267,15 @@
                                     (click)="openMediaSelectorDialog(variant)"
                                 >
                                     @if (variant.value.mainMediaPath) {
-                                        <div class="thumbnail-wrapper">
-                                            <div class="thumbnail">
-                                                <img [ngSrc]="variant.value.mainMediaPath!" fill alt="media preview" />
-                                            </div>
+                                        <div class="thumbnail">
+                                            <img [ngSrc]="variant.value.mainMediaPath!" fill alt="media preview" />
                                             <button
                                                 type="button"
                                                 (click)="removeVariantImage(variant); $event.stopPropagation()"
-                                                class="thumbnail-delete-btn"
+                                                class="thumbnail__delete-btn"
                                                 aria-label="删除图片"
                                             >
-                                                <mat-icon class="thumbnail-delete-btn__icon">close</mat-icon>
+                                                <mat-icon class="thumbnail__delete-btn__icon">close</mat-icon>
                                             </button>
                                         </div>
                                     } @else {
@@ -372,45 +370,19 @@
         <!--附加选项-->
         <mat-card id="customOptions" appearance="outlined">
             <mat-card-header>
-                <mat-card-title-group>
-                    <mat-card-title>附加选项</mat-card-title>
-                    <button matButton="elevated" type="button" (click)="addCustomOption()" class="small-btn">
-                        添加选项
-                    </button>
-                </mat-card-title-group>
+                <mat-card-title>附加选项</mat-card-title>
             </mat-card-header>
-            <mat-card-content class="custom-options">
-                <mat-accordion multi>
-                    @for (customOptionId of customOptionIds; track customOptionId) {
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    @if (customOptionId) {
-                                        {{ getSelectedCustomOptionName(customOptionId) }}
-                                    } @else {
-                                        <mat-select
-                                            [value]="customOptionId"
-                                            placeholder="请选择商品选项"
-                                            (selectionChange)="customOptionIds[$index] = $event.value"
-                                        >
-                                            @for (customOption of customOptions(); track customOption.id) {
-                                                <mat-option [value]="customOption.id">
-                                                    {{ customOption.name }}
-                                                </mat-option>
-                                            }
-                                        </mat-select>
-                                    }
-                                </mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <div class="custom-option-detail">这里是detail</div>
-                            <mat-action-row>
-                                <button matButton="tonal" type="button" (click)="customOptionIds.splice($index, 1)">
-                                    删除
-                                </button>
-                            </mat-action-row>
-                        </mat-expansion-panel>
-                    }
-                </mat-accordion>
+            <mat-card-content>
+                <mat-form-field class="custom-options">
+                    <mat-label>商品选项</mat-label>
+                    <mat-select formControlName="customOptionIds" multiple placeholder="请选择商品选项">
+                        @for (customOption of customOptions(); track customOption.id) {
+                            <mat-option [value]="customOption.id">
+                                {{ customOption.name }}
+                            </mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
             </mat-card-content>
         </mat-card>
 

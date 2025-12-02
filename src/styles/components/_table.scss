@@ -50,18 +50,18 @@
         width: 100%;
 
         &__cell {
+            .image-text-wrapper {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
             // 单元格自身的 padding
             //padding: 8px;
             // 如果需要对单元格内的缩略图进行布局调整 (例如居中)
             &--image {
                 /* 针对图片列的特定 Element Modifier */
                 text-align: center;
-            }
-
-            .image-text-wrapper {
-                display: flex;
-                align-items: center;
-                gap: 8px;
             }
 
             &--input {
