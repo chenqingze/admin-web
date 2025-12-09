@@ -198,11 +198,11 @@ export const routes: Routes = [
             //             },
             //         },
             //         {
-            //             path: 'delivery',
+            //             path: 'shipping',
             //             title: '配送管理',
             //             data: {
-            //                 perm: 'delivery:list',
-            //                 icon: 'delivery_long',
+            //                 perm: 'shipping:list',
+            //                 icon: 'shipping_long',
             //                 showInMenu: true,
             //             },
             //         },

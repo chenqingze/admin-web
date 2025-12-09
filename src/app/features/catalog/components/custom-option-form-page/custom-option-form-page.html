@@ -61,8 +61,9 @@
                         <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
                     </table>
                 </div>
+                <mat-slide-toggle formControlName="multiple">是否支持多选</mat-slide-toggle>
             }
-            <mat-slide-toggle formControlName="required">是否必须选择</mat-slide-toggle>
+            <mat-slide-toggle formControlName="required">是否必须(或必填)</mat-slide-toggle>
         </mat-card-content>
         <mat-card-actions>
             <button matButton="filled" type="button" (click)="save()" [disabled]="customOptionForm.invalid">

@@ -17,21 +17,25 @@ export function createCustomOptionFormGroup(fb: FormBuilder, data?: CustomOption
     const {
         id = null,
         name = '',
-        type = 'SINGLE_CHOICE',
+        type = 'CHOICE',
         required = false,
-        priceAdjustment = null,
         values = [],
+        multiple = false,
+        maxSelectionLimit = 0,
+        priceAdjustment = null,
     } = data || {};
     return fb.group({
         id: [id],
         name: [name, Validators.required],
         type: [type, Validators.required],
         required: [required, Validators.required],
-        priceAdjustment: [priceAdjustment, [Validators.pattern(NUMBER_PATTERN), Validators.min(0)]],
         values: fb.array<CustomOptionValueFormGroup>(
             values.map((optionValue) => createCustomOptionValueFormGroup(fb, optionValue)),
             Validators.minLength(0),
         ),
+        multiple: [multiple],
+        maxSelectionLimit: [maxSelectionLimit],
+        priceAdjustment: [priceAdjustment, [Validators.pattern(NUMBER_PATTERN), Validators.min(0)]],
     });
 }
 export type CustomOptionFormGroup = ReturnType<typeof createCustomOptionFormGroup>;

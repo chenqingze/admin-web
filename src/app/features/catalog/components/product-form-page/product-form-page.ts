@@ -217,6 +217,7 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
                     variants.forEach((variant) => {
                         this.variants.push(createVariantFormGroup(this.fb, variant), { emitEvent: false });
                     });
+                    this.dataSource.data = [...this.variants.controls];
 
                     this.productForm.patchValue(product, { emitEvent: false });
                 }
@@ -345,7 +346,7 @@ export class ProductFormPage implements OnInit, AfterViewInit, OnDestroy {
     protected removeVariant(variantIdx: number) {
         console.log('remove variant', variantIdx);
         this.variants.removeAt(variantIdx, { emitEvent: false });
-        this.variants.controls = [...this.variants.controls];
+        this.dataSource.data = [...this.variants.controls];
         console.log(this.variants.length);
     }
 

@@ -57,13 +57,15 @@ export class CustomOptionFormPage implements OnInit {
     protected readonly dataSource = new MatTableDataSource<CustomOptionValueFormGroup>(this.values.controls);
 
     constructor() {
+        this.values.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
+            this.dataSource.data = [...this.values.controls];
+        });
         this.customOptionForm
             .get('type')
             ?.valueChanges.pipe(takeUntilDestroyed())
             .subscribe((value) => {
                 switch (value) {
-                    case 'SINGLE_CHOICE':
-                    case 'MULTI_CHOICE':
+                    case 'CHOICE':
                         this.values.clear({ emitEvent: false });
                         this.values.push(createCustomOptionValueFormGroup(this.fb));
                         break;
@@ -75,14 +77,11 @@ export class CustomOptionFormPage implements OnInit {
                         throw new Error(`Something Wrong ,Unknown custom option '${value}'`);
                 }
             });
-        this.values.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
-            this.dataSource.data = [...this.values.controls];
-        });
+        this.customOptionForm.get('type')?.setValue('CHOICE');
     }
 
     ngOnInit(): void {
-        // todo: 处理编辑时的初始化数据
-        console.log('id', this.id());
+        // console.log('id', this.id());
         const customOptionId = this.id();
         if (customOptionId) {
             this.customOptionService.getById(customOptionId).subscribe((customOption) => {

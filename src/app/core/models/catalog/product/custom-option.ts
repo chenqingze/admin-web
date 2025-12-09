@@ -7,7 +7,7 @@ export interface CustomOptionValue {
     priceAdjustment: string | null;
 }
 
-export const CUSTOM_OPTION_TYPE_OPTIONS = ['SINGLE_CHOICE', 'MULTI_CHOICE', 'TEXT_INPUT', 'FILE_UPLOAD'] as const;
+export const CUSTOM_OPTION_TYPE_OPTIONS = ['CHOICE', 'TEXT_INPUT', 'FILE_UPLOAD'] as const;
 export type CustomOptionType = (typeof CUSTOM_OPTION_TYPE_OPTIONS)[number];
 
 export interface CustomOption extends BaseModel {
@@ -16,6 +16,8 @@ export interface CustomOption extends BaseModel {
     position: number;
     type: CustomOptionType;
     required: boolean;
-    priceAdjustment: string | null;
     values: CustomOptionValue[];
+    multiple: boolean;
+    maxSelectionLimit?: number;
+    priceAdjustment: string | null;
 }
