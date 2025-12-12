@@ -3,7 +3,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
+
 import { LayoutStore } from '../services';
 import { Sidebar } from './sidebar';
 import { Header } from './header';
@@ -12,16 +12,7 @@ import { ProgressService } from '../../services';
 
 @Component({
     selector: 'app-admin-layout',
-    imports: [
-        CommonModule,
-        MatProgressBarModule,
-        MatSidenavModule,
-        MatButtonModule,
-        MatIconModule,
-        RouterOutlet,
-        Sidebar,
-        Header,
-    ],
+    imports: [MatProgressBarModule, MatSidenavModule, MatButtonModule, MatIconModule, RouterOutlet, Sidebar, Header],
     templateUrl: './admin-layout.html',
     styleUrl: './admin-layout.scss',
 })

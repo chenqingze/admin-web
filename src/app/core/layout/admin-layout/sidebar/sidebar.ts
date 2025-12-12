@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { CommonModule } from '@angular/common';
+
 import { MatListModule } from '@angular/material/list';
 import { NavigationEnd, Route, Router } from '@angular/router';
 import { MenuItem } from '../../models';
@@ -14,7 +14,7 @@ import { filter, map } from 'rxjs';
 
 @Component({
     selector: 'app-sidebar',
-    imports: [CommonModule, MatListModule, MatToolbarModule, MatButtonModule, MatIconModule, SideMenuItem],
+    imports: [MatListModule, MatToolbarModule, MatButtonModule, MatIconModule, SideMenuItem],
     templateUrl: './sidebar.html',
     styleUrl: './sidebar.scss',
 })

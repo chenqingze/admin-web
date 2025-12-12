@@ -11,7 +11,7 @@ import { createCustomOptionFormGroup, createCustomOptionValueFormGroup, CustomOp
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { DecimalPlaces } from '@directives';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CustomOptionService } from '../../services';
@@ -22,7 +22,6 @@ import { Router } from '@angular/router';
     selector: 'app-custom-option-form-page',
     imports: [
         PageHeader,
-        CommonModule,
         ReactiveFormsModule,
         MatFormFieldModule,
         MatCardModule,

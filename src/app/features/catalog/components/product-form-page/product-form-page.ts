@@ -16,7 +16,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatChipEditedEvent, MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { FormArray, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Upload, UploadFileInfo } from '@shared/upload';
@@ -50,7 +50,6 @@ import { Router } from '@angular/router';
     selector: 'app-product-form-page',
     imports: [
         PageHeader,
-        CommonModule,
         ReactiveFormsModule,
         MatFormFieldModule,
         MatCardModule,

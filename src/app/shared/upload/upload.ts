@@ -1,5 +1,5 @@
 import { booleanAttribute, Component, inject, input, model } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UploadFileInfo } from './models';
@@ -10,7 +10,7 @@ import { FileSelect } from '@directives';
 
 @Component({
     selector: 'app-upload',
-    imports: [CommonModule, MatIconModule, MatSnackBarModule, FileSelect, FilePreview],
+    imports: [MatIconModule, MatSnackBarModule, FileSelect, FilePreview],
     templateUrl: './upload.html',
     styleUrl: './upload.scss',
 })

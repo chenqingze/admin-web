@@ -4,7 +4,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { Brand } from '@models';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,7 +24,6 @@ import { MatInputModule } from '@angular/material/input';
 @Component({
     selector: 'app-brand-list-page',
     imports: [
-        CommonModule,
         ReactiveFormsModule,
         MatFormFieldModule,
         MatCardModule,

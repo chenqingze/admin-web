@@ -3,14 +3,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
-import { CommonModule } from '@angular/common';
+
 import { MenuItem } from '../../../models';
 import { LayoutStore } from '../../../services';
 import { SkipNavigation } from '@directives';
 
 @Component({
     selector: 'app-side-menu-item',
-    imports: [CommonModule, MatListModule, MatIconModule, MatButtonModule, RouterModule, SkipNavigation],
+    imports: [MatListModule, MatIconModule, MatButtonModule, RouterModule, SkipNavigation],
     templateUrl: './side-menu-item.html',
     styleUrl: './side-menu-item.scss',
 })
