@@ -6,14 +6,18 @@
                 <mat-label>名称</mat-label>
                 <input matInput type="text" formControlName="name" />
             </mat-form-field>
-            <mat-form-field>
-                <mat-label>类型</mat-label>
-                <mat-select formControlName="type">
-                    @for (customOptionType of CUSTOM_OPTION_TYPE_OPTIONS; track customOptionType) {
-                        <mat-option [value]="customOptionType">{{ customOptionType }}</mat-option>
-                    }
-                </mat-select>
-            </mat-form-field>
+
+            @if (CUSTOM_OPTION_TYPE_OPTIONS.length > 1) {
+                <!-- 目前默认只有CHOICE选项类型,所以隐藏此选项 -->
+                <mat-form-field>
+                    <mat-label>类型</mat-label>
+                    <mat-select formControlName="type">
+                        @for (customOptionType of CUSTOM_OPTION_TYPE_OPTIONS; track customOptionType) {
+                            <mat-option [value]="customOptionType">{{ customOptionType }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            }
             @if (['TEXT_INPUT', 'FILE_UPLOAD'].includes(customOptionForm.get('type')?.value ?? '')) {
                 <mat-form-field>
                     <mat-label>价格调整(¥)</mat-label>

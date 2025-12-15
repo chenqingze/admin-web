@@ -48,7 +48,7 @@ export class Login {
     });
 
     @HostListener('document:keydown.enter', [])
-    protected onSubmit(): void {
+    protected login(): void {
         this.loginForm.disable();
         // console.log(this.loginForm.value);
         this.authFacade

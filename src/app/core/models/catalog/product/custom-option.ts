@@ -7,7 +7,8 @@ export interface CustomOptionValue {
     priceAdjustment: string | null;
 }
 
-export const CUSTOM_OPTION_TYPE_OPTIONS = ['CHOICE', 'TEXT_INPUT', 'FILE_UPLOAD'] as const;
+// export const CUSTOM_OPTION_TYPE_OPTIONS = ['CHOICE', 'TEXT_INPUT', 'FILE_UPLOAD'] as const;
+export const CUSTOM_OPTION_TYPE_OPTIONS = ['CHOICE'] as const;
 export type CustomOptionType = (typeof CUSTOM_OPTION_TYPE_OPTIONS)[number];
 
 export interface CustomOption extends BaseModel {

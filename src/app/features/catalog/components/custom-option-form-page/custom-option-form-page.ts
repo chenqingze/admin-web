@@ -68,10 +68,10 @@ export class CustomOptionFormPage implements OnInit {
                         this.values.clear({ emitEvent: false });
                         this.values.push(createCustomOptionValueFormGroup(this.fb));
                         break;
-                    case 'FILE_UPLOAD':
-                    case 'TEXT_INPUT':
-                        this.values.clear();
-                        break;
+                    // case 'FILE_UPLOAD':
+                    // case 'TEXT_INPUT':
+                    //     this.values.clear();
+                    //     break;
                     default:
                         throw new Error(`Something Wrong ,Unknown custom option '${value}'`);
                 }
