@@ -47,7 +47,7 @@ export class CustomOptionFormPage implements OnInit {
 
     protected readonly id = input<string>();
     protected readonly customOptionForm = createCustomOptionFormGroup(this.fb);
-    protected readonly displayedColumns = ['value', 'label', 'priceAdjustment'];
+    protected readonly displayedColumns = ['value', 'label', 'priceAdjustment', 'actions'];
 
     get values() {
         return this.customOptionForm.get('values') as FormArray<CustomOptionValueFormGroup>;
@@ -101,6 +101,10 @@ export class CustomOptionFormPage implements OnInit {
 
     protected addCustomOptionValue() {
         this.values.push(createCustomOptionValueFormGroup(this.fb));
+    }
+
+    protected removeCustomOptionValue(i: number) {
+        this.values.removeAt(i);
     }
 
     @HostListener('document:keydown.enter', [])
